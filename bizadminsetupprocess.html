@@ -1,0 +1,30 @@
+Bizadmin setup Process
+NOTE : Don’t change anything related to id in database in super admin
+Don’t change the id of systems in database as we have defined HR system id statically for employee portal in auth/dashboardEmployee file
+
+CPANEL DETAILS
+
+> URL: https://node26.myfcloudau.com:2083
+> Username: bizadmincom
+> Password: pGMk7HmXDM&Csy
+
+	
+CREATING A NEW ORZ. Follow all steps
+
+1.create a database with orz. Name and save username and password to be used in super admin in later next step
+
+2.import reference.sql file (located at downloads folder in Mac or located under biz admin public_html folder )in database with all the tables without any data, or just copy all table structure from any existing database than make sure the index of Autpoincrement keys for below table are set to 1 Global_users,Global_roles,Global_userid_to_roles,Global_users_to_location,Global_SmtpSettings
+
+3.Enter all details in super admin ,when adding new orz.
+
+4. Please  add details of newly created orz’s  database in public_html/External/application/config/database.php file also along with application/config/database.php with newly created tenant identifier as [key].
+
+just recheck after import and filling new orz form from super admin for below :
+NOTE : IN GLOBAL USERS TABLE MAKE SURE TO MATCH “COMPANY” ID FROM GLOBAL_USER TABLE = ID OF ORZ from”organization_list” IN SUPER ADMIN DATABASE
+  == AFTER Checking THESE ABOVE TABLES WITH MENTIONED DATA, THAN ONLY HIT SAVE BUTTON FOR ORZ FORM IN SUPERADMIN NOTE : if user is not showing on listing page when logged in from orz side, than check role_id = 1 for Global_users table . It must be there to work
+
+9 . Make sure to add the newly created orz DB details in application/config/database.php file
+
+* Make sure notification time is entered in notification page for each location and each system than only cron job notification will work.
+
+10. Create a folder with orz name inside public_html/uploaded_files folder with all the system as subfolders within , (Just copy content of reference folder to newly created folder)

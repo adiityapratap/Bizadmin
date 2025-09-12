@@ -1,0 +1,57 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:45:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:55:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:55:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:55:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 02:55:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:07:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:28:55 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:28:55 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:28:55 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:28:55 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:30:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:30:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:30:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 03:30:37 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:42 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:42 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:42 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:42 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:49 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:49 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:26:50 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:27:10 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 04:27:16 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 06:29:32 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 06:29:34 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 07:23:55 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 08:31:40 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 09:30:02 --> Severity: error --> Exception: Invalid address:  (to): test@gma /home/bizadmincom/public_html/application/third_party/phpmailer/src/PHPMailer.php 1181
+ERROR - 2024-08-09 11:34:20 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 12:52:57 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 13:52:26 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 13:52:27 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 14:55:33 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 14:55:34 --> 404 Page Not Found: /index
+ERROR - 2024-08-09 20:30:04 --> Severity: error --> Exception: Invalid address:  (to): tesdt@gmai /home/bizadmincom/public_html/application/third_party/phpmailer/src/PHPMailer.php 1181
+ERROR - 2024-08-09 23:54:56 --> 404 Page Not Found: /index

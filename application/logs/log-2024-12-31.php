@@ -1,0 +1,11 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-12-31 00:01:10 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 05:34:30 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 05:34:32 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 06:25:03 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 07:07:15 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 09:30:02 --> Severity: error --> Exception: Invalid address:  (to): test@gma /home/bizadmincom/public_html/application/third_party/phpmailer/src/PHPMailer.php 1181
+ERROR - 2024-12-31 09:42:24 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 12:25:32 --> 404 Page Not Found: /index
+ERROR - 2024-12-31 20:30:04 --> Severity: error --> Exception: Invalid address:  (to): tesdt@gmai /home/bizadmincom/public_html/application/third_party/phpmailer/src/PHPMailer.php 1181

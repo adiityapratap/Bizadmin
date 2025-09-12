@@ -1,0 +1,295 @@
+Date,First Name,Last Name,Payroll Category,Units
+28/11/2022,Ali,ammouche,Base Hourly,5.00
+29/11/2022,Ali,ammouche,Base Hourly,5.00
+30/11/2022,Ali,ammouche,Base Hourly,8.50
+01/12/2022,Ali,ammouche,Base Hourly,5.00
+02/12/2022,Ali,ammouche,Base Hourly,5.00
+03/12/2022,Ali,ammouche,Base Hourly,6.00
+04/12/2022,Ali,ammouche,Base Hourly,0
+28/11/2022,Ali,ammouche,Uniform Allowance,1.00
+29/11/2022,Ali,ammouche,Uniform Allowance,1.00
+30/11/2022,Ali,ammouche,Uniform Allowance,1.00
+01/12/2022,Ali,ammouche,Uniform Allowance,1.00
+02/12/2022,Ali,ammouche,Uniform Allowance,1.00
+03/12/2022,Ali,ammouche,Uniform Allowance,1.00
+04/12/2022,Ali,ammouche,Uniform Allowance,0.00
+28/11/2022,Ashlee G,Hill,Base Hourly,5.00
+29/11/2022,Ashlee G,Hill,Base Hourly,2.00
+30/11/2022,Ashlee G,Hill,Base Hourly,5.00
+01/12/2022,Ashlee G,Hill,Base Hourly,0
+02/12/2022,Ashlee G,Hill,Base Hourly,0
+03/12/2022,Ashlee G,Hill,Base Hourly,0
+04/12/2022,Ashlee G,Hill,Base Hourly,0
+28/11/2022,Ashlee G,Hill,Uniform Allowance,1.00
+29/11/2022,Ashlee G,Hill,Uniform Allowance,1.00
+30/11/2022,Ashlee G,Hill,Uniform Allowance,1.00
+01/12/2022,Ashlee G,Hill,Uniform Allowance,0.00
+02/12/2022,Ashlee G,Hill,Uniform Allowance,0.00
+03/12/2022,Ashlee G,Hill,Uniform Allowance,0.00
+04/12/2022,Ashlee G,Hill,Uniform Allowance,0.00
+28/11/2022,David,Beshara,Base Hourly,7.00
+29/11/2022,David,Beshara,Base Hourly,6.75
+30/11/2022,David,Beshara,Base Hourly,0
+01/12/2022,David,Beshara,Base Hourly,7.00
+02/12/2022,David,Beshara,Base Hourly,6.50
+03/12/2022,David,Beshara,Base Hourly,0
+04/12/2022,David,Beshara,Base Hourly,7.75
+28/11/2022,David,Beshara,Uniform Allowance,1.00
+29/11/2022,David,Beshara,Uniform Allowance,1.00
+30/11/2022,David,Beshara,Uniform Allowance,0.00
+01/12/2022,David,Beshara,Uniform Allowance,1.00
+02/12/2022,David,Beshara,Uniform Allowance,1.00
+03/12/2022,David,Beshara,Uniform Allowance,0.00
+04/12/2022,David,Beshara,Uniform Allowance,1.00
+28/11/2022,Dinuwi,Abeysinghe,Base Hourly,5.00
+29/11/2022,Dinuwi,Abeysinghe,Base Hourly,5.00
+30/11/2022,Dinuwi,Abeysinghe,Base Hourly,0
+01/12/2022,Dinuwi,Abeysinghe,Base Hourly,6.00
+02/12/2022,Dinuwi,Abeysinghe,Base Hourly,10.00
+03/12/2022,Dinuwi,Abeysinghe,Base Hourly,0
+04/12/2022,Dinuwi,Abeysinghe,Base Hourly,5.50
+28/11/2022,Dinuwi,Abeysinghe,Uniform Allowance,1.00
+29/11/2022,Dinuwi,Abeysinghe,Uniform Allowance,1.00
+30/11/2022,Dinuwi,Abeysinghe,Uniform Allowance,0.00
+01/12/2022,Dinuwi,Abeysinghe,Uniform Allowance,1.00
+02/12/2022,Dinuwi,Abeysinghe,Uniform Allowance,1.00
+03/12/2022,Dinuwi,Abeysinghe,Uniform Allowance,0.00
+04/12/2022,Dinuwi,Abeysinghe,Uniform Allowance,1.00
+28/11/2022,Elias,Raffoul,Base Hourly,5.00
+29/11/2022,Elias,Raffoul,Base Hourly,5.50
+30/11/2022,Elias,Raffoul,Base Hourly,5.50
+01/12/2022,Elias,Raffoul,Base Hourly,5.00
+02/12/2022,Elias,Raffoul,Base Hourly,8.50
+03/12/2022,Elias,Raffoul,Base Hourly,0
+04/12/2022,Elias,Raffoul,Base Hourly,4.75
+28/11/2022,Elias,Raffoul,Uniform Allowance,1.00
+29/11/2022,Elias,Raffoul,Uniform Allowance,1.00
+30/11/2022,Elias,Raffoul,Uniform Allowance,1.00
+01/12/2022,Elias,Raffoul,Uniform Allowance,1.00
+02/12/2022,Elias,Raffoul,Uniform Allowance,1.00
+03/12/2022,Elias,Raffoul,Uniform Allowance,0.00
+04/12/2022,Elias,Raffoul,Uniform Allowance,1.00
+28/11/2022,Francesco,Michieli,Base Hourly,7.50
+29/11/2022,Francesco,Michieli,Base Hourly,8.00
+30/11/2022,Francesco,Michieli,Base Hourly,7.50
+01/12/2022,Francesco,Michieli,Base Hourly,7.25
+02/12/2022,Francesco,Michieli,Base Hourly,7.50
+03/12/2022,Francesco,Michieli,Base Hourly,0
+04/12/2022,Francesco,Michieli,Base Hourly,6.00
+28/11/2022,Francesco,Michieli,Uniform Allowance,1.00
+29/11/2022,Francesco,Michieli,Uniform Allowance,1.00
+30/11/2022,Francesco,Michieli,Uniform Allowance,1.00
+01/12/2022,Francesco,Michieli,Uniform Allowance,1.00
+02/12/2022,Francesco,Michieli,Uniform Allowance,1.00
+03/12/2022,Francesco,Michieli,Uniform Allowance,0.00
+04/12/2022,Francesco,Michieli,Uniform Allowance,1.00
+28/11/2022,Harpinder,Kaur,Base Hourly,8.75
+29/11/2022,Harpinder,Kaur,Base Hourly,9.75
+30/11/2022,Harpinder,Kaur,Base Hourly,0
+01/12/2022,Harpinder,Kaur,Base Hourly,8.25
+02/12/2022,Harpinder,Kaur,Base Hourly,10.75
+03/12/2022,Harpinder,Kaur,Base Hourly,0
+04/12/2022,Harpinder,Kaur,Base Hourly,8.50
+28/11/2022,Harpinder,Kaur,Uniform Allowance,1.00
+29/11/2022,Harpinder,Kaur,Uniform Allowance,1.00
+30/11/2022,Harpinder,Kaur,Uniform Allowance,0.00
+01/12/2022,Harpinder,Kaur,Uniform Allowance,1.00
+02/12/2022,Harpinder,Kaur,Uniform Allowance,1.00
+03/12/2022,Harpinder,Kaur,Uniform Allowance,0.00
+04/12/2022,Harpinder,Kaur,Uniform Allowance,1.00
+28/11/2022,Hattaya,Raffoul,Base Hourly,8.50
+29/11/2022,Hattaya,Raffoul,Base Hourly,8.50
+30/11/2022,Hattaya,Raffoul,Base Hourly,9.25
+01/12/2022,Hattaya,Raffoul,Base Hourly,9.50
+02/12/2022,Hattaya,Raffoul,Base Hourly,11.00
+03/12/2022,Hattaya,Raffoul,Base Hourly,0
+04/12/2022,Hattaya,Raffoul,Base Hourly,8.00
+28/11/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+29/11/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+30/11/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+01/12/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+02/12/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+03/12/2022,Hattaya,Raffoul,Uniform Allowance,0.00
+04/12/2022,Hattaya,Raffoul,Uniform Allowance,1.00
+28/11/2022,Huu Thanh Luan,Bui,Base Hourly,7.50
+29/11/2022,Huu Thanh Luan,Bui,Base Hourly,7.50
+30/11/2022,Huu Thanh Luan,Bui,Base Hourly,8.25
+01/12/2022,Huu Thanh Luan,Bui,Base Hourly,0
+02/12/2022,Huu Thanh Luan,Bui,Base Hourly,9.00
+03/12/2022,Huu Thanh Luan,Bui,Base Hourly,11.00
+04/12/2022,Huu Thanh Luan,Bui,Base Hourly,7.25
+28/11/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+29/11/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+30/11/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+01/12/2022,Huu Thanh Luan,Bui,Uniform Allowance,0.00
+02/12/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+03/12/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+04/12/2022,Huu Thanh Luan,Bui,Uniform Allowance,1.00
+28/11/2022,Jatinder,Kaur,Base Hourly,8.75
+29/11/2022,Jatinder,Kaur,Base Hourly,10.00
+30/11/2022,Jatinder,Kaur,Base Hourly,8.75
+01/12/2022,Jatinder,Kaur,Base Hourly,8.25
+02/12/2022,Jatinder,Kaur,Base Hourly,11.00
+03/12/2022,Jatinder,Kaur,Base Hourly,0
+04/12/2022,Jatinder,Kaur,Base Hourly,6.50
+28/11/2022,Jatinder,Kaur,Uniform Allowance,1.00
+29/11/2022,Jatinder,Kaur,Uniform Allowance,1.00
+30/11/2022,Jatinder,Kaur,Uniform Allowance,1.00
+01/12/2022,Jatinder,Kaur,Uniform Allowance,1.00
+02/12/2022,Jatinder,Kaur,Uniform Allowance,1.00
+03/12/2022,Jatinder,Kaur,Uniform Allowance,0.00
+04/12/2022,Jatinder,Kaur,Uniform Allowance,1.00
+28/11/2022,Kareem,ammouche,Base Hourly,4.00
+29/11/2022,Kareem,ammouche,Base Hourly,4.00
+30/11/2022,Kareem,ammouche,Base Hourly,4.00
+01/12/2022,Kareem,ammouche,Base Hourly,4.00
+02/12/2022,Kareem,ammouche,Base Hourly,4.00
+03/12/2022,Kareem,ammouche,Base Hourly,0
+04/12/2022,Kareem,ammouche,Base Hourly,0
+28/11/2022,Kareem,ammouche,Uniform Allowance,1.00
+29/11/2022,Kareem,ammouche,Uniform Allowance,1.00
+30/11/2022,Kareem,ammouche,Uniform Allowance,1.00
+01/12/2022,Kareem,ammouche,Uniform Allowance,1.00
+02/12/2022,Kareem,ammouche,Uniform Allowance,1.00
+03/12/2022,Kareem,ammouche,Uniform Allowance,0.00
+04/12/2022,Kareem,ammouche,Uniform Allowance,0.00
+28/11/2022,Le Kim Phung,Tran,Base Hourly,0
+29/11/2022,Le Kim Phung,Tran,Base Hourly,0
+30/11/2022,Le Kim Phung,Tran,Base Hourly,0
+01/12/2022,Le Kim Phung,Tran,Base Hourly,0
+02/12/2022,Le Kim Phung,Tran,Base Hourly,0
+03/12/2022,Le Kim Phung,Tran,Base Hourly,6.50
+04/12/2022,Le Kim Phung,Tran,Base Hourly,5.50
+28/11/2022,Le Kim Phung,Tran,Uniform Allowance,0.00
+29/11/2022,Le Kim Phung,Tran,Uniform Allowance,0.00
+30/11/2022,Le Kim Phung,Tran,Uniform Allowance,0.00
+01/12/2022,Le Kim Phung,Tran,Uniform Allowance,0.00
+02/12/2022,Le Kim Phung,Tran,Uniform Allowance,0.00
+03/12/2022,Le Kim Phung,Tran,Uniform Allowance,1.00
+04/12/2022,Le Kim Phung,Tran,Uniform Allowance,1.00
+28/11/2022,Luong Trong,Pham,Base Hourly,0
+29/11/2022,Luong Trong,Pham,Base Hourly,0
+30/11/2022,Luong Trong,Pham,Base Hourly,0
+01/12/2022,Luong Trong,Pham,Base Hourly,0
+02/12/2022,Luong Trong,Pham,Base Hourly,0
+03/12/2022,Luong Trong,Pham,Base Hourly,3.25
+04/12/2022,Luong Trong,Pham,Base Hourly,10.50
+28/11/2022,Luong Trong,Pham,Uniform Allowance,0.00
+29/11/2022,Luong Trong,Pham,Uniform Allowance,0.00
+30/11/2022,Luong Trong,Pham,Uniform Allowance,0.00
+01/12/2022,Luong Trong,Pham,Uniform Allowance,0.00
+02/12/2022,Luong Trong,Pham,Uniform Allowance,0.00
+03/12/2022,Luong Trong,Pham,Uniform Allowance,1.00
+04/12/2022,Luong Trong,Pham,Uniform Allowance,1.00
+28/11/2022,Maddison,Le Guier,Base Hourly,0
+29/11/2022,Maddison,Le Guier,Base Hourly,7.50
+30/11/2022,Maddison,Le Guier,Base Hourly,7.50
+01/12/2022,Maddison,Le Guier,Base Hourly,7.50
+02/12/2022,Maddison,Le Guier,Base Hourly,7.50
+03/12/2022,Maddison,Le Guier,Base Hourly,0
+04/12/2022,Maddison,Le Guier,Base Hourly,0
+28/11/2022,Maddison,Le Guier,Uniform Allowance,0.00
+29/11/2022,Maddison,Le Guier,Uniform Allowance,1.00
+30/11/2022,Maddison,Le Guier,Uniform Allowance,1.00
+01/12/2022,Maddison,Le Guier,Uniform Allowance,1.00
+02/12/2022,Maddison,Le Guier,Uniform Allowance,1.00
+03/12/2022,Maddison,Le Guier,Uniform Allowance,0.00
+04/12/2022,Maddison,Le Guier,Uniform Allowance,0.00
+28/11/2022,Nathan,Gilbert,Base Hourly,4.00
+29/11/2022,Nathan,Gilbert,Base Hourly,7.50
+30/11/2022,Nathan,Gilbert,Base Hourly,4.88
+01/12/2022,Nathan,Gilbert,Base Hourly,7.58
+02/12/2022,Nathan,Gilbert,Base Hourly,7.50
+03/12/2022,Nathan,Gilbert,Base Hourly,5.00
+04/12/2022,Nathan,Gilbert,Base Hourly,0
+28/11/2022,Nathan,Gilbert,Uniform Allowance,1.00
+29/11/2022,Nathan,Gilbert,Uniform Allowance,1.00
+30/11/2022,Nathan,Gilbert,Uniform Allowance,1.00
+01/12/2022,Nathan,Gilbert,Uniform Allowance,1.00
+02/12/2022,Nathan,Gilbert,Uniform Allowance,1.00
+03/12/2022,Nathan,Gilbert,Uniform Allowance,1.00
+04/12/2022,Nathan,Gilbert,Uniform Allowance,0.00
+28/11/2022,Nica,Viray,Base Hourly,0
+29/11/2022,Nica,Viray,Base Hourly,0
+30/11/2022,Nica,Viray,Base Hourly,0
+01/12/2022,Nica,Viray,Base Hourly,0
+02/12/2022,Nica,Viray,Base Hourly,0
+03/12/2022,Nica,Viray,Base Hourly,0
+04/12/2022,Nica,Viray,Base Hourly,0
+28/11/2022,Nica,Viray,Uniform Allowance,0.00
+29/11/2022,Nica,Viray,Uniform Allowance,0.00
+30/11/2022,Nica,Viray,Uniform Allowance,0.00
+01/12/2022,Nica,Viray,Uniform Allowance,0.00
+02/12/2022,Nica,Viray,Uniform Allowance,0.00
+03/12/2022,Nica,Viray,Uniform Allowance,0.00
+04/12/2022,Nica,Viray,Uniform Allowance,0.00
+28/11/2022,Panagiota,Trigazis,Base Hourly,8.50
+29/11/2022,Panagiota,Trigazis,Base Hourly,0
+30/11/2022,Panagiota,Trigazis,Base Hourly,0
+01/12/2022,Panagiota,Trigazis,Base Hourly,6.50
+02/12/2022,Panagiota,Trigazis,Base Hourly,0
+03/12/2022,Panagiota,Trigazis,Base Hourly,0
+04/12/2022,Panagiota,Trigazis,Base Hourly,7.50
+28/11/2022,Panagiota,Trigazis,Uniform Allowance,1.00
+29/11/2022,Panagiota,Trigazis,Uniform Allowance,0.00
+30/11/2022,Panagiota,Trigazis,Uniform Allowance,0.00
+01/12/2022,Panagiota,Trigazis,Uniform Allowance,1.00
+02/12/2022,Panagiota,Trigazis,Uniform Allowance,0.00
+03/12/2022,Panagiota,Trigazis,Uniform Allowance,0.00
+04/12/2022,Panagiota,Trigazis,Uniform Allowance,1.00
+28/11/2022,Pawani kithma,Hewagampolage,Base Hourly,0
+29/11/2022,Pawani kithma,Hewagampolage,Base Hourly,9.45
+30/11/2022,Pawani kithma,Hewagampolage,Base Hourly,5.63
+01/12/2022,Pawani kithma,Hewagampolage,Base Hourly,8.72
+02/12/2022,Pawani kithma,Hewagampolage,Base Hourly,10.73
+03/12/2022,Pawani kithma,Hewagampolage,Base Hourly,0
+04/12/2022,Pawani kithma,Hewagampolage,Base Hourly,0
+28/11/2022,Pawani kithma,Hewagampolage,Uniform Allowance,0.00
+29/11/2022,Pawani kithma,Hewagampolage,Uniform Allowance,1.00
+30/11/2022,Pawani kithma,Hewagampolage,Uniform Allowance,1.00
+01/12/2022,Pawani kithma,Hewagampolage,Uniform Allowance,1.00
+02/12/2022,Pawani kithma,Hewagampolage,Uniform Allowance,1.00
+03/12/2022,Pawani kithma,Hewagampolage,Uniform Allowance,0.00
+04/12/2022,Pawani kithma,Hewagampolage,Uniform Allowance,0.00
+28/11/2022,Sharon,Iorfino,Base Hourly,7.50
+29/11/2022,Sharon,Iorfino,Base Hourly,7.50
+30/11/2022,Sharon,Iorfino,Base Hourly,7.50
+01/12/2022,Sharon,Iorfino,Base Hourly,7.50
+02/12/2022,Sharon,Iorfino,Base Hourly,7.50
+03/12/2022,Sharon,Iorfino,Base Hourly,0
+04/12/2022,Sharon,Iorfino,Base Hourly,0
+28/11/2022,Sharon,Iorfino,Uniform Allowance,1.00
+29/11/2022,Sharon,Iorfino,Uniform Allowance,1.00
+30/11/2022,Sharon,Iorfino,Uniform Allowance,1.00
+01/12/2022,Sharon,Iorfino,Uniform Allowance,1.00
+02/12/2022,Sharon,Iorfino,Uniform Allowance,1.00
+03/12/2022,Sharon,Iorfino,Uniform Allowance,0.00
+04/12/2022,Sharon,Iorfino,Uniform Allowance,0.00
+28/11/2022,Utsav,Khadka,Base Hourly,0
+29/11/2022,Utsav,Khadka,Base Hourly,0
+30/11/2022,Utsav,Khadka,Base Hourly,9.50
+01/12/2022,Utsav,Khadka,Base Hourly,3.75
+02/12/2022,Utsav,Khadka,Base Hourly,2.75
+03/12/2022,Utsav,Khadka,Base Hourly,7.25
+04/12/2022,Utsav,Khadka,Base Hourly,7.00
+28/11/2022,Utsav,Khadka,Uniform Allowance,0.00
+29/11/2022,Utsav,Khadka,Uniform Allowance,0.00
+30/11/2022,Utsav,Khadka,Uniform Allowance,1.00
+01/12/2022,Utsav,Khadka,Uniform Allowance,1.00
+02/12/2022,Utsav,Khadka,Uniform Allowance,1.00
+03/12/2022,Utsav,Khadka,Uniform Allowance,1.00
+04/12/2022,Utsav,Khadka,Uniform Allowance,1.00
+01/01/1970,,,Base Hourly,6
+01/01/1970,,,Base Hourly,2
+01/01/1970,,,Base Hourly,7
+06/12/2022,,,Base Hourly, 
+06/12/2022,,,Base Hourly,H
+07/12/2022,,,Base Hourly,o
+07/12/2022,,,Base Hourly,u
+01/01/1970,,,Uniform Allowance,1.00
+01/01/1970,,,Uniform Allowance,1.00
+01/01/1970,,,Uniform Allowance,1.00
+06/12/2022,,,Uniform Allowance,0.00
+06/12/2022,,,Uniform Allowance,0.00
+07/12/2022,,,Uniform Allowance,0.00
+07/12/2022,,,Uniform Allowance,0.00

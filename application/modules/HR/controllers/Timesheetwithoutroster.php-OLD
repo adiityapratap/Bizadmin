@@ -1,0 +1,176 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Timesheet extends MY_Controller {
+
+    function __construct() {
+        parent::__construct();
+        !$this->ion_auth->logged_in() ? redirect('auth/login', 'refresh') : '';
+        // $this->load->helper('notification');
+		$this->load->model('timesheet_model');
+	    $this->load->model('common_model');
+	    $this->load->model('employee_model');
+        $this->location_id = $this->session->userdata('location_id') ? $this->session->userdata('location_id') : ($this->session->userdata('User_location_ids') ? $this->session->userdata('User_location_ids')[0] : null);
+        $this->tenantIdentifier = $this->session->userdata('tenantIdentifier');
+        $this->roleId = get_logged_in_user_role($this->ion_auth,'id');
+    }
+    
+    function timesheetWithoutRoster($timesheetDateRange=''){
+      if($timesheetDateRange){
+      $monday = new DateTime('monday this week'); 
+      $timesheetDateRange = $monday->format('d M') . ' - ' . $monday->modify('+6 days')->format('d M');   
+      $dateRange = $this->createDateFormat($timesheetDateRange);
+      }
+      $conditions = array('ht.start_date' => $dateRange['start_date'] , 'ht.end_date' => $dateRange['end_date']);
+      $fieldsToFetch = array('htd.emp_id');
+     $timesheetData =  $this->timesheet_model->fetchTimesheetDetails($conditions,$fieldsToFetch);
+      
+      $conditions = array('location_id' => $this->location_id);
+      $data['empLists'] =  $this->employee_model->employeeList('','',true);
+      $data['positionLists'] = $this->common_model->fetchRecordsDynamically('HR_emp_position','',$conditions); 
+    
+      
+      $this->load->view('general/header');
+	  $this->load->view('timesheet/timesheetWithoutRoster',$data);
+	  $this->load->view('general/footer');
+        // echo "fs"; exit;
+    }
+    
+    function save_timesheet() {
+    $insertData = array();
+
+    if (isset($_POST['ids']) && !empty($_POST['ids'])) {
+        foreach ($_POST['ids'] as $empId) {
+            $empIdAndEmpType = explode("_", $empId);
+            $emp_id = $empIdAndEmpType[0];
+            $position_id = $empIdAndEmpType[1];
+            
+            $timesheetWeek = $this->createDateFormat($_POST['date_range']);
+            $startDate = $timesheetWeek['start_date'];
+            $endDate = $timesheetWeek['end_date'];
+            $date = $startDate;
+
+            while (strtotime($date) <= strtotime($endDate)) {
+                $insertData[] = array(
+                    'emp_id' => $emp_id,
+                    'position_id' => $position_id,
+                    'date' => $date
+                );
+                $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+            }
+        }
+
+        $data['start_date'] = $startDate;
+        $data['end_date'] = $endDate;
+        $data['timesheet_name'] = $startDate . ' to ' . $endDate;
+        $data['location_id'] = $this->location_id;
+        $data['status'] = 1;
+        $data['without_roster'] = 1;
+
+        $timesheet_id = $this->common_model->commonRecordCreate('HR_timesheet', $data);
+
+        // Adding timesheet_id to each detail record
+        foreach ($insertData as &$record) {
+            $record['timesheet_id'] = $timesheet_id;
+        }
+
+        $this->common_model->commonBulkRecordCreate('HR_timesheet_details', $insertData);
+
+        echo $timesheet_id;
+        exit;
+    }
+}
+
+    
+    function timesheetList(){ 
+      $data['timesheetList'] = $this->timesheet_model->timesheetList(); 
+      $this->load->view('general/header');
+	  $this->load->view('timesheet/timesheetList',$data);
+	  $this->load->view('general/footer');
+  
+    }
+    
+    function timesheetView($timesheetId){
+        
+      $conditions = array('ht.timesheet_id' => $timesheetId);
+        $fieldstoFetch = array(
+            'ht.timesheet_id',
+            'ht.location_id',
+            'ht.timesheet_name',
+            'e.first_name',
+            'e.last_name',
+            'ht.status',
+            'ht.start_date',
+            'ht.end_date',
+            'htd.details_id',
+            'htd.emp_id',
+            'htd.position_id',
+            'htd.date',
+            'htd.in_time',
+            'htd.out_time',
+            'htd.break_in_time',
+            'htd.break_out_time',
+            'htd.comment',
+            'htd.timesheet_task',
+            'htd.total_hrs'
+        );
+
+        $timesheetDetails = $this->timesheet_model->fetchTimesheetDetails($conditions, $fieldstoFetch);
+       $groupedData = array();
+
+        foreach ($timesheetDetails as $record) {
+            $empId = $record['emp_id'];
+            $positionId = $record['position_id'];
+            $date = $record['date'];
+
+            if (!isset($groupedData[$empId])) {
+                $groupedData[$empId] = array();
+            }
+
+            if (!isset($groupedData[$empId][$positionId])) {
+                $groupedData[$empId][$positionId] = array();
+            }
+
+            if (!isset($groupedData[$empId][$positionId][$date])) {
+                $groupedData[$empId][$positionId][$date] = array(
+                    'in_time' => $record['in_time'],
+                    'out_time' => $record['out_time'],
+                    'break_in_time' => $record['break_in_time'],
+                    'break_out_time' => $record['break_out_time'],
+                    'total_hrs' => $record['total_hrs']
+                );
+            }
+        }
+
+        // Output the grouped data (for debugging purposes)
+    //     echo '<pre>';
+    //     print_r($groupedData);
+    //     echo '</pre>';
+    //   exit;
+      $data['employee_weekly_timesheet_details'] = $groupedData;
+      $this->load->view('general/header');
+	  $this->load->view('timesheet/edit_timesheetWithoutRoster',$data);
+	  $this->load->view('general/footer');  
+    }
+    
+    function createDateFormat($string){
+     $parts = explode(" - ", $string);
+     $start_date = $parts[0];
+     $end_date = $parts[1];
+
+     $start_timestamp = strtotime("$start_date " . date('Y'));
+     $end_timestamp = strtotime("$end_date " . date('Y'));
+  
+     // Convert timestamps to the desired format
+     $start_date_formatted = date('Y-m-d', $start_timestamp);
+     $end_date_formatted = date('Y-m-d', $end_timestamp);
+     $resultArray['start_date'] = $start_date_formatted;
+     $resultArray['end_date'] = $end_date_formatted;
+     
+    
+     return $resultArray;
+    }
+    
+}
+    
+    ?>

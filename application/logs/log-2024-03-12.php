@@ -1,0 +1,879 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:10:43 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:12 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:32 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:13:36 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:16:26 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:17:45 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 177
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:20:24 --> Severity: Notice --> Undefined variable: allInternalOrdersSubLocation /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 178
+ERROR - 2024-03-12 00:30:17 --> Severity: error --> Exception: syntax error, unexpected 'echo' (T_ECHO) /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 180
+ERROR - 2024-03-12 00:30:19 --> Severity: error --> Exception: syntax error, unexpected 'echo' (T_ECHO) /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 180
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:23 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:47 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:47 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:03:48 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:26 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:27 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:11:27 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:52 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:52 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:52 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:52 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:53 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:53 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:53 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:20:53 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:35:46 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:14 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 01:36:34 --> 404 Page Not Found: /index
+ERROR - 2024-03-12 18:25:07 --> Severity: error --> Exception: syntax error, unexpected 'public' (T_PUBLIC) /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 206
+ERROR - 2024-03-12 18:55:49 --> Severity: Notice --> Undefined variable: keyGeneratorSub /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 18:55:49 --> Severity: Warning --> array_reduce() expects parameter 2 to be a valid callback, no array or string given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 18:55:49 --> Severity: Warning --> array_values() expects parameter 1 to be array, null given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 180
+ERROR - 2024-03-12 18:58:26 --> Severity: Notice --> Undefined variable: keyGeneratorSub /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 18:58:26 --> Severity: Warning --> array_reduce() expects parameter 2 to be a valid callback, no array or string given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 18:58:26 --> Severity: Warning --> array_values() expects parameter 1 to be array, null given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 180
+ERROR - 2024-03-12 19:00:29 --> Severity: Notice --> Undefined variable: keyGeneratorSub /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 19:00:29 --> Severity: Warning --> array_reduce() expects parameter 2 to be a valid callback, no array or string given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 179
+ERROR - 2024-03-12 19:00:29 --> Severity: Warning --> array_values() expects parameter 1 to be array, null given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 180
+ERROR - 2024-03-12 19:09:22 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 193
+ERROR - 2024-03-12 19:10:17 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 193
+ERROR - 2024-03-12 19:11:00 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 194
+ERROR - 2024-03-12 19:11:02 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 194
+ERROR - 2024-03-12 19:11:06 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 194
+ERROR - 2024-03-12 19:11:55 --> Severity: Compile Error --> Cannot use [] for reading /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 195
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined offset: 24 /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 190
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> array_merge(): Expected parameter 1 to be an array, null given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 190
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined offset: 25 /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 190
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> array_merge(): Expected parameter 1 to be an array, null given /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 190
+ERROR - 2024-03-12 19:27:38 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:27:38 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 185
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Notice --> Undefined variable: uniqueSubLocations /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196
+ERROR - 2024-03-12 19:35:49 --> Severity: Warning --> Invalid argument supplied for foreach() /home/bizadmincom/public_html/application/modules/Supplier/controllers/Internalorder/Placeorder.php 196

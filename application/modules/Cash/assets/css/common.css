@@ -1,0 +1,119 @@
+input::placeholder,textarea::placeholder,*::placeholder {
+    text-transform: capitalize;
+}
+.hideThisRow{
+    display:none;
+}
+#dateselect{
+  margin-top: 14% !important;
+}
+.tableHeader label{
+    color: white;
+    padding: 12px;
+    margin-left: 12px;
+}
+
+.footer-labels label{
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 14px;
+}
+
+@media(max-width: 1400px){
+    label {
+        font-weight: 600;
+        text-transform: capitalize;
+        font-size: 11px;
+    }
+    [data-layout=horizontal] .container-fluid, [data-layout=horizontal] .layout-width {
+    max-width: calc(100% - 15px);
+    margin: 0 auto;
+}
+}
+.rowMarginNegative{
+   margin-top: -8rem!important;
+}
+.innderTbheader{
+    font-weight: 800;
+    font-size: 20px;
+    justify-content: center;
+    display: flex;
+}
+.dropdown-menu-end li{
+    padding-left : 12px !important;
+     padding-top : 8px !important;
+    padding-right : 12px !important;
+}
+.tableFooterTotals{
+        text-align: start;
+    padding-right: 10px;
+    padding-top: 6px;
+}
+.tableFooterTotals label{
+    color:white !important;
+}
+.antiquewhite{
+    background-color: #172153;
+    border-bottom: 5px white solid;
+    border-top: 5px white solid;
+    border-right: 6px white solid;
+    color: black;
+}
+.lightorange{
+    background-color: #f06548;
+      border-bottom: 1px white solid; 
+}
+.lightpink{
+        background-color: rgba(75,56,179,.1);
+}
+.form-icon .form-control-icon{
+        padding-left: 1.2rem !important;
+}
+.form-icon i{
+    left: 6px !important;
+}
+.tillAmountCol .form-control{
+        font-size: 12px !important;
+            padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0rem;
+     padding-left: 0.2rem;
+}
+
+.tableContainer{
+        max-height: 500px;
+    overflow-y: auto;
+}
+.floatTypeHeading{
+        justify-content: center;
+    display: flex;
+    margin-top: 20px;
+    font-weight: 800;
+    font-size: 18px;
+}
+.profile-wid-bg::before{
+           background: linear-gradient(to top,#272a53,#272a53);
+}
+.custom-card {
+      border-radius: 0; /* Remove border radius */
+      background: linear-gradient(to bottom, #2c2269, #000000);
+    }
+    .custom-card .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%; /* Fill the height of the card */
+    }
+/* buttons */
+.btn-violet{
+    color: #fff;
+    background-color: #864868;
+    border-color: #864868;
+}
+.card-body .table-card .dataTables_filter{
+    padding:  0 !important;
+    width: 100% !important;
+    max-width: 300px !important;
+   
+}
