@@ -8,180 +8,398 @@ class Home extends MY_Controller {
 		$this->load->model('common_model');
 		$this->load->model('roster_model');
 		$this->load->model('timesheet_model');
+		$this->load->model('dashboard_model');
 		$this->load->model('general_model');
 		  $this->load->model('employee_model');
 	   $this->location_id = $this->session->userdata('location_id') ?? 0;
+	    $user_id = $this->ion_auth->user()->row()->id;
+        $empData = $this->common_model->fetchRecordsDynamically('HR_employee', ['emp_id','first_name','last_name'], ['userId'=>$user_id]);
+        $this->empId = (isset($empData[0]['emp_id']) ? $empData[0]['emp_id'] : ''); // incase of superadmin  empId will be blank because we do not store superadmin info in employee table
+        $this->first_name = (isset($empData[0]['first_name']) ? $empData[0]['first_name'] : '');
+        $this->last_name = (isset($empData[0]['last_name']) ? $empData[0]['last_name'] : '');
+        
+        // ini_set('display_errors', 1); ini_set('display_startup_errors', 1);error_reporting(E_ALL);
+
+
 	}
 	
-	public function index($system_id='')
-    {   
-        (isset($system_id) && $system_id !='' ? $this->session->set_userdata('system_id',$system_id) : '');
-        $emailSettings = $this->general_model->fetchSmtpSettings($this->location_id,$system_id);
-          if(empty($emailSettings)){
-           $emailSettings = $this->general_model->fetchSmtpSettings('9999','9999');
-           $this->configureSMTP($emailSettings);
-          }else{
-           if ($emailSettings->mail_protocol === 'smtp') {
-          $this->configureSMTP($emailSettings);
-          }   
-          }
-          
-          if(isset($emailSettings->mail_from)){
-           $this->session->set_userdata('mail_from',$emailSettings->mail_from);
-          }else{
-            $this->session->set_userdata('mail_from','info@bizadmin.com.au');  
-          }
-          $conditionsAvail = array('emp_id'=>$empId,'is_deleted'=>'0');
-          $data['unavailability'] = $this->common_model->fetchRecordsDynamically('HR_emp_availability', '', $conditionsAvail);
-          $todaysRoster = $this->roster_model->fetchEmployeeTodaysRoster();
-          if(isset($todaysRoster) && !empty($todaysRoster)){
-           $dayName = strtolower(date('l'));
-           $todaysRosterDatas = $todaysRoster[0]->$dayName;
-           
-          }
-          if(isset($todaysRosterDatas) && !empty($todaysRosterDatas)){
-            $todaysRosterDatas =  json_decode($todaysRosterDatas);
-            foreach($todaysRosterDatas as $key => $todaysRosterData){
-              $parts = explode("_", $string);
-              $empId = end($parts);   
-            }
-          }
-          
-        //   echo "<pre>"; print_r($this->session->userdata); exit;
-          
-        //   AMEND DASHBOARD CODE FROMM HERE
-        
-//          $role = $this->ion_auth->get_users_groups()->row()->id;
-// 			if($this->ion_auth->is_admin()){
-// 			     $emp_id ='';
-// 			    $type = 'admin';
-// 			    $id = $this->location_id;
-// 			}else{
-// 			    $user = $this->ion_auth->user()->row();
-// 			     $user_email = $user->email;
-				
-// 			 	$id = $this->admin_model->get_emp_details_fromemail($user_email);
-// 			    $type = 'employee';
-// 			    $empId = $user->id;
-//                 $date = date('Y-m-d');
-//                 $todaysTimesheet = $this->Timesheet_model->fetchEmpTodaysTimesheets($empId,$date); 
-// 			    $data['todaysTimesheet'] = $todaysTimesheet;
-			   
-// 			   $unavailability = $this->admin_model->fetch_unavailability(); 
-// 			   $data['unavailability'] = $unavailability;
-// 			}
-			
-// 		//fetch recent timesheet============================================================
-				
-// 		$this->tenantDb->distinct();   
-// 		$this->tenantDb->select('timesheet.timesheet_id,timesheet.timesheet_name,roster.start_date,roster.end_date,timesheet.roster_group_id,multiple_roster_group_id');
-// 		$this->tenantDb->from('HR_timesheet as timesheet');   
-// 		$this->tenantDb->join('HR_roster as roster', 'timesheet.roster_group_id = roster.roster_group_id'); 
-// 		if($this->session->userdata('role') == 'employee'){
-// 		    $id = $this->session->userdata('UserId');
-// 		   $this->tenantDb->where('emp_id',$id); 
-// 		}
-// 			$this->tenantDb->limit(4);	
-// 			$this->tenantDb->order_by('timesheet_id',"DESC");
-	
-// 		$query = $this->tenantDb->get();
-// 		$data['timesheets'] = $query->result();
-				
-// 				//===========================================================================
-				
-// 				$roster_list_for_dash = $this->admin_model->get_roster_weeks($id,$type,'dash');
-		
+public function index($system_id = '')
+{
+    // ---------- Defaults ----------
+    $data = [];
+    $data['today'] = (int) date("d");
+    $empId = !empty($this->empId) ? $this->empId : null;
 
-// 				$leaves = $this->general_model->get_leaves($id,$type);
-			
-// 				$data['role'] = $role;
-// 				$data['leaves'] = $leaves;
-// 				$data['roster'] = $roster_list_for_dash;
-				
-// 			// for displaying chart
-           
-//             $days = array('Week_1','Week_2','Week_3','Week_4');
-//             $roster = $this->admin_model->get_roster_weeks($id,$type,'dash');
-//             $week_days = array('mon','tues','wed','thus','fri','sat','sun');
-		    
-// 		    $count =1;
-// 		    foreach($roster as $row){ 
-		       
-// 		        $rate = $this->admin_model->get_emp_details_fieldwise($row->emp_id,'rate');
-// 		        $week_earning =  0;
-// 		        $hrs_worked =  0;
-// 		        for ($i = 0; $i < 7; $i++) {
-// 		          $start_nameofday = $week_days[$i].'_start_time';
-//                  $end_nameofday = $week_days[$i].'_end_time'; 
-//                   $break_nameofday = $week_days[$i].'_break_time'; 
-//                   $break_hrs = $row->$break_nameofday;
-                    
-//                     $time1 = strtotime($row->$start_nameofday);
-//                     $time2 = strtotime($row->$end_nameofday);
-//                   if($time1 !='' && $time2 !=''){
-//                     $difference = round(abs(($time2 - $time1)) / 3600,2);
-                
-//                 $hr_in_min = $difference* 60;
-              
-//               if((isset($difference) && $difference !='') && isset($break_hrs) && $break_hrs !='' && isset($hr_in_min) && $hr_in_min !=''){
-                   
-//                 $difference = $hr_in_min -  $break_hrs;
-//                 // echo $difference; 
-//                 $total_pay = (($rate)/60) * $difference;
-//                 $hrs_worked = $hrs_worked + $difference;
-                  
-                 
-//               // sum total earning of the week       
-//                 $week_earning = $week_earning + $total_pay;
-//               }else{
-                   
-//                  $hrs_worked =0;
-//                  $week_earning = 0;
-                   
-//               }
-//                 }
-                   
-//                 }
-               
-// 		         // convert total mins worked in hrs
-            
-//                 $total_hrs_worked = floor($hrs_worked / 60).':'.($hrs_worked -   floor($hrs_worked / 60) * 60); 
-// 		        $this_week_earning[] = $week_earning;
-// 		        $week_earning = number_format(floor($week_earning*100)/100,2, '.', ''); 
-		     
-// 		        $dataPoints[] = array("label"=> "Week_".$count, "y"=> $week_earning);
-// 		        $employee_hrs_records[] = array("label"=> $row->roster_name, "hrs_worked"=> $total_hrs_worked,"earned"=> '$'.number_format($week_earning,2));
-// 	            $count++;
-
-
-
-// 		    }
-		    
-// 			  if(isset($dataPoints) && $dataPoints !=''){
-// 			      $data['roster_report'] = $dataPoints;
-// 			  }else{
-// 			      $data['roster_report'] = '';
-// 			  }
-			
-			 
-			 $this->load->view('general/header');
-             $data = '';
-				if($type == 'admin'){
-				  $this->load->view('general/dashboard_admin',$data);  
-				}else{
-				// if(isset($employee_hrs_records)){
-				// $data['employee_hrs_records'] = $employee_hrs_records;
-			 //   }else{
-				// $data['employee_hrs_records'] = '';
-				// }
-				//     // echo "<pre>";print_r($data);exit;
-		   $this->load->view('general/dashboard',$data); 
-				}
-		 	$this->load->view('general/footer');
-  
-    	
-        
+    // ---------- System ID ----------
+    if (!empty($system_id)) {
+        $this->session->set_userdata('system_id', $system_id);
     }
+
+    // ---------- Email Settings ----------
+    $emailSettings = null;
+
+    if (isset($this->general_model)) {
+        $emailSettings = $this->general_model->fetchSmtpSettings(
+            $this->location_id ?? '',
+            $system_id
+        );
+    }
+
+    if (empty($emailSettings)) {
+        $emailSettings = $this->general_model->fetchSmtpSettings('9999', '9999');
+    }
+
+    if (is_object($emailSettings)) {
+        if (isset($emailSettings->mail_protocol) && $emailSettings->mail_protocol === 'smtp') {
+            $this->session->set_userdata('mail_protocol', 'smtp');
+            $this->configureSMTP($emailSettings);
+        }
+
+        $this->session->set_userdata(
+            'mail_from',
+            !empty($emailSettings->mail_from) ? $emailSettings->mail_from : 'info@bizadmin.com.au'
+        );
+    } else {
+        $this->session->set_userdata('mail_from', 'info@bizadmin.com.au');
+    }
+
+    // ---------- Availability ----------
+    $data['availability'] = [];
+    if (!empty($empId)) {
+        $conditionsAvail = [
+            'emp_id' => $empId,
+            'is_deleted' => '0'
+        ];
+        $data['availability'] = $this->common_model
+            ->fetchRecordsDynamically('HR_emp_availability', '', $conditionsAvail) ?? [];
+    }
+
+    // ---------- Today's Roster ----------
+    $todaysRosterDatas = null;
+    $todaysRoster = $this->roster_model->fetchEmployeeTodaysRoster();
+
+    if (is_array($todaysRoster) && !empty($todaysRoster[0]) && is_object($todaysRoster[0])) {
+        $dayName = strtolower(date('l'));
+
+        if (property_exists($todaysRoster[0], $dayName)) {
+            $todaysRosterDatas = $todaysRoster[0]->{$dayName};
+        }
+    }
+
+    // ---------- Decode Roster ----------
+    if (!empty($todaysRosterDatas)) {
+        $decoded = json_decode($todaysRosterDatas, true);
+
+        if (is_array($decoded)) {
+            foreach ($decoded as $key => $value) {
+                // Protect against undefined $string
+                if (is_string($value)) {
+                    $parts = explode('_', $value);
+                    $last = end($parts);
+                    if (!empty($last)) {
+                        $empId = $last;
+                    }
+                }
+            }
+        }
+    }
+
+    // ---------- Employee Dashboard ----------
+    if (!empty($empId)) {
+        $data['employeeProfileWidgetData'] = $this->profileWidget($empId) ?? [];
+        $data['taskDays'] = $this->displayShiftsOnDashboard($empId) ?? [];
+        $data['todayTasks'] = $this->timesheet_model
+            ->getTodayTasks($empId, date('Y-m-d')) ?? [];
+        $data['employeeTimesheets'] = $this->timesheet_model
+            ->getEmployeeTimesheets($empId) ?? [];
+        $data['attendance'] = $this->attendanceTimeline($empId) ?? [];
+        $data['empId'] = $empId;
+    }
+
+    // ---------- Manager Dashboard ----------
+    $data['birthdays_today'] = $this->dashboard_model->get_todays_birthdays() ?? [];
+    $data['pending_leaves'] = $this->dashboard_model->get_pending_leaves() ?? [];
+    $data['task_summary'] = $this->dashboard_model->get_task_summary() ?? [];
+    $data['employee_on_break_count'] = $this->dashboard_model->get_employee_on_break_count() ?? 0;
+    $data['attendance_today'] = $this->dashboard_model->get_today_attendance() ?? [];
+    $data['present_today'] = $this->dashboard_model->get_present_today_count() ?? 0;
+    $data['total_employees'] = $this->dashboard_model->get_total_employees_today() ?? 0;
+    $data['incident_reports'] = $this->dashboard_model->get_incident_reports() ?? [];
+    $data['injury_reports'] = $this->dashboard_model->get_injury_reports() ?? [];
+    $data['total_team_hours'] = $this->dashboard_model->get_total_team_hours() ?? 0;
+
+    // ---------- Views ----------
+    $this->load->view('general/header');
+
+    if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('manager')) {
+        $this->load->view('general/dashboard_manager', $data);
+    } else {
+        $this->load->view('general/dashboard', $data);
+    }
+
+    $this->load->view('general/footer');
+}
+
+    
+    public function profileWidget($empId = null)
+     {
+    // Date vars
+    $today = date('Y-m-d');
+
+    // Week start (Monday) and end (Sunday) relative to $today
+    $monday = date('Y-m-d', strtotime('monday this week', strtotime($today)));
+    $sunday = date('Y-m-d', strtotime('sunday this week', strtotime($today)));
+
+    // 1) Today's shift
+    $shift = $this->timesheet_model->getTodaysShift($empId, $today);
+
+    // 2) Is shift started?
+    $shiftStarted = false;
+    $shiftClockInDisplay = '--:-- --';
+    if (!empty($shift) && !empty($shift['clock_in_time'])) {
+        $shiftStarted = true;
+        $shiftClockInDisplay = date('h:i A', strtotime($shift['clock_in_time']));
+    }
+
+    $workedSeconds = $this->timesheet_model->getWorkedSecondsForRange($empId, $monday, $sunday);
+    $hoursThisWeek = $this->formatSecondsToHoursLabel($workedSeconds);
+
+    // 4) Total tasks week
+    $taskSummary = $this->timesheet_model->getWeeklyTaskSummary($empId, $monday, $sunday);
+    $tasksCompleted = (int)($taskSummary['completed'] ?? 0);
+    $tasksTotal = (int)($taskSummary['total'] ?? 0);
+
+    // 5) Attendance rate (days with clock in / 7)
+    $attendanceDays = $this->timesheet_model->getAttendanceDaysCount($empId, $monday, $sunday);
+    $attendanceRate = round(($attendanceDays / 7) * 100);
+    
+
+    // Build data for view (employee name/position left static as requested)
+    $employeeProfileWidgetData = [
+        'employee_name' => $this->first_name .' '.$this->last_name,          
+        'employee_position' => 'Welcome to portal !!',
+        'today_shift' => $shift,               
+        'shift_started' => $shiftStarted,
+        'shift_clockin_display' => $shiftClockInDisplay,
+        'hours_this_week' => $hoursThisWeek,
+        'tasks_completed' => $tasksCompleted,
+        'tasks_total' => $tasksTotal,
+        'attendance_rate' => $attendanceRate,
+        'week_start' => $monday,
+        'week_end' => $sunday
+    ];
+
+  return $employeeProfileWidgetData;
+}
+
+  /**
+   * Helper to format seconds to human-readable label like "38.5h" or "5h 30m"
+  */
+   private function formatSecondsToHoursLabel($seconds)
+   {
+    $hours = floor($seconds / 3600);
+    $minutes = floor(($seconds % 3600) / 60);
+
+    if ($hours >= 1) {
+        // show decimals like 38.5h
+        $decimal = $hours + round($minutes / 60, 1);
+        // Show 1 decimal place
+        return rtrim(rtrim(number_format($decimal, 1), '0'), '.') . 'h';
+    } else {
+        return sprintf('%dm', $minutes);
+    }
+}
+
+    
+    public function displayShiftsOnDashboard($empId)
+     {
+   
+    $year  = date("Y");
+    $month = date("m");
+    $taskDays = $this->timesheet_model->getMonthlyTaskDates($empId, $year, $month);
+    return $taskDays;
+}
+
+    // for showing employee clock in and clok out status an hours worked
+    
+    public function attendanceTimeline($empId, $date = null)
+    {
+    // Ensure employee id
+    if (empty($empId)) {
+        return; // or show error
+    }
+
+    // Use requested date or today
+    $date = $date ?: date('Y-m-d');
+
+    // Target daily seconds (8 hours)
+    $targetHours = 8;
+    $targetSeconds = $targetHours * 3600;
+
+    // Fetch all timesheet detail rows for this employee & date (location filter optional)
+    $this->tenantDb->select('timesheet_id, roster_date, roster_start_time, roster_end_time, roster_break_start_time, roster_break_duration, clock_in_time, clock_out_time, actual_break_duration');
+    $this->tenantDb->from('HR_timesheet_details');
+    $this->tenantDb->where('employee_id', $empId);
+    $this->tenantDb->where('roster_date', $date);
+    // optionally check location_id if required:
+    $this->tenantDb->order_by('timesheet_id', 'ASC');
+    $q = $this->tenantDb->get();
+// echo $this->tenantDb->last_query(); die();
+    if ($q === false) {
+        log_message('error', 'attendanceTimeline DB error: ' . print_r($this->tenantDb->error(), true));
+        $rows = [];
+    } else {
+        $rows = $q->result_array();
+    }
+    
+    // echo "<pre>"; print_r($rows); exit;
+
+    // Initialize values
+    $clockInTimes = [];
+    $clockOutTimes = [];
+    $breaks = []; // array of ['start' => timestamp, 'duration_minutes' => int]
+    $totalBreakSeconds = 0;
+
+    foreach ($rows as $r) {
+        // Normalize clock_in_time/clock_out_time values to full timestamps
+        if (!empty($r['clock_in_time'])) {
+            $clockInTimes[] = strtotime($r['clock_in_time']);
+        }
+        if (!empty($r['clock_out_time'])) {
+            $clockOutTimes[] = strtotime($r['clock_out_time']);
+        }
+
+        // Prefer actual_break_duration (minutes), fallback to roster_break_duration
+        $breakMins = null;
+        if (isset($r['actual_break_duration']) && $r['actual_break_duration'] !== null && $r['actual_break_duration'] !== '') {
+            $breakMins = (int) $r['actual_break_duration'];
+        } elseif (isset($r['roster_break_duration']) && $r['roster_break_duration'] !== null && $r['roster_break_duration'] !== '') {
+            $breakMins = (int) $r['roster_break_duration'];
+        }
+
+        if (!empty($r['roster_break_start_time'])) {
+            // roster_break_start_time might be stored as time only like "12:30:00" — construct timestamp
+            $breakStartStr = $date . ' ' . $r['roster_break_start_time'];
+            $breakStartTs = strtotime($breakStartStr);
+            if ($breakStartTs !== false) {
+                $breaks[] = [
+                    'start_ts' => $breakStartTs,
+                    'duration_minutes' => $breakMins ?: 0
+                ];
+                $totalBreakSeconds += ($breakMins ?: 0) * 60;
+            }
+        } elseif ($breakMins) {
+            // No start time but duration available — add duration only
+            $totalBreakSeconds += $breakMins * 60;
+            $breaks[] = [
+                'start_ts' => null,
+                'duration_minutes' => $breakMins
+            ];
+        }
+    }
+
+    // Determine the earliest clock-in and latest clock-out
+    $earliestClockIn = !empty($clockInTimes) ? min($clockInTimes) : null;
+    $latestClockOut = !empty($clockOutTimes) ? max($clockOutTimes) : null;
+
+    // If no explicit clock out, treat "now" as current time for progress calculation
+    $nowTs = time();
+    $calculatedClockOut = $latestClockOut ?: $nowTs;
+
+    // Calculate worked seconds: sum(clock_out - clock_in) across matched pairs.
+    // We'll pair clock-ins with next available clock-out (simple greedy).
+    $workedSeconds = 0;
+    if (!empty($clockInTimes)) {
+        // sort arrays
+        sort($clockInTimes);
+        sort($clockOutTimes);
+
+        $ci = 0; $co = 0;
+        while ($ci < count($clockInTimes)) {
+            $inTs = $clockInTimes[$ci];
+            // find next clock_out >= inTs
+            $matchingOut = null;
+            while ($co < count($clockOutTimes)) {
+                if ($clockOutTimes[$co] >= $inTs) {
+                    $matchingOut = $clockOutTimes[$co];
+                    $co++;
+                    break;
+                }
+                $co++;
+            }
+
+            // if matchingOut found, add difference, else use $nowTs (ongoing)
+            if ($matchingOut !== null) {
+                $workedSeconds += max(0, $matchingOut - $inTs);
+            } else {
+                // no clock_out found for this in — use now
+                $workedSeconds += max(0, $nowTs - $inTs);
+            }
+
+            $ci++;
+        }
+    }
+
+    // subtract breaks (totalBreakSeconds)
+    $workedSeconds = max(0, $workedSeconds - $totalBreakSeconds);
+
+    // Percent of target
+    $progressPercent = $targetSeconds > 0 ? round(min(100, ($workedSeconds / $targetSeconds) * 100)) : 0;
+
+    // Format helpers
+    $formatTime = function($ts) {
+        return $ts ? date('h:i A', $ts) : '--:-- --';
+    };
+
+    $formatDuration = function($seconds) {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        if ($hours > 0) {
+            return sprintf('%dh %02dm', $hours, $minutes);
+        }
+        return sprintf('%dm', $minutes);
+    };
+
+    // Determine break label (first break start time & resume time if possible)
+    $breakStartLabel = '--:-- --';
+    $breakResumeLabel = '--:-- --';
+    if (!empty($breaks)) {
+        // pick first break with start_ts
+        $firstBreak = null;
+        foreach ($breaks as $b) {
+            if (!empty($b['start_ts'])) { $firstBreak = $b; break; }
+        }
+        if ($firstBreak) {
+            $breakStartLabel = $formatTime($firstBreak['start_ts']);
+            // resume = start + duration
+            $resumeTs = $firstBreak['start_ts'] + ($firstBreak['duration_minutes'] * 60);
+            $breakResumeLabel = $formatTime($resumeTs);
+        } else {
+            // we have only durations — show 'Break: duration'
+            $breakStartLabel = ($breaks[0]['duration_minutes'] > 0) ? $breaks[0]['duration_minutes'] . 'm' : '--:-- --';
+            $breakResumeLabel = '--:-- --';
+        }
+    }
+
+    // Prepare data for view
+    $data = [
+        'date' => $date,
+        'clock_in' => $formatTime($earliestClockIn),
+        'break_start' => $breakStartLabel,
+        'resume' => $breakResumeLabel,
+        'clock_out' => $formatTime($latestClockOut),
+        'worked_seconds' => $workedSeconds,
+        'worked_label' => $formatDuration($workedSeconds),
+        'target_label' => sprintf('%dh %02dm', $targetHours, 0),
+        'progress_percent' => $progressPercent
+    ];
+
+    // Load partial view or return json if called via ajax
+    // Example: $this->load->view('timesheet/attendance_timeline', $data);
+    return $data;
+}
+
+
     
      public function clockInClockOut($system_id = '', $istimesheet = '')
     {
@@ -209,6 +427,8 @@ class Home extends MY_Controller {
                 $this->configureSMTP($emailSettings);
             }
         }
+        
+       
 
         $this->session->set_userdata('mail_from', $emailSettings->mail_from ?? 'info@bizadmin.com.au');
 
@@ -217,6 +437,7 @@ class Home extends MY_Controller {
         // Fetch timesheet records
         $timesheetDetailsData = array();
         $timesheetDetailsData = $this->timesheet_model->getTimesheetForDate($currentDate, $this->location_id);
+       
 
         // Fallback to active employees if no timesheet records
         

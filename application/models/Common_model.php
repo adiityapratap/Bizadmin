@@ -9,11 +9,11 @@ class Common_model extends CI_Model {
 
     public function fetchAllLocations($id = '') {
         $whereCon = ($id !== '') ? "location_id = " . (int)$id : "1";
-        $query = $this->db->query("SELECT * FROM locations_list WHERE is_deleted = 0 AND $whereCon");
+        $query = $this->tenantDb->query("SELECT * FROM locations_list WHERE is_deleted = 0 AND $whereCon");
         return $query->result_array();
     }
 
-  public function fetchRecordsDynamically($table, $fields = [], $conditions = [], $order_by = '') {
+    public function fetchRecordsDynamically($table, $fields = [], $conditions = [], $order_by = '') {
     // Validate table name
     if (empty($table) || !is_string($table)) {
         log_message('error', 'Invalid table name provided to fetchRecordsDynamically');
@@ -50,12 +50,13 @@ class Common_model extends CI_Model {
     return $query->result_array();
 }
 
-
     public function commonRecordUpdate($table, $fieldname = '', $id = null, $data = []) {
         if ($fieldname && $id !== null && !empty($data)) {
             $this->tenantDb->where($fieldname, $id);
             $this->tenantDb->update($table, $data);
         }
+     
+       
     }
 
     public function commonRecordUpdateMultipleConditions($tableName, $fields = [], $data = []) {

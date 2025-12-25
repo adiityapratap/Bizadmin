@@ -18,6 +18,7 @@ class Clockin extends MY_Controller
       
     $arrayInputFormat = array();
     
+   
     $selectedEmp = $this->POST['selectedEmp'];
     $timeType = $this->POST['clockInTimeType'];
     list($emp_id, $position_id, $prep_id) = explode('_', $selectedEmp);

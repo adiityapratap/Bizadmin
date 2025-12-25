@@ -283,43 +283,74 @@
                             
                               <div class="row">
                               <div class="col-sm">
+                                 
                                     <div>
                                         <h5 class="card-title mb-0 text-uppercase fw-bold"><?php echo $form_type; ?> Organization Database Details</h5>
                                     </div>
+                                     
                                 </div>
                                  </div>
+                                 <!--// readonly if values are there , for security purpose/, if needed developer can see from here by removing the condition-->
+                                 
                               <div class="row">
-                                  
-                                   <div class="col-md-4 mb-4"> 
-                                    <div class="control-group">
-                                      <label class="control-label">Database Name</label>
-                                      <div class="controls">
-                                          
-                                        <input required type="text" autocomplete="off" name="db_name" id="db_name" class ='form-control' <?php echo $disable; ?> value="<?php echo (isset($record[0]->db_name)? $record[0]->db_name : ''); ?>">
-                                      </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-4 mb-4">  
-                                    <div class="control-group">
-                                      <label class="control-label">Database Username</label>
-                                      <div class="controls">
-                                        <input required type="text" autocomplete="off" name="db_username" id="db_username" class ='form-control' <?php echo $disable; ?> value="<?php echo (isset($record[0]->db_username)? $record[0]->db_username : ''); ?>" >
-                                      </div>
-                                    </div>
-                                  </div>
-                               
-                                <div class="col-md-4 mb-4"> 
-                                    <div class="control-group">
-                                      <label class="control-label">Database Password</label>
-                                      <div class="controls">
-                                        <input type="text" autocomplete="off" required name="db_pass" id="db_pass" class ='form-control' <?php echo $disable; ?> value="<?php echo (isset($record[0]->db_pass)? $record[0]->db_pass : ''); ?>">
-                                      </div>
-                                    </div>
-                                </div>
-                             
-                              
-                        </div>
+                                  <?php
+$disable_db_name     = (!empty($record[0]->db_name)) ? 'readonly' : '';
+$disable_db_username = (!empty($record[0]->db_username)) ? 'readonly' : '';
+$disable_db_pass     = (!empty($record[0]->db_pass)) ? 'readonly' : '';
+?>
+
+
+
+    <div class="col-md-4 mb-4"> 
+        <div class="control-group">
+            <label class="control-label">Database Name</label>
+            <div class="controls">
+                <input required 
+                       type="password" 
+                       autocomplete="off" 
+                       name="db_name" 
+                       id="db_name" 
+                       class="form-control"  
+                       <?php echo $disable_db_name; ?>
+                       value="<?php echo isset($record[0]->db_name) ? $record[0]->db_name : ''; ?>">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">  
+        <div class="control-group">
+            <label class="control-label">Database Username</label>
+            <div class="controls">
+                <input required 
+                       type="password" 
+                       autocomplete="off" 
+                       name="db_username" 
+                       id="db_username" 
+                       class="form-control"  
+                       <?php echo $disable_db_username; ?>
+                       value="<?php echo isset($record[0]->db_username) ? $record[0]->db_username : ''; ?>">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4"> 
+        <div class="control-group">
+            <label class="control-label">Database Password</label>
+            <div class="controls">
+                <input required 
+                       type="password" 
+                       autocomplete="off" 
+                       name="db_pass" 
+                       id="db_pass" 
+                       class="form-control"  
+                       <?php echo $disable_db_pass; ?>
+                       value="<?php echo isset($record[0]->db_pass) ? $record[0]->db_pass : ''; ?>">
+            </div>
+        </div>
+    </div>
+
+</div>
+
                        
                        
                     </div>

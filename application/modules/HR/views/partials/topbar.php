@@ -11,6 +11,11 @@
     #notificationWrap i {
         color: #864868 !important;
     }
+    .logo-lg img {
+    height: 39px !important;
+    width: 116px !important;
+    margin-left: 100px !important;
+}
 </style>
 <header id="page-topbar">
     <div class="layout-width">
@@ -91,11 +96,20 @@
                         <!--        class="align-middle">Profile</span></a>-->
                         
                        
-                       <?php if ($this->session->userdata('is_admin')){ ?>
+                       <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(['manager'])) { ?>
                         
-                          <a class="dropdown-item" target="_blank" href="<?= base_url('HR/configuresubmit') ?>"><i
+                          <a class="dropdown-item"  href="<?= base_url('HR/configuresubmit') ?>"><i
                                 class="mdi mdi-store-cog text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle">Settings</span></a>   
+                                
+                              <a class="dropdown-item"  href="<?= base_url('HR/sites') ?>"><i
+                                class="mdi mdi-store-cog text-muted fs-16 align-middle me-1"></i> <span
+                                class="align-middle">Create Sites</span></a>   
+                                
+                                  <a class="dropdown-item"  href="<?= base_url('HR/prep') ?>"><i
+                                class="mdi mdi-store-cog text-muted fs-16 align-middle me-1"></i> <span
+                                class="align-middle">Create Prep Area</span></a>   
+                                
                                 
                        <?php  }  ?>
                         

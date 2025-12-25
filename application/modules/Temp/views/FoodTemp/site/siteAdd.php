@@ -26,7 +26,7 @@
                                                 </div>
                                                 <div class="col-sm">
                                                     <div class="d-flex justify-content-sm-end gap-2">
-                                                   <a href="/Temp/foodTemp/site" class="btn bg-orange waves-effect btn-label waves-light"><i class="ri-reply-fill label-icon align-middle fs-16 me-2"></i><span>Back</span></a>     
+                                                   <a href="/Temp/FoodTemp/site" class="btn bg-orange waves-effect btn-label waves-light"><i class="ri-reply-fill label-icon align-middle fs-16 me-2"></i><span>Back</span></a>     
                                                         <?php  if($form_type == 'add'){ ?>
                                                             <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"><i class="ri-save-3-fill label-icon align-middle fs-16 me-2"></i><span>Add</span></button>
                                                         <?php }else if($form_type == 'edit'){ ?>

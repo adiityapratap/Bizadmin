@@ -1,754 +1,1615 @@
- <div class="container-fluid">
-   <div class="row">
-     <div class="card mb-5">
-      <div class="card-body px-5">         
+ <html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://bizadmin.com.au/login-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkr6VbGs7uYPJn_AFfvnMZztcQIigx9J0&libraries=places"></script>
+
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        'navy': '#1e3a5f',
+                        'navy-dark': '#152a45'
+                    }
+                }
+            }
+        }
+    </script>
+    
+   <script>
+    function initAutocomplete() {
+        const fields = ["address", "emergency_address"];
+
+        fields.forEach(function(fieldId) {
+            const input = document.getElementById(fieldId);
+            if (!input) return; // skip if field doesn't exist
+
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                types: ["geocode"],
+                componentRestrictions: { country: "au" }
+            });
+
+            autocomplete.addListener("place_changed", function () {
+                const place = autocomplete.getPlace();
+
+                if (!place.formatted_address) {
+                    alert("Please select an address from the dropdown.");
+                    return;
+                }
+
+                input.value = place.formatted_address;
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", initAutocomplete);
+</script>
+
+
+
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+<header id="header" class="bg-navy text-white py-5 px-6 shadow-xl">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Mobile & Tablet: 2 lines | Desktop: 1 line -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+
+            <!-- Logo - Always top-left -->
+            <div class="text-2xl md:text-3xl font-extrabold tracking-wider">
+                BizAdmin
+            </div>
+
+            <!-- Title - Centered on mobile, middle on desktop -->
+            <h1 class="text-xl md:text-2xl font-bold text-center sm:text-left order-first sm:order-none">
+                Onboarding Form
+            </h1>
+
+            <!-- Empty spacer to balance layout on desktop -->
+            <div class="hidden sm:block w-32"></div>
+        </div>
+    </div>
+</header>
+
+
+         
  	<?php if(null !==$this->session->userdata('error_msg')) { ?>  
 				<div class='hideMe alert alert-danger'>
 					<?php echo $this->session->flashdata('error_msg'); ?>
 				</div>
 				<?php } ?>
-			<ul class="nav nav-tabs nav-justified mb-3" role="tablist">
-               <li class="nav-item" rel="personalDetails">
-                <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">Personal Details<?php
-              if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 0){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="emergencyDetails">
-              <a class="nav-link " data-bs-toggle="tab" href="#emergencyDetails" role="tab">Emergency Details
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 1){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="bankDetails">
-              <a class="nav-link" value="bankDetails" data-bs-toggle="tab" href="#bankDetails" role="tab">Bank Details
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 2){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="taxDetails">
-              <a class="nav-link" data-bs-toggle="tab" href="#taxDetails" role="tab">Tax Details
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 3){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="policeClearance">
-              <a class="nav-link" data-bs-toggle="tab" href="#policeClearance" role="tab">Police Clearance
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 4){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="superAnnuation">
-              <a class="nav-link" data-bs-toggle="tab" href="#superAnnuation" role="tab">Super Annuation
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 5){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-              
-              <li class="nav-item" rel="privacyPolicy">
-              <a class="nav-link" data-bs-toggle="tab" href="#privacyPolicy" role="tab">Policies
-              <?php if(isset($employee['stepsCompleted']) && $employee['stepsCompleted'] > 6){ ?>
-                <span class="badge bg-success">done</span>
-               <?php }   ?></a>
-              </li>
-           
-           </ul>    
-  			    
+		<nav id="tab-navigation" class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-12xl mx-auto px-6">
+        <div class="flex space-x-1 overflow-x-auto">
+            <?php
+            $tabs = [
+                ['id' => 'personalDetails', 'label' => 'Personal Details', 'step' => 0],
+                ['id' => 'emergencyDetails', 'label' => 'Emergency Details', 'step' => 1],
+                ['id' => 'bankDetails', 'label' => 'Bank Details', 'step' => 2],
+                ['id' => 'taxDetails', 'label' => 'Tax Details', 'step' => 3],
+                ['id' => 'policeClearance', 'label' => 'Police Clearance', 'step' => 4],
+                ['id' => 'superAnnuation', 'label' => 'Super Annuation', 'step' => 5],
+                ['id' => 'privacyPolicy', 'label' => 'Policies', 'step' => 6]
+            ];
+            
+            $stepsCompleted = isset($employee['stepsCompleted']) ? $employee['stepsCompleted'] : 0;
+            
+            foreach ($tabs as $index => $tab) {
+                $isActive = $index === 0 ? 'active' : '';
+                $isCompleted = $stepsCompleted > $tab['step'];
+                
+                $activeClasses = 'border-navy text-navy bg-blue-50';
+                $inactiveClasses = 'text-gray-600 hover:text-navy hover:bg-gray-50 border-transparent';
+                
+                $buttonClasses = $isActive 
+                    ? "tab-btn {$isActive} px-6 py-4 text-sm font-medium whitespace-nowrap border-b-3 {$activeClasses}"
+                    : "tab-btn px-6 py-4 text-sm font-medium whitespace-nowrap border-b-3 {$inactiveClasses}";
+            ?>
+                <button 
+                    class="<?php echo $buttonClasses; ?>" 
+                    data-tab="<?php echo $tab['id']; ?>"
+                    rel="<?php echo $tab['id']; ?>"
+                    role="tab"
+                    aria-selected="<?php echo $isActive ? 'true' : 'false'; ?>"
+                    aria-controls="<?php echo $tab['id']; ?>">
+                    <span class="inline-flex items-center gap-2">
+                        <?php echo $tab['label']; ?>
+                        <?php if ($isCompleted): ?>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                done
+                            </span>
+                        <?php endif; ?>
+                    </span>
+                </button>
+            <?php } ?>
+        </div>
+    </div>
+</nav> 
+  			    <main id="main-content" class="max-w-9xl mx-auto px-6 py-10">
+  			        <small>Please click on individual tab to fill the details,please scroll tabs from top(in mobile devices)</small>
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-8 md:p-12">
   			     <div class="tab-content text-black">
+  			         
+  			          <!-- Personal Details form start here-->
                     <div class="tab-pane active" id="personalDetails" role="personalDetails">
-                 	<form  role="form" id="personalDetailsForm" method="post" action="" class="mt-4" enctype="multipart/form-data">
-                	  	<input type="hidden" name="emp_id" id="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                	  	<input type="hidden" name="stepsCompleted" class="personalDetailsFormSteps" value="1">
-                	   <div class="row gy-4">
-                	             <div class="col-lg-1 col-md-2">
-                		<label for="title" class="form-label">Title:<span>*</span></label>
-                		<select class="form-select" id="title" name="title">
-                		<option value="">Select</option>
-                		 <option value="Mr" <?php if($employee['title'] == 'Mr') echo'selected';?>>Mr</option>
-                		 <option value="Ms" <?php if($employee['title'] == 'Ms') echo'selected';?>>Ms</option>
-                		  <option value="Mrs" <?php if($employee['title'] == 'Mrs') echo'selected';?>>Mrs</option>
-                		  <option value="Miss" <?php if($employee['title'] == 'Miss') echo'selected';?>>Miss</option>
-                		   </select>
-                		    <span class="fieldError" id="title_error"></span>
-                		</div>
-                		
-                		<div class="col-lg-2 col-md-4">
-                			<label for="preferred_name" class=" control-label">Preferred Name:</label>
-                			<input type="text" id="preferred_name" class="form-control" name="preferred_name" value="<?php echo $employee['preferred_name']; ?>" autocomplete="off" >
-                		
-                		</div>
-                					<div class="col-lg-3 col-md-6">
-                							<label for="first_name" class=" control-label">First Name:<span>*</span></label>
-                							<input type="text" id="first_name" class="form-control" name="first_name" value="<?php echo $employee['first_name']; ?>" autocomplete="off" >
-                						    <span class="fieldError" id="first_name_error"></span>
-                						</div>
-                					<div class="col-lg-3 col-md-6">
-                							<label for="last_name" class=" control-label">Last Name:<span>*</span></label>
-                							<input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $employee['last_name']; ?>" autocomplete="off" >
-                						    <span class="fieldError" id="last_name_error"></span>
-                						</div>
-                	                <div class="col-lg-3 col-md-6">
-                    						<label for="email" class="form-label">Email Address:<span>*</span></label>
-                    						<input type="text" readonly class="form-control" id="email" name="email" value="<?php echo $employee['email']; ?>">
-                    						<span class="fieldError" id="email_error"></span>
-                    						</div>
-                    				<div class="col-lg-3 col-md-6">
-                    							<label for="phone" class="form-label">Contact Number:<span>*</span></label>
-                    						    <input type="text" class="form-control" id="phone" name="phone" onkeypress='validate(event)' autocomplete="off" value="<?php echo $employee['phone']; ?>">
-                    						    <span class="fieldError" id="phone_error"></span>
-                    						</div>
-                					<div class="col-lg-3 col-md-6">
-                    							<label for="dob" class="form-label">Date of Birth:<span>*</span></label>
-                    					    	<input type="date" class="form-control datetime" id="dob" name="dob" autocomplete="off" value="<?php echo $employee['dob']; ?>">
-                    						    <span class="fieldError" id="dob_error"></span>
-                    						</div>
-                					<div class="col-lg-3 col-md-6">
-                    							<label for="businessname" class="form-label">Highest Academic Achievements: </label>
-                    							<textarea class="form-control" rows="2" name="heighest_acd_achmts"><?php echo $employee['heighest_acd_achmts']; ?></textarea>
-                    						</div>
-                    						
-                    						<div class="col-lg-3 col-md-6 ">
-                    						<label for="businessname" class="form-label">Face Verification:<span>*</span> </label>
-                    						
-                    					  
-                    					   <?php  if(isset($employee['face_image_url']) && $employee['face_image_url'] !='') { ?>	
-                    					   <button type="button" id="faceVerifyBtn" class="btn btn-outline-info mt-3 form-control" onclick="startCamera()"><i class="ri-camera-line me-2"></i>Recapture Photo</button>
-                    						<small id="verificationMessage" class="text-success fw-semibold  mt-2">Verification completed successfully</small>
-                    						<?php }else{ ?>
-                    						<button type="button" id="faceVerifyBtn" class="btn btn-outline-info mt-3 form-control" onclick="startCamera()"><i class="ri-camera-line me-2"></i>Complete Face Verification</button>
-                    						<small id="verificationPreMessage" class="text-info fw-semibold  mt-2">Click on the button to capture your photo for verification</small>
-                    						<?php } ?>
-                    						<small id="verificationError" class="text-danger fw-semibold  mt-2"></small>
-                    						<input type="hidden" id="employeePhoto" value="<?php echo $employee['face_image_url']; ?>" />
-                    						<video id="video" width="320" height="240" autoplay style="display: none;"></video>
-                    						<canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
-                    						</div>
-                						
-                					
+                       
+                 	<form role="form" id="personalDetailsForm" method="post" action="" class="mt-6" enctype="multipart/form-data">
+
+    <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $employee['emp_id']; ?>">
+    <input type="hidden" name="stepsCompleted" class="personalDetailsFormSteps" value="1">
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Title -->
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                Title <span class="text-red-500">*</span>
+            </label>
+            <select id="title" name="title"
+                class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent">
+                <option value="">Select</option>
+                <option value="Mr" <?php if($employee['title']=='Mr') echo 'selected'; ?>>Mr</option>
+                <option value="Ms" <?php if($employee['title']=='Ms') echo 'selected'; ?>>Ms</option>
+                <option value="Mrs" <?php if($employee['title']=='Mrs') echo 'selected'; ?>>Mrs</option>
+                <option value="Miss" <?php if($employee['title']=='Miss') echo 'selected'; ?>>Miss</option>
+            </select>
+            <span class="fieldError text-red-500 text-sm" id="title_error"></span>
+        </div>
+
+        <!-- Preferred Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="preferred_name">Preferred Name</label>
+            <input type="text" id="preferred_name" name="preferred_name"
+                value="<?php echo $employee['preferred_name']; ?>"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy"
+                autocomplete="off">
+        </div>
+
+        <!-- First Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="first_name">
+                First Name <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="first_name" name="first_name"
+                value="<?php echo $employee['first_name']; ?>"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy"
+                autocomplete="off">
+            <span class="fieldError text-red-500 text-sm" id="first_name_error"></span>
+        </div>
+
+        <!-- Last Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="last_name">
+                Last Name <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="last_name" name="last_name"
+                value="<?php echo $employee['last_name']; ?>"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy"
+                autocomplete="off">
+            <span class="fieldError text-red-500 text-sm" id="last_name_error"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="md:col-span-2 lg:col-span-1">
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="email">
+                Email Address <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="email" name="email" readonly
+                value="<?php echo $employee['email']; ?>"
+                class="form-control w-full px-4 py-3 bg-gray-100 text-gray-600 border border-gray-300 rounded-lg cursor-not-allowed">
+            <span class="fieldError text-red-500 text-sm" id="email_error"></span>
+        </div>
+
+        <!-- Phone -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="phone">
+                Contact Number <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="phone" name="phone"
+                onkeypress='validate(event)'
+                value="<?php echo $employee['phone']; ?>"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="phone_error"></span>
+        </div>
+
+        <!-- DOB -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="dob">
+                Date of Birth <span class="text-red-500">*</span>
+            </label>
+            <input type="date" id="dob" name="dob"
+                value="<?php echo $employee['dob']; ?>"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="dob_error"></span>
+        </div>
+
+        <!-- Academic Achievements -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Highest Academic Achievements
+            </label>
+            <textarea name="heighest_acd_achmts" rows="2"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy resize-none"><?php echo $employee['heighest_acd_achmts']; ?></textarea>
+        </div>
+        
+        
+       <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Are you on Student Visa or Temporary Visa?
+    </label>
+
+    <div class="flex items-center gap-6">
+        <label class="flex items-center gap-2">
+            <input type="radio" name="visa_status" value="yes"
+                   class="form-radio text-blue-600"
+                   <?php echo ($employee['visa_status'] == 'yes') ? 'checked' : ''; ?>>
+            <span>Yes</span>
+        </label>
+
+        <label class="flex items-center gap-2">
+            <input type="radio" name="visa_status" value="no"
+                   class="form-radio text-blue-600"
+                   <?php echo ($employee['visa_status'] == 'no') ? 'checked' : ''; ?>>
+            <span>No</span>
+        </label>
+    </div>
+</div>
+
+<!-- Hidden Visa Expiry Field -->
+<div id="visaExpiryWrapper" class="mb-4 <?php echo ($employee['visa_status'] == 'yes') ? '' : 'hidden'; ?>">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Visa Expiry Date
+    </label>
+    <input type="date" name="visa_expiry" value="<?php echo $employee['visa_expiry']; ?>" class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600">
+           
+           
+</div>
+
+        
+
+        <!-- Face Verification -->
+        <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Face Verification 
+        
+    </label>
+<small>Note: By continuing, you consent to your face being captured and securely used for identity and attendance purposes</small>
+    <!-- Face Verify Button -->
+    <button type="button" id="faceVerifyBtn" onclick="startCamera()"
+        class="flex items-center justify-center w-full md:w-auto px-6 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-navy hover:bg-blue-50 transition-all">
+        <i class="text-navy text-xl mr-3 fas fa-camera"></i>
+        <span class="text-navy font-medium">
+            <?php echo !empty($employee['face_image_url']) ? 'Recapture Photo' : 'Complete Face Verification'; ?>
+        </span>
+    </button>
+
+    <!-- Success Message -->
+    <small id="verificationMessage"
+        class="text-green-600 font-semibold mt-2 block <?php echo !empty($employee['face_image_url']) ? '' : 'hidden'; ?>">
+        Verification completed successfully
+    </small>
+
+    <!-- Initial Instructions -->
+    <small id="verificationPreMessage"
+        class="text-blue-600 font-semibold mt-2 block <?php echo empty($employee['face_image_url']) ? '' : 'hidden'; ?>">
+        Click on the button to capture your photo
+    </small>
+
+    <!-- Error Message -->
+    <div id="cameraErrorWrapper" class="hidden mt-2 flex items-start gap-2">
+    <small id="verificationError" class="text-red-600 font-semibold"></small>
+
+    <!-- Info Icon -->
+    <button id="cameraHelpBtn" class="text-blue-600 hover:text-blue-800 text-lg hidden" type="button" onclick="showCameraHelp()">
+        <i class="fas fa-info-circle"></i>
+    </button>
+</div>
+
+
+    <!-- Saved Image (if exists) -->
+    <img id="savedCapturedImage"
+         src="<?php echo !empty($employee['face_image_url']) ? $employee['face_image_url'] : ''; ?>"
+         width="320" height="240"
+         class="rounded-lg mt-3 <?php echo !empty($employee['face_image_url']) ? '' : 'hidden'; ?>" />
+
+    <!-- Always-present hidden inputs and camera elements -->
+    <input type="hidden" id="employeePhoto" value="<?php echo $employee['face_image_url']; ?>" />
+
+    <video id="video" width="320" height="240" autoplay class="hidden"></video>
+
+    <canvas id="canvas" width="320" height="240" class="hidden"></canvas>
+
+    <!-- Live Capture Preview -->
+    <img id="capturedImagePreview" src="" width="320" height="240"
+         class="hidden rounded-lg mt-3" />
+</div>
+
+
+    </div>
+
+    <!-- Address Section Header -->
+    <h5 class="text-xl font-bold text-gray-800 mt-10 mb-4 pb-2 border-b-2 border-gray-200">Address</h5>
+
+    <!-- ADDRESS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Address autocomplete Number -->
+     
+        
+        <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+    <input type="text" id="address" name="address"
+        value="<?php echo $employee['address']; ?>"
+        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">
+</div>
+
+
+
+        <!-- Street Number -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">Street Number</label>-->
+        <!--    <input type="text" id="street" name="street"-->
+        <!--        value="<?php echo $employee['street']; ?>"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">-->
+        <!--</div>-->
+
+        <!-- Street Name -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Street Name <span class="text-red-500">*</span>-->
+        <!--    </label>-->
+        <!--    <input type="text" id="street_name" name="street_name"-->
+        <!--        value="<?php echo $employee['street_name']; ?>"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">-->
+        <!--    <span class="fieldError text-red-500 text-sm" id="streetname_error"></span>-->
+        <!--</div>-->
+
+        <!-- Suburb -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Suburb <span class="text-red-500">*</span>-->
+        <!--    </label>-->
+        <!--    <input type="text" id="suburb" name="suburb"-->
+        <!--        value="<?php echo $employee['suburb']; ?>"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">-->
+        <!--    <span class="fieldError text-red-500 text-sm" id="suburb_error"></span>-->
+        <!--</div>-->
+
+        <!-- Postcode -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Postcode <span class="text-red-500">*</span>-->
+        <!--    </label>-->
+        <!--    <input type="text" id="postcode" name="postcode"-->
+        <!--        maxlength="4" onkeypress="validate(event)"-->
+        <!--        value="<?php echo ($employee['postcode']!='0'?$employee['postcode']:''); ?>"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">-->
+        <!--    <span class="fieldError text-red-500 text-sm" id="postcode_error"></span>-->
+        <!--</div>-->
+
+        <!-- State -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        State <span class="text-red-500">*</span>-->
+        <!--    </label>-->
+        <!--    <select id="state" name="state"-->
+        <!--        class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-navy">-->
+        <!--        <option value="">Select</option>-->
+        <!--        <option value="nsw" <?php if($employee['state']=='nsw') echo "selected";?>>New South Wales</option>-->
+        <!--        <option value="vic" <?php if($employee['state']=='vic') echo "selected";?>>Victoria</option>-->
+        <!--        <option value="qld" <?php if($employee['state']=='qld') echo "selected";?>>Queensland</option>-->
+        <!--        <option value="wa" <?php if($employee['state']=='wa') echo "selected";?>>Western Australia</option>-->
+        <!--        <option value="sa" <?php if($employee['state']=='sa') echo "selected";?>>South Australia</option>-->
+        <!--        <option value="tas" <?php if($employee['state']=='tas') echo "selected";?>>Tasmania</option>-->
+        <!--        <option value="act" <?php if($employee['state']=='act') echo "selected";?>>ACT</option>-->
+        <!--        <option value="nt" <?php if($employee['state']=='nt') echo "selected";?>>Northern Territory</option>-->
+        <!--    </select>-->
+        <!--    <span class="fieldError text-red-500 text-sm" id="state_error"></span>-->
+        <!--</div>-->
+
+    </div>
+
+    <!-- SAVE BUTTON -->
+    <div class="flex justify-end mt-8 pt-6 border-t border-gray-200">
+        <input type="button" rel="emergencyDetails" id="save_continue_personal"
+               class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
+               value="SAVE AND CONTINUE">
+    </div>
+
+</form>
                         
-						
-				
-				  <h5 class="fw-bold text-black"> Address</h5>	
-				    <div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">Unit Number:</label>
-							<input type="text" class="form-control" id="unit_number" name="unit_number" value="<?php echo $employee['unit_number']; ?>" autocomplete="off">
-						</div>	
-					<div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">Street Number:</label>
-							<input type="text" class="form-control" id="street" name="street" value="<?php echo $employee['street']; ?>"  autocomplete="off" >
-							
-				    </div>
-					<div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">Street Name:<span>*</span></label>
-							<input type="text" class="form-control" id="street_name" name="street_name" value="<?php echo $employee['street_name']; ?>"  autocomplete="off" >
-							 <span class="fieldError" id="streetname_error"></span>
-						
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">Suburb:<span>*</span></label>
-							<input type="text" class="form-control"  id="suburb" name="suburb" value="<?php echo $employee['suburb']; ?>" autocomplete="off" >
-								 <span class="fieldError" id="suburb_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">Postcode:<span>*</span></label>
-							<input type="text" id="postcode" class="form-control" name="postcode" onkeypress='validate(event)' value="<?php if($employee['postcode'] != "0"){ echo $employee['postcode']; }else{ echo ""; }  ?>" autocomplete="off" maxlength="4">
-							 <span class="fieldError" id="postcode_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="businessname" class="form-label">State:<span>*</span></label>
-							 <span class="fieldError" id="state_error"></span>
-							<select class="form-select" name="state" id="state">
-								<option value="">Select</option>
-								<option value="nsw" <?php if($employee['state'] == 'nsw'){ echo "selected"; } ?>>New South Wales</option>
-								<option value="vic" <?php if($employee['state'] == 'vic'){ echo "selected"; } ?>>Victoria</option>
-								<option value="qld" <?php if($employee['state'] == 'qld'){ echo "selected"; } ?>>Queensland</option>
-								<option value="wa" <?php if($employee['state'] == 'wa'){ echo "selected"; } ?>>Western Australia</option>
-								<option value="sa"<?php if($employee['state'] == 'sa'){ echo "selected"; } ?>>South Australia</option>
-								<option value="tas" <?php if($employee['state'] == 'tas'){ echo "selected"; } ?>>Tasmania</option>
-								<option value="act" <?php if($employee['state'] == 'act'){ echo "selected"; } ?>>Australian Capital Territory</option>
-								<option value="nt" <?php if($employee['state'] == 'nt'){ echo "selected"; } ?>>Northern Territory</option>
-							</select>
-						</div>
-					</div>
-				<input type="button" rel="emergencyDetails" name="contact_submit" id="save_continue_personal" class="btn btn-success btn-ph" value="SAVE AND CONTINUE">		
-                	</form>                           
                      </div>        
-               
+               <!-- Emergency Details  form start here-->
                     <div class="tab-pane" id="emergencyDetails" role="emergencyDetails">
-             
-              <form  role="form" id="emergencyDetailsForm" method="post" action="" enctype="multipart/form-data">
-                            	        <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                            	        <input type="hidden" name="stepsCompleted" class="emergencyDetailsFormSteps" value="2">
-                                       <div class="row gy-4">      	    
-                    					 <div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="control-label ">Name:<span>*</span></label>
-                    						<input type="text" id="nextkin_name_two" class="form-control required" value="<?php echo $employee['nextkin_name_two']; ?>" name="nextkin_name_two" autocomplete="off">
-                    						<span class="fieldError" id="nextkin_name_two_error"></span>
-                    						</div>
-                    					<div class="col-lg-3 col-md-6">
-                    						<label for="businessname"   class="control-label ">Relationship:<span>*</span></label>
-                    						<input type="text" class="form-control required"  id="nextkin_relationship_two" value="<?php echo $employee['nextkin_relationship_two']; ?>" name="nextkin_relationship_two" autocomplete="off" >
-                    							<span class="fieldError" id="nextkin_relationship_two_error"></span>
-                    						</div>
-                    					<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Email Address:</label>
-                    						<input type="text" class="form-control " name="nextkin_email_two" value="<?php echo $employee['nextkin_email_two']; ?>" autocomplete="off" >
-                    						
-                    						</div>
-                    							     
-                    					<div class="col-lg-3 col-md-6">
-                    						<label for="Phone No"  class="control-label ">Contact No:<span>*</span></label>
-                    						<input type="text" id="nextkin_phone_no" class="form-control required" value="<?php echo $employee['nextkin_phone_no']; ?>" name="nextkin_phone_no" autocomplete="off" >
-                    							<span class="fieldError" id="nextkin_phone_no_error"></span>
-                    						</div>
-                    						
-                    					 
-                                        <div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Street address:</label>
-                    						<input type="text" class="form-control" name="nextkin_street" value="<?php echo $employee['nextkin_street']; ?>" autocomplete="off">
-                    						</div>
-                    						
-                    			  	<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Town/Suburb:</label>
-                    						<input type="text" class="form-control" name="nextkin_suburb" value="<?php echo $employee['nextkin_suburb']; ?>" autocomplete="off" >
-                    						</div>
-                    				
-                    					<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">State:</label>
-                    						<input type="text" class="form-control" name="nextkin_state" value="<?php echo $employee['nextkin_state']; ?>" autocomplete="off" >
-                    						</div>
-                    				<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Postcode:</label>
-                    						<input type="text" class="form-control" name="nextkin_postcode" value="<?php echo $employee['nextkin_postcode']; ?>" autocomplete="off" >
-                    						</div>
-                    						</div>   
-               <input type="button" rel="bankDetails" name="contact_submit" id="save_continue_emergency" class="btn btn-success btn-ph" value="SAVE AND CONTINUE">		
-                						</form>                             
+              
+             <form role="form" id="emergencyDetailsForm" method="post" action="" enctype="multipart/form-data">
+
+    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
+    <input type="hidden" name="stepsCompleted" class="emergencyDetailsFormSteps" value="2">
+
+    <!-- GRID WRAPPER -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Name <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                id="nextkin_name_two"
+                name="nextkin_name_two"
+                value="<?php echo $employee['nextkin_name_two']; ?>"
+                autocomplete="off"
+                class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent">
+            <span class="fieldError text-red-500 text-sm" id="nextkin_name_two_error"></span>
+        </div>
+
+        <!-- Relationship -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Relationship <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                id="nextkin_relationship_two"
+                name="nextkin_relationship_two"
+                value="<?php echo $employee['nextkin_relationship_two']; ?>"
+                autocomplete="off"
+                class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="nextkin_relationship_two_error"></span>
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+            </label>
+            <input type="text"
+                name="nextkin_email_two"
+                value="<?php echo $employee['nextkin_email_two']; ?>"
+                autocomplete="off"
+                class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <!-- Contact Number -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Contact No <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                id="nextkin_phone_no"
+                name="nextkin_phone_no"
+                value="<?php echo $employee['nextkin_phone_no']; ?>"
+                autocomplete="off"
+                class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="nextkin_phone_no_error"></span>
+        </div>
+
+        <!-- Street Address -->
+        
+        <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+    <input type="text" id="emergency_address" name="emergency_address"
+        value="<?php echo $employee['emergency_address']; ?>"
+        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg">
+</div>
+
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Street Address-->
+        <!--    </label>-->
+        <!--    <input type="text"-->
+        <!--        name="nextkin_street"-->
+        <!--        value="<?php echo $employee['nextkin_street']; ?>"-->
+        <!--        autocomplete="off"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg-->
+        <!--               focus:outline-none focus:ring-2 focus:ring-navy">-->
+        <!--</div>-->
+
+        <!-- Suburb -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Town / Suburb-->
+        <!--    </label>-->
+        <!--    <input type="text"-->
+        <!--        name="nextkin_suburb"-->
+        <!--        value="<?php echo $employee['nextkin_suburb']; ?>"-->
+        <!--        autocomplete="off"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg-->
+        <!--               focus:outline-none focus:ring-2 focus:ring-navy">-->
+        <!--</div>-->
+
+        <!-- State -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        State-->
+        <!--    </label>-->
+        <!--    <input type="text"-->
+        <!--        name="nextkin_state"-->
+        <!--        value="<?php echo $employee['nextkin_state']; ?>"-->
+        <!--        autocomplete="off"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg-->
+        <!--               focus:outline-none focus:ring-2 focus:ring-navy">-->
+        <!--</div>-->
+
+        <!-- Postcode -->
+        <!--<div>-->
+        <!--    <label class="block text-sm font-medium text-gray-700 mb-2">-->
+        <!--        Postcode-->
+        <!--    </label>-->
+        <!--    <input type="text"-->
+        <!--        name="nextkin_postcode"-->
+        <!--        value="<?php echo $employee['nextkin_postcode']; ?>"-->
+        <!--        autocomplete="off"-->
+        <!--        class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg-->
+        <!--               focus:outline-none focus:ring-2 focus:ring-navy">-->
+        <!--</div>-->
+
+    </div>
+
+    <!-- SAVE BUTTON -->
+    <div class="flex justify-end mt-8 pt-6 border-t border-gray-200">
+        <input type="button"
+               rel="bankDetails"
+               id="save_continue_emergency"
+               class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 
+                      text-white font-semibold rounded-lg shadow-md hover:shadow-lg
+                      transition-all duration-200"
+               value="SAVE AND CONTINUE">
+    </div>
+
+</form>
+                           
                </div>         
-                     
+                      <!-- Bank Details form start here-->
                     <div class="tab-pane" id="bankDetails" role="bankDetails">   
-                      
-                      <form  role="form" id="bankDetailsForm" method="post" action="" enctype="multipart/form-data">
-                           	    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                           	    <input type="hidden" name="stepsCompleted" class="bankDetailsFormSteps" value="3">
-                					<div class="row">
-                					<h5 class="text-black">Account No 1</h5>
-                					  <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Bank Name:<span>*</span></label>
-                								<input type="text" id="bank_1" class="form-control required" value="<?php echo $employee['bank_1']; ?>" name="bank_1" autocomplete="off">
-                								<span class="fieldError" id="bank_1_error"></span>
-                						  </div>
-                						  
-                						   <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account Name:<span>*</span></label>
-                							<input type="text" id="account_name_1" class="form-control required" name="account_name_1" value="<?php echo $employee['account_name_1']; ?>" autocomplete="off">
-                							<span class="fieldError" id="account_name_1_error"></span>
-                						  </div>
-                						  
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">BSB:<span>*</span></label>
-                							<input type="text" id="bsb_1" class="form-control required" name="bsb_1" value="<?php echo $employee['bsb_1']; ?>" autocomplete="off">
-                								<span class="fieldError" id="bsb_1_error"></span>
-                						  </div>
-                						  
-                						   <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account No:<span>*</span></label>
-                								<input type="text" id="account_no_1" class="form-control required" name="account_no_1" value="<?php echo $employee['account_no_1']; ?>" autocomplete="off">
-                								<span class="fieldError" id="account_no_1_error"></span>
-                							</div>
-                						  
-                						  <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">% to Deposit<span>*</span></label>
-                								<input type="text" id="percentage_1" class="form-control required" name="percentage_1" value="<?php echo $employee['percentage_1']; ?>" autocomplete="off">
-                								<span class="fieldError" id="percentage_1_error"></span>
-                						  </div>
+                     
+                      <form role="form" id="bankDetailsForm" method="post" action="" enctype="multipart/form-data">
 
-                							</div>
-                					<div class="row mt-4">
-                						 <h5 class="text-black">Account No 2</h5>
-                						
-                						  <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Bank Name:</label>
-                							<input type="text" class="form-control" name="bank_2" value="<?php echo $employee['bank_2']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						  <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account Name:</label>
-                						<input type="text" class="form-control" name="account_name_2" value="<?php echo $employee['account_name_2']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">BSB:</label>
-                						   <input type="text" class="form-control" name="bsb_2" value="<?php echo $employee['bsb_2']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						   <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account No:</label>
-                							<input type="text" class="form-control" name="account_no_2" value="<?php echo $employee['account_no_2']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">% to Deposit:</label>
-                						<input type="text" class="form-control" name="percentage_2" value="<?php echo $employee['percentage_2']; ?>" autocomplete="off">
-                						  </div>
-                						
-                							</div>
-                					<div class="row mt-4">	
-                						 <h5 class="text-black">Account No 3</h5>
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Bank Name:</label>
-                							<input type="text" class="form-control" name="bank_3" value="<?php echo $employee['bank_3']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						   <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account Name:</label>
-                						  <input type="text" class="form-control" name="account_name_3" value="<?php echo $employee['account_name_3']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">BSB:</label>
-                							<input type="text" class="form-control" name="bsb_3" value="<?php echo $employee['bsb_3']; ?>" autocomplete="off">
-                						  </div>
+    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
+    <input type="hidden" name="stepsCompleted" class="bankDetailsFormSteps" value="3">
 
-                						 <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">Account No:</label>
-                							<input type="text" class="form-control" name="account_no_3" value="<?php echo $employee['account_no_3']; ?>" autocomplete="off">
-                						  </div>
-                						  
-                						  <div class="col-lg-3 col-md-6 col-sm-12">
-                							<label for="businessname" class="form-label">% to Deposit:</label>
-                						<input type="text" class="form-control" name="percentage_3" value="<?php echo $employee['percentage_3']; ?>" autocomplete="off">
-                						  </div>
-                						 </div>
-                					  <div class="row mt-4 ">
-                					  <div class="col-12 ">
-                					      <?php $location=' ';?>
-                	<p>	I hereby authorize <?php echo $location; ?> to initiate automatic deposits for my fortnightly wages to my bank account(s) as detailed above and also authorise for adjustments to be deducted from my wage in the event that a payment is made in error. 
-                I hereby agree not to hold <?php echo $location; ?> responsible for any delay or loss of funds due to incorrect or incomplete information supplied by me or by my financial institution authorise for any bank charges incurred as a result of incorrect information, closed accounts, etc to be debited from my wage. 
-                This agreement will remain in effect until I provide written notice of cancellation from me or my financial institution, or until update the new banking details.</p>
-                					  </div>
-                					</div>
-                					
-                		<input type="button" rel="taxDetails" name="contact_submit" id="save_continue_bank" class="btn btn-success btn-ph" value="SAVE AND CONTINUE">
-                	</form>   
+    <!-- ACCOUNT 1 -->
+    <h5 class="text-xl font-bold text-gray-800 mb-4 mt-6">Account No. 1</h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Bank Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Bank Name <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   id="bank_1"
+                   name="bank_1"
+                   value="<?php echo $employee['bank_1']; ?>"
+                   autocomplete="off"
+                   class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="bank_1_error"></span>
+        </div>
+
+        <!-- Account Name -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Account Name <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   id="account_name_1"
+                   name="account_name_1"
+                   value="<?php echo $employee['account_name_1']; ?>"
+                   autocomplete="off"
+                   class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="account_name_1_error"></span>
+        </div>
+
+        <!-- BSB -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                BSB <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   id="bsb_1"
+                   name="bsb_1"
+                   value="<?php echo $employee['bsb_1']; ?>"
+                   autocomplete="off"
+                   class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="bsb_1_error"></span>
+        </div>
+
+        <!-- Account Number -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Account No <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   id="account_no_1"
+                   name="account_no_1"
+                   value="<?php echo $employee['account_no_1']; ?>"
+                   autocomplete="off"
+                   class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="account_no_1_error"></span>
+        </div>
+
+        <!-- % to Deposit -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                % to Deposit <span class="text-red-500">*</span>
+            </label>
+            <input type="text"
+                   id="percentage_1"
+                   name="percentage_1"
+                   value="<?php echo $employee['percentage_1']; ?>"
+                   autocomplete="off"
+                   class="form-control required w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+            <span class="fieldError text-red-500 text-sm" id="percentage_1_error"></span>
+        </div>
+
+    </div>
+
+    <!-- ACCOUNT 2 -->
+    <h5 class="text-xl font-bold text-gray-800 mb-4 mt-10">Account No. 2</h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
+            <input type="text" name="bank_2"
+                   value="<?php echo $employee['bank_2']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
+            <input type="text"
+                   name="account_name_2"
+                   value="<?php echo $employee['account_name_2']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">BSB</label>
+            <input type="text"
+                   name="bsb_2"
+                   value="<?php echo $employee['bsb_2']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Account No</label>
+            <input type="text"
+                   name="account_no_2"
+                   value="<?php echo $employee['account_no_2']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">% to Deposit</label>
+            <input type="text"
+                   name="percentage_2"
+                   value="<?php echo $employee['percentage_2']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+    </div>
+
+    <!-- ACCOUNT 3 -->
+    <h5 class="text-xl font-bold text-gray-800 mb-4 mt-10">Account No. 3</h5>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
+            <input type="text"
+                   name="bank_3"
+                   value="<?php echo $employee['bank_3']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
+            <input type="text"
+                   name="account_name_3"
+                   value="<?php echo $employee['account_name_3']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">BSB</label>
+            <input type="text"
+                   name="bsb_3"
+                   value="<?php echo $employee['bsb_3']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Account No</label>
+            <input type="text"
+                   name="account_no_3"
+                   value="<?php echo $employee['account_no_3']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">% to Deposit</label>
+            <input type="text"
+                   name="percentage_3"
+                   value="<?php echo $employee['percentage_3']; ?>"
+                   autocomplete="off"
+                   class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-navy">
+        </div>
+
+    </div>
+
+    <!-- AGREEMENT TEXT -->
+    <div class="mt-10 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-700 leading-6">
+        <?php $location=' ';?>
+        <p>
+            I hereby authorize <?php echo $location; ?> to initiate automatic deposits for my fortnightly wages 
+            to my bank account(s) as detailed above and also authorize adjustments to be deducted 
+            from my wage in case of an error. I will not hold <?php echo $location; ?> responsible 
+            for delays or losses due to incorrect information.  
+            This agreement remains valid until I submit written cancellation.
+        </p>
+    </div>
+
+    <!-- SUBMIT BUTTON -->
+    <div class="flex justify-end mt-8 pt-6 border-t border-gray-200">
+        <input type="button"
+               id="save_continue_bank"
+               rel="taxDetails"
+               value="SAVE AND CONTINUE"
+               class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 text-white 
+                      font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+    </div>
+
+</form>
+ 
                      
                      </div> 
-                     
+                      <!-- Tax Details form start here-->
                     <div class="tab-pane" id="taxDetails" role="taxDetails">  
-                   
-                   	<form  role="form" id="taxDetailsForm" method="post" action="" enctype="multipart/form-data">
-                               	    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                               	    <input type="hidden" name="stepsCompleted" class="taxDetailsFormSteps" value="4">
-        				            <div class="section-wrap">
-        				                <div class="form-row">
-						                        <div class="checkbox-group col-md-12" >
-						                            <p>Do you have your TFN?</p>
-						                            
-						                            <div class="tab">
-                                                          <a class="tablinks tablinks_tfn <?php echo (isset($employee['check_tfn_type']) && $employee['check_tfn_type']=='tfn_number' ? 'active' : ''); ?>" onclick="openThisTab(event, 'Yes','tfn')">Yes</a>
-                                                          <a class="tablinks tablinks_tfn <?php echo (isset($employee['check_tfn_type']) && $employee['check_tfn_type']=='tfn_type' ? 'active' : ''); ?>" onclick="openThisTab(event, 'No','tfn')">No</a>
-                                                    </div>
-                                                        
-                                                    <!-- Tab content -->
-                                                 
-                                                    <div id="Yes" class="tabcontent tabcontent_tfn">
-                                                     <div class="form-row">	     	    
-                                						<div class="form-group col-md-6">
-                                						<label for="businessname" class="form-label">Enter Tax File Number:<span>*</span></label>
-                                						<input type="text" class="form-control" id="tfn_number" name="tfn_number" value="<?php echo $employee['tfn_number']; ?>" autocomplete="off">
-                                						<span class="fieldError" id="tfn_number_error"></span>
-                                						</div>
-                                							</div>
-                                                    </div>
-                                                  
-                                                    
-                                                    <div id="No" class="tabcontent tabcontent_tfn">
-                                                       <label><input type="radio" value="pendingTFN" name="tfn_type" <?php if($employee['tfn_type'] == 'pendingTFN') echo"checked"; ?>> My TFN is pending</label><br>
-                                                    <label><input type="radio" value="noTFN" name="tfn_type" <?php if($employee['tfn_type'] == 'noTFN') echo"checked"; ?>>  I'm under 18 and don't have a TFN</label><br>
-                                                     <label><input type="radio" value="quotingTFN" name="tfn_type" <?php if($employee['tfn_type'] == 'quotingTFN') echo"checked"; ?>> I have an exemption from quoting a TFN (such as receiving a social security or service pension)</label>
-                                                    	<span class="fieldError" id="tfn_type_error"></span>
-                                                    </div>
-                                                     <input type="hidden" value="<?php echo (isset($employee['check_tfn_type']) ? $employee['check_tfn_type'] : 'tfn_number'); ?>" name="check_tfn_type" class="check_tfn_type">
-                                                    </div>
-                                    						
-            						            </div>
-            						        </div>
-            						        <div class="section-wrap">
-                    						            <div class="form-row">
-                    						                        <div class="checkbox-group col-md-12" >
-                    						                            <p>Have you changed your surname since you last dealt with the Australian Tax Office?</p>
-                    						                            
-                    						                             <div class="tab">
-                                                              <a class="tablinks tablinks_surname <?php  if($employee['have_surname_changed'] == 'yesChanged'){ echo 'active';} ?>" onclick="openThisTab(event, 'yesChanged','surname')">Yes</a>
-                                                              <a class="tablinks tablinks_surname <?php if($employee['have_surname_changed'] == ''){ echo 'active'; } ?> <?php if($employee['have_surname_changed'] == 'noChanged'){ echo 'active';} ?>" onclick="openThisTab(event, 'noChanged','surname')">No</a>
-                                                            
-                                                            </div>
-                                                            
-                                                            <!-- Tab content -->
-                                                            <div id="yesChanged" class="tabcontent tabcontent_surname" <?php if($employee['have_surname_changed'] == 'yesChanged'){ ?>style="display:block;" <?php } ?>>
-                                                             <div class="form-row">	     	    
-                                        						<div class="form-group col-md-6">
-                                        						<label for="businessname" class="form-label">Enter Previous Surname:</label>
-                                        						<input type="text" class="form-control" id="previous_surname" name="previous_surname" value="<?php if( $employee['previous_surname'] != 'noChanged'){echo $employee['previous_surname'];} ?>" autocomplete="off">
-                                        						</div>
-                                        							</div>
-                      
-                                                            </div>
-                                                            <div id="noChanged" class="tabcontent tabcontent_surname" <?php if($employee['have_surname_changed'] == 'noChanged'){ echo 'style="display:block;"';} ?>>
-                                                            </div>
-                    
-                                                            <input type="hidden" value="<?php echo $employee['have_surname_changed']; ?>" name="have_surname_changed" class="previous_surname_changed ">
-                                                            </div>
-                    						            </div>
-                    						    </div>
-						            
-            						<div class="section-wrap">
-    						            <div class="form-row">
-    						                        <div class="checkbox-group col-md-12" >
-    						                            <p>Are you an Australian resident for tax purposes or a working holiday maker?</p>
-    						                            
-                            							<label><input type="radio" value="australian" name="resident_type" <?php if($employee['resident_type'] == 'australian') echo "checked"; ?>> Australian resident for tax purposes</label><br>
-                            							<label><input type="radio" value="foreign" name="resident_type" <?php if($employee['resident_type'] == 'foreign') echo "checked"; ?>> Foreign resident</label><br>
-                            							<label><input type="radio" value="working_holiday" name="resident_type" <?php if($employee['resident_type'] == 'working_holiday') echo "checked"; ?>> Working holiday maker</label>
-                                							<span class="fieldError" id="resident_type_error"></span>
-                            						</div>
-                            						
-    						            </div> 
-						            </div>
-            						<div class="section-wrap">
-    						            <div class="form-row">
-    						                        <div class="checkbox-group col-md-12" >
-    						                            <p>Do you have any of the following outstanding debts or loans?</p>
-    						                            
-                            							<label><input type="radio" value="higher_education" name="loan_type" <?php if($employee['loan_type'] == 'higher_education') echo"checked"; ?>> Higher Education Loan Program (HELP)</label><br>
-                            							<label><input type="radio" value="vet_student" name="loan_type" <?php if($employee['loan_type'] == 'vet_student') echo"checked"; ?>> VET Student Loan (VSL)</label><br>
-                            							<label><input type="radio" value="financial_supplement" name="loan_type" <?php if($employee['loan_type'] == 'financial_supplement') echo"checked"; ?>> Financial Supplement (FS)</label><br>
-                            							<label><input type="radio" value="student_loan" name="loan_type" <?php if($employee['loan_type'] == 'student_loan') echo"checked"; ?>> Student Start-up Loan (SSL)</label><br>
-                            							<label><input type="radio" value="trade_loan" name="loan_type" <?php if($employee['loan_type'] == 'trade_loan') echo"checked"; ?>> Trade Support Loan (TSL)</label>
-                                						<span class="fieldError" id="loan_type_error"></span>
-                            						</div>
-                            						
-    						            </div>
-    						      </div>
-            					  <div class="section-wrap">
-    						            <div class="form-row">
-    						                        <div class="checkbox-group col-md-12" >
-    						                            <p>Would you like to claim the tax-free threshold from this payer?</p>
-    						                            
-                            							<label><input type="radio" value="yes" name="claim_tax_free" <?php if($employee['claim_tax_free'] == 'yes') echo"checked"; ?>> Yes</label>
-                            							<label><input type="radio" value="no" name="claim_tax_free" <?php if($employee['claim_tax_free'] == 'no') echo"checked"; ?>> No</label>
-                            								<span class="fieldError" id="claim_tax_free_error"></span>
-                            						</div>
-                            						
-    						            </div>
-						           </div>
-            					   <div class="section-wrap">
-    						            <div class="form-row">
-    						                        <div class="checkbox-group col-md-12" >
-    						                            <p>On what basis are you paid?</p>
-    						                            
-                            							<label><input type="radio" value="full_time" name="job_type" <?php if($employee['job_type'] == 'full_time') echo"checked"; ?>> Full-time</label><br>
-                            							<label><input type="radio" value="part_time" name="job_type" <?php if($employee['job_type'] == 'part_time') echo"checked"; ?>> Part-time</label><br>
-                            							<label><input type="radio" value="labour_hire" name="job_type" <?php if($employee['job_type'] == 'labour_hire') echo"checked"; ?>> Labour Hire</label><br>
-                            							<label><input type="radio" value="superannuation" name="job_type" <?php if($employee['job_type'] == 'superannuation') echo"checked"; ?>> Superannuation or annuity income stream</label><br>
-                            							<label><input type="radio" value="casual" name="job_type" <?php if($employee['job_type'] == 'casual') echo"checked"; ?>> Casual</label>
-                            								<span class="fieldError" id="job_type_error"></span>
-                                						
-                            						</div>
-                            						
-    						            </div>
-						            </div>
-            						       
-						             <!--button-->
-                							<input type="button" value="SAVE AND CONTINUE" rel="policeClearance" name="contact_submit" id="save_continue_tax" class="btn btn-success btn-ph">
-                						</form>
-                     
-                      </div>  
+                  
+                   	<form role="form" id="taxDetailsForm" method="post" action="" enctype="multipart/form-data">
 
-                     <div class="tab-pane" id="policeClearance" role="policeClearance">
-                   
-                   <p class="fw-bold">Police clearance certificate is mandatory to commence work. Please upload your certificate<span>*</span></p>
-                   <?php if(isset($employee['police_certificate']) && $employee['police_certificate'] !=''){  ?>
-                   <?php foreach(unserialize($employee['police_certificate']) as $attachment) {  ?> 
-    <p><a href="<?php echo base_url().'uploaded_files/cjs/HR/OnboardingFiles/'.$attachment ?>" target="_blank" class="btn btn-sm btn-success">View Attachment</a></p> 
-                   <?php } ?>
-                   <?php }else { ?>
-                   <p><small>Refresh page to view already upladed document</small></p>
-                   <?php } ?>
-                   <form  role="form" id="policeDetailsForm" method="post" action="" enctype="multipart/form-data">
-                               	    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                               	    <input type="hidden" name="stepsCompleted" class="policeDetailsFormSteps" value="5">
-        				           <div class="form-row">
-						              <div class="form-group justify-content-center d-flex">
-                						 <div class="dropzone">
-                                        <div class="fallback">
-                                       <input type="file" id="police" name="userfile[]" class="form-control-file" multiple>
-                                        </div>
-                                        <div class="dz-message needsclick">
-                                            <div class="mb-3">
-                                                <i class="display-4 text-black ri-upload-cloud-2-fill"></i>
-                                            </div>
-                                            <h4>Drop files here or click to upload.</h4>
-                                        </div>
-                                    </div>
-                						</div>
-						            </div> 
-						           
-						   <input type="button" rel="privacyPolicy" name="contact_submit" id="save_continue_police" class="btn btn-success btn-ph" value="SAVE AND CONTINUE">
-                						</form>     
-                        
-                    </div>
-                    
-                    <div class="tab-pane" id="superAnnuation" role="superAnnuation">
-                    <form  role="form" id="annuationDetailsForm" method="post" action="" enctype="multipart/form-data">
-            		<input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-            		<input type="hidden" name="stepsCompleted" class="annuationDetailsFormSteps" value="6">
-            		<div class="section-wrap">
-            				            <div class="checkbox-group col-md-12" >
-						      <p class="fw-bold">Do you have an existing superannuation account?</p>
-						           <div class="tab">
-						               
-                                     <a class="tablinks tablinks_superAnnuation <?php echo (isset($employee['nominatedByEmployer']) && $employee['nominatedByEmployer'] == 0 ? 'active' :'' ); ?>" onclick="openThisTab(event, 'YesSuper','superAnnuation')">Yes</a>
-                                     <a class="tablinks tablinks_superAnnuation <?php echo (isset($employee['nominatedByEmployer']) && $employee['nominatedByEmployer'] == 1 ? 'active' : '' ); ?>" onclick="openThisTab(event, 'NoSuper','superAnnuation')">No</a>
-                                      <input type="hidden" value="yes" name="check_super_type" class="check_super_type">
-                                     </div>
-                                    </div>
-            				          
-						            <div id="YesSuper" class="tabcontent tabcontent_superAnnuation">
-						                    <div class="row">
-						                        <div class="col-md-12" >
-						                            <p>Your details</p>
-						                            
-                        						</div>
-                        					<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_name" class=" control-label">Name:</label>
-                        							<input type="text" id="pdf_name" class="form-control required" name="pdf_first_name" value="<?php echo $employee['pdf_first_name']; ?>" autocomplete="off" >
-                        						    <span class="fieldError" id="pdf_name_error"></span>
-                        						</div>
-                        							<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_name_error" class=" control-label">Employee identification number (if applicable)</label>
-                        							<input type="text" id="pdf_emp_id_no" class="form-control" name="pdf_emp_id_no" value="<?php echo $employee['pdf_emp_id_no']; ?>" autocomplete="off" >
+    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
+    <input type="hidden" name="stepsCompleted" class="taxDetailsFormSteps" value="4">
 
-                        						</div>
-                        				
-						                    
-						                  	<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_apra_fund_abh" class=" control-label">Fund ABN</label>
-                        							<input type="text" id="pdf_apra_fund_abh" class="form-control required" name="pdf_apra_fund_abh" value="<?php echo $employee['pdf_apra_fund_abh']; ?>" autocomplete="off" >
-                        						    <span class="fieldError" id="pdf_apra_fund_abh_error"></span>
-                        						</div>
-                        					<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_apra_fund_name" class=" control-label">Fund name</label>
-                        							<input type="text" id="pdf_apra_fund_name" class="form-control required" name="pdf_apra_fund_name" value="<?php echo $employee['pdf_apra_fund_name']; ?>" autocomplete="off" >
-                        						    <span class="fieldError" id="pdf_apra_fund_name_error"></span>
-                        						</div>
-                        					
-                        					<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_apra_fund_usi" class=" control-label">Unique superannuation identifier (USI)<span>*</span></label>
-                        							<input type="text" id="pdf_apra_fund_usi" class="form-control required" name="pdf_apra_fund_usi" value="<?php echo $employee['pdf_apra_fund_usi']; ?>" autocomplete="off" >
-                        						    <span class="fieldError" id="pdf_apra_fund_usi_error"></span>
-                        						</div>
-                        					
-                        					<div class="col-lg-3 col-md-6 col-sm-12">
-                        							<label for="pdf_apra_fund_member_no" class=" control-label">Your member number (if applicable)</label>
-                        							<input type="text" id="pdf_apra_fund_member_no" class="form-control" name="pdf_apra_fund_member_no" value="<?php echo $employee['pdf_apra_fund_member_no']; ?>" autocomplete="off" >
-                        						    <span class="fieldError" id="pdf_apra_fund_member_no_error"></span>
-                        						</div>
-						                    
-						                    </div>
-						                    
-            				        </div>
-            				        <div id="NoSuper" class="tabcontent tabcontent_superAnnuation select_nominatedByEmployer">
-            				            <input  id="nominatedByEmployer" type="hidden" value="0" name="nominatedByEmployer" >
+    <!-- SECTION: TFN -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+        
+        <p class="text-lg font-semibold text-gray-800 mb-4">Do you have your TFN?</p>
 
-            				    	<div class="checkbox">
-                            			<label style="color:#000;">
-                            			    <input type="checkbox" checked="<?php echo (isset($employee['nominatedByEmployer']) && $employee['nominatedByEmployer'] == 1 ? 'checked' : '' ); ?>"  value="1" id="select_nominatedByEmployer" onchange="document.getElementById('nominatedByEmployer').value = this.checked ? 1 : 0">The super fund nominated by my employer.<span>*</span>
-                            		     </label>
-     
-                            		<span class="fieldError" id="nominatedByEmployer_error"></span> 
-                            							</div>
-                                                    </div>
-            				        
-            				        </div>
-                	<input type="button" rel="policeClearance" name="contact_submit" id="save_continue_annuation" class="btn btn-success btn-ph" value="SAVE AND CONTINUE">
-                    </form>    
-                     </div>
-                     
-                    <div class="tab-pane" id="privacyPolicy" role="privacyPolicy">
-                     <p class="fw-bold">You must read and agree to below attached company policies, staff induction and job description policies before submitting the form.</p>
-                               	<form  role="form" id="privacyDetailsForm" method="post" action="" enctype="multipart/form-data">
-                               	    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
-                               	    <input type="hidden" name="stepsCompleted" class="privacyDetailsFormSteps" value="7">
-                               	      <div class="row">
-                                        <div class="col-lg-4">
-                                      <h4 class="text-black">Staff Induction Manual</h4>
-                                  
-     <?php $inductionAttachment = ''; ?>
-    <?php if(isset($uploadedFiles) && !empty($uploadedFiles)){  ?>
-    <?php foreach($uploadedFiles as $uploadedFile) {  ?>
-   <?php if($uploadedFile['metaData'] == 'induction') { $inductionAttachment = unserialize($uploadedFile['data']);  ?>   
-    <a href="<?php echo base_url().'uploaded_files/'.$this->session->userdata('tenantIdentifier').'/HR/OtherFiles/'.$inductionAttachment[0] ?>" target="_blank" class="btn btn-success btn-sm my-3">View Staff Induction Manual</a>
-     <?php } ?>
-     <?php } ?>
-   <?php } ?>        
- 
-                            	   
-                            						<div class="form-group mt-2">
-                            							<div class="pdf-view-wrap">
-                            		<iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/OtherFiles/<?php echo $inductionAttachment[0]; ?>" width="100%" height="100%"></iframe>
-                            			<div class="form-check mb-2">
-                            		<label class="form-check-label"><input class="form-check-input" id="agree_terms_one" type="checkbox" value="1" name="agree_terms_one" >I read, understood and agree to the the Staff Induction Manual.<span>*</span></label>
-                            		<span class="fieldError" id="agree_terms_one_error"></span> 
-                            			</div>
-                            			</div>	
-                            			</div>
-                            					
-                            	         </div>
-                                        <div class="col-lg-4">
-       <h4 class="text-black">Company Policies and Procedures</h4>
-                                           
-     <?php $policyAttachment = ''; ?>
-    <?php if(isset($uploadedFiles) && !empty($uploadedFiles)){  ?>
-    <?php foreach($uploadedFiles as $uploadedFile) {  ?>
-   <?php if($uploadedFile['metaData'] == 'policy') { $policyAttachment = unserialize($uploadedFile['data']);  ?>   
-    <a href="<?php echo base_url().'uploaded_files/'.$this->session->userdata('tenantIdentifier').'/HR/OtherFiles/'.$policyAttachment[0] ?>" target="_blank" class="btn btn-success btn-sm my-3">View Policies</a>
-     <?php } ?>
-     <?php } ?>
-   <?php } ?>                     					    
-    
-                        	          		
-                        						<div class="form-group mt-2">
-                        							<div class="pdf-view-wrap">
-                        		<iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/OtherFiles/<?php echo $policyAttachment[0]; ?>" width="100%" height="100%"></iframe>
-                        			<div class="form-check mb-2">
-                        			<label class="form-check-label"><input class="form-check-input" type="checkbox" id="agree_terms_two" value="1" name="agree_terms_two">I read, understood and agree to the  Company Policies and Procedures Manual.<span>*</span></label>
-                        			<span class="fieldError" id="agree_terms_two_error"></span> 
-                        		</div>
-                        		</div>	
-                        					
-                        	          		</div>
-                    	          		</div>
-                                        <div class="col-lg-4">
-                                      <?php
-                        							    $fileNameArray = unserialize($employee['job_desc']);
-                        							    if(isset($fileNameArray) && !empty($fileNameArray)){
-                        							     $fileName = $fileNameArray[0];
-                        							     $file_parts = pathinfo($fileName); ?>
-                                      <h4 class="text-black">Job Description</h4>
-    <a class="btn btn-success btn-sm my-3" href="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>" target="_blank">View JD</a>                                  
-                  	<div class="form-group mt-2">
-                    <div class="pdf-view-wrap">
-                    <?php if($file_parts['extension'] == 'pdf'){ ?>
-        <iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>" width="100%" height="100%"></iframe>
-                        							      <?php }else { ?>
-        <iframe src="https://docs.google.com/viewer?url=<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>&embedded=true" width="100%" height="100%"> </iframe>				      
-                        								<?php } ?>
-                        							
-           <div class="form-check mb-2">
-           <label  class="form-check-label"><input class="form-check-input" type="checkbox" id="agree_terms_three" value="1" name="agree_terms_three" >I read, understood and agree to the Job Descriptions Manual.<span>*</span></label>
-            <span class="fieldError" id="agree_terms_three_error"></span>                        							
-           </div>
-          </div>	
-            </div>
-        <?php } ?>
+        <!-- TABS -->
+        <div class="tab flex space-x-4 mb-4">
+            <a class="tablinks tablinks_tfn <?php echo (isset($employee['check_tfn_type']) && $employee['check_tfn_type']=='tfn_number' ? 'active' : ''); ?>
+                      px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 cursor-pointer"
+               onclick="openThisTab(event, 'Yes','tfn')">
+               Yes
+            </a>
+
+            <a class="tablinks tablinks_tfn <?php echo (isset($employee['check_tfn_type']) && $employee['check_tfn_type']=='tfn_type' ? 'active' : ''); ?>
+                      px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 cursor-pointer"
+               onclick="openThisTab(event, 'No','tfn')">
+               No
+            </a>
         </div>
-        </div> 
-      <input type="button" name="contact_submit" id="save_continue_privacy" value="Submit" class="btn btn-success btn-ph">
-                            </form>    
+
+        <!-- TAB CONTENT: YES -->
+        <div id="Yes" class="tabcontent tabcontent_tfn <?php echo ($employee['check_tfn_type']=='tfn_number'?'block':'hidden'); ?>">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Enter Tax File Number <span class="text-red-500">*</span>
+                    </label>
+
+                    <input type="text"
+                           id="tfn_number"
+                           name="tfn_number"
+                           value="<?php echo $employee['tfn_number']; ?>"
+                           autocomplete="off"
+                           class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg
+                                  focus:outline-none focus:ring-2 focus:ring-navy">
+
+                    <span class="fieldError text-red-500 text-sm" id="tfn_number_error"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB CONTENT: NO -->
+        <div id="No" class="tabcontent tabcontent_tfn <?php echo ($employee['check_tfn_type']=='tfn_type'?'block':'hidden'); ?>">
+
+            <div class="space-y-2 text-gray-700">
+                <label><input type="radio" name="tfn_type" value="pendingTFN" <?php if($employee['tfn_type']=='pendingTFN') echo "checked"; ?>> My TFN is pending</label><br>
+                <label><input type="radio" name="tfn_type" value="noTFN" <?php if($employee['tfn_type']=='noTFN') echo "checked"; ?>> I'm under 18 and don't have a TFN</label><br>
+                <label><input type="radio" name="tfn_type" value="quotingTFN" <?php if($employee['tfn_type']=='quotingTFN') echo "checked"; ?>> I have an exemption from quoting a TFN</label>
+            </div>
+
+            <span class="fieldError text-red-500 text-sm" id="tfn_type_error"></span>
+        </div>
+
+        <input type="hidden"
+               name="check_tfn_type"
+               class="check_tfn_type"
+               value="<?php echo (isset($employee['check_tfn_type']) ? $employee['check_tfn_type'] : 'tfn_number'); ?>">
+
+    </div>
+
+
+    <!-- SECTION: SURNAME CHANGE -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+
+        <p class="text-lg font-semibold text-gray-800 mb-4">
+            Have you changed your surname since last dealing with ATO?
+        </p>
+
+        <!-- Tabs -->
+        <div class="tab flex space-x-4 mb-4">
+            <a class="tablinks tablinks_surname <?php echo ($employee['have_surname_changed']=='yesChanged'?'active':''); ?>
+                     px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 cursor-pointer"
+               onclick="openThisTab(event, 'yesChanged','surname')">Yes</a>
+
+            <a class="tablinks tablinks_surname <?php echo ($employee['have_surname_changed']=='noChanged'?'active':''); ?>
+                     px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 cursor-pointer"
+               onclick="openThisTab(event, 'noChanged','surname')">No</a>
+        </div>
+
+        <!-- YES SURNAME CHANGED -->
+        <div id="yesChanged"
+             class="tabcontent tabcontent_surname <?php echo ($employee['have_surname_changed']=='yesChanged'?'block':'hidden'); ?>">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Enter Previous Surname:</label>
+                    <input type="text"
+                           id="previous_surname"
+                           name="previous_surname"
+                           class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy"
+                           value="<?php echo ($employee['previous_surname'] != 'noChanged' ? $employee['previous_surname'] : ''); ?>">
+                </div>
+            </div>
+        </div>
+
+        <!-- NO SURNAME CHANGED -->
+        <div id="noChanged"
+             class="tabcontent tabcontent_surname <?php echo ($employee['have_surname_changed']=='noChanged'?'block':'hidden'); ?>">
+        </div>
+
+        <input type="hidden"
+               name="have_surname_changed"
+               class="previous_surname_changed"
+               value="<?php echo $employee['have_surname_changed']; ?>">
+
+    </div>
+
+
+    <!-- SECTION: RESIDENT TYPE -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+
+        <p class="text-lg font-semibold text-gray-800 mb-4">Are you an Australian resident for tax purposes?</p>
+
+        <div class="space-y-3 text-gray-700">
+            <label><input type="radio" name="resident_type" value="australian" <?php if($employee['resident_type']=='australian') echo "checked"; ?>> Australian resident</label><br>
+            <label><input type="radio" name="resident_type" value="foreign" <?php if($employee['resident_type']=='foreign') echo "checked"; ?>> Foreign resident</label><br>
+            <label><input type="radio" name="resident_type" value="working_holiday" <?php if($employee['resident_type']=='working_holiday') echo "checked"; ?>> Working holiday maker</label>
+        </div>
+
+        <span class="fieldError text-red-500 text-sm" id="resident_type_error"></span>
+
+    </div>
+
+
+    <!-- SECTION: LOANS -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+
+        <p class="text-lg font-semibold text-gray-800 mb-4">Do you have any outstanding student loans?</p>
+
+        <div class="space-y-3 text-gray-700">
+            <label><input type="radio" name="loan_type" value="higher_education" <?php if($employee['loan_type']=='higher_education') echo "checked"; ?>> HELP</label><br>
+            <label><input type="radio" name="loan_type" value="vet_student" <?php if($employee['loan_type']=='vet_student') echo "checked"; ?>> VET Student Loan</label><br>
+            <label><input type="radio" name="loan_type" value="financial_supplement" <?php if($employee['loan_type']=='financial_supplement') echo "checked"; ?>> Financial Supplement</label><br>
+            <label><input type="radio" name="loan_type" value="student_loan" <?php if($employee['loan_type']=='student_loan') echo "checked"; ?>> Student Start-up Loan</label><br>
+            <label><input type="radio" name="loan_type" value="trade_loan" <?php if($employee['loan_type']=='trade_loan') echo "checked"; ?>> Trade Support Loan</label>
+        </div>
+
+        <span class="fieldError text-red-500 text-sm" id="loan_type_error"></span>
+
+    </div>
+
+
+    <!-- TAX-FREE THRESHOLD -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+
+        <p class="text-lg font-semibold text-gray-800 mb-4">Would you like to claim the tax-free threshold?</p>
+
+        <div class="space-x-6 text-gray-700">
+            <label><input type="radio" name="claim_tax_free" value="yes" <?php if($employee['claim_tax_free']=='yes') echo "checked"; ?>> Yes</label>
+            <label><input type="radio" name="claim_tax_free" value="no" <?php if($employee['claim_tax_free']=='no') echo "checked"; ?>> No</label>
+        </div>
+
+        <span class="fieldError text-red-500 text-sm" id="claim_tax_free_error"></span>
+
+    </div>
+
+
+    <!-- JOB TYPE -->
+    <div class="section-wrap mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+
+        <p class="text-lg font-semibold text-gray-800 mb-4">On what basis are you paid?</p>
+
+        <div class="space-y-3 text-gray-700">
+            <label><input type="radio" name="job_type" value="full_time" <?php if($employee['job_type']=='full_time') echo "checked"; ?>> Full-time</label><br>
+            <label><input type="radio" name="job_type" value="part_time" <?php if($employee['job_type']=='part_time') echo "checked"; ?>> Part-time</label><br>
+            <label><input type="radio" name="job_type" value="labour_hire" <?php if($employee['job_type']=='labour_hire') echo "checked"; ?>> Labour hire</label><br>
+            <label><input type="radio" name="job_type" value="superannuation" <?php if($employee['job_type']=='superannuation') echo "checked"; ?>> Superannuation income stream</label><br>
+            <label><input type="radio" name="job_type" value="casual" <?php if($employee['job_type']=='casual') echo "checked"; ?>> Casual</label>
+        </div>
+
+        <span class="fieldError text-red-500 text-sm" id="job_type_error"></span>
+
+    </div>
+
+
+    <!-- SUBMIT BUTTON -->
+    <div class="flex justify-end pt-6 border-t border-gray-200">
+        <input type="button" value="SAVE AND CONTINUE"
+               rel="policeClearance"
+               id="save_continue_tax"
+               class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 text-white 
+                      font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+    </div>
+
+</form>
+
+                     
+                      </div>  
+                <!-- Police Clearance form start here-->
+                     <div class="tab-pane" id="policeClearance" role="policeClearance">
+
+    <!-- SECTION TITLE -->
+    <p class="fw-bold text-lg font-semibold text-gray-800 mb-3">
+        Police clearance certificate is mandatory to commence work.
+        Please upload your certificate <span class="text-red-500">*</span>
+    </p>
+
+    <!-- EXISTING UPLOADED FILES -->
+    <?php $requiredPolice = 1; 
+    if(isset($employee['police_certificate']) && $employee['police_certificate'] !=''){
+    $requiredPolice = 0;
+    ?>
+        <?php foreach(unserialize($employee['police_certificate']) as $attachment){ ?>
+            <p class="mb-2">
+                <a href="<?php echo base_url().'uploaded_files/'.$this->session->userdata('tenantIdentifier').'/HR/OnboardingFiles/'.$attachment; ?>"
+                   target="_blank"
+                   class="btn btn-sm btn-success px-4 py-2 text-white rounded-md shadow-sm hover:bg-green-700 transition bg-green-600">
+                    View Attachment
+                </a>
+            </p>
+        <?php } ?>
+    <?php } else { ?>
+        <p class="text-sm text-gray-600 mb-4">Refresh page to view already uploaded document</p>
+    <?php } ?>
+
+    <!-- FORM START -->
+    <form role="form"
+          id="policeDetailsForm"
+          method="post"
+          action=""
+          enctype="multipart/form-data"
+          class="mt-6">
+
+        <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
+        <input type="hidden" name="stepsCompleted" class="policeDetailsFormSteps" value="5">
+
+        <!-- FILE UPLOAD BOX (No Dropzone, Only UI) -->
+         <div class="d-flex justify-content-center my-5">
+    <div class="border border-3 border-dashed border-primary rounded-4 bg-light text-center position-relative overflow-hidden"
+         style="max-width: 520px; width: 100%; padding: 60px 20px; cursor: pointer; transition: all 0.3s ease;"
+         id="policeUploadArea">
+
+        <!-- Upload Icon & Text -->
+        <div class="mb-4">
+            <i class="ri-upload-cloud-2-fill text-primary" style="font-size: 64px;"></i>
+        </div>
+        <h5 class="text-dark fw-semibold mb-2">Click to upload Police Clearance</h5>
+        <p class="text-muted small mb-0">
+            PDF, JPG, PNG • Max 10MB • Multiple files allowed
+        </p>
+
+        <!-- Hidden File Input (covers entire area) -->
+        <input type="file"
+               id="police"
+               name="userfile[]"
+               multiple
+               accept=".pdf,.jpg,.jpeg,.png"
+               class="position-absolute top-0 start-0 w-100 h-100 "
+               style="cursor: pointer; z-index: 10;"
+               data-required="<?php echo $requiredPolice; ?>"
+               >
+
+        <div id="selectedFiles" class="mt-4"></div>
+    </div>
+</div>
+
+        <!-- BUTTON -->
+        <div class="mt-8 flex justify-end">
+            <input type="button"
+                   rel="superAnnuation"
+                   name="contact_submit"
+                   id="save_continue_police"
+                   value="SAVE AND CONTINUE"
+                   class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 text-white 
+                          font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+        </div>
+
+    </form>
+
+</div>
+
+                    <!-- Super Annuation form start here-->
+                    <div class="tab-pane" id="superAnnuation" role="superAnnuation">
+                    <form id="annuationDetailsForm" class="max-w-6xl mx-auto" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="emp_id" value="<?= $employee['emp_id'] ?>">
+    <input type="hidden" name="stepsCompleted" class="annuationDetailsFormSteps" value="6">
+    <input type="hidden" name="check_super_type" class="check_super_type" value="<?= $employee['check_super_type'] ?? 'yes' ?>">
+    <input type="hidden" name="nominatedByEmployer" id="nominatedByEmployer" value="<?= $employee['nominatedByEmployer'] == 1 ? 1 : 0 ?>">
+
+    <div class="">
+        <!-- Question -->
+        <h3 class="text-xl font-bold text-gray-900 mb-8">
+            Do you have an existing superannuation account?
+        </h3>
+<style>
+.tablinks_superAnnuation.active {
+    background-color: #17A34B !important; /* blue-700 */
+    color: white !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+</style>
+        <!-- Yes / No Tabs -->
+        <div class="flex flex-wrap gap-4 mb-10">
+           <!-- YES TAB -->
+<a href="javascript:void(0)"
+   onclick="openThisTab(event, 'YesSuper', 'superAnnuation')"
+   class="tablinks tablinks_superAnnuation px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-md
+          <?= (!isset($employee['nominatedByEmployer']) || $employee['nominatedByEmployer'] == 0) ? 'bg-blue-600 text-white active' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' ?>">
+    Yes
+</a>
+
+<!-- NO TAB -->
+<a href="javascript:void(0)"
+   onclick="openThisTab(event, 'NoSuper', 'superAnnuation')"
+   class="tablinks tablinks_superAnnuation px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-md
+          <?= (isset($employee['nominatedByEmployer']) && $employee['nominatedByEmployer'] == 1) ? 'bg-blue-600 text-white active' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' ?>">
+    No
+</a>
+        </div>
+
+        <!-- YES: Existing Fund Details -->
+        <div id="YesSuper" class="tabcontent tabcontent_superAnnuation" style="display: <?= (!isset($employee['nominatedByEmployer']) || $employee['nominatedByEmployer'] == 0) ? 'block' : 'none' ?>;">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6">
+                <h4 class="text-xl font-bold text-gray-800 mb-6">Your Super Fund Details</h4>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="pdf_first_name" id="pdf_name" required
+                               value="<?= $employee['pdf_first_name'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy required">
+                        <span class="text-red-500 text-xs" id="pdf_name_error"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Employee ID (if known)</label>
+                        <input type="text" name="pdf_emp_id_no"
+                               value="<?= $employee['pdf_emp_id_no'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fund ABN <span class="text-red-500">*</span></label>
+                        <input type="text" name="pdf_apra_fund_abh" required
+                               value="<?= $employee['pdf_apra_fund_abh'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy required">
+                        <span class="text-red-500 text-xs" id="pdf_apra_fund_abh_error"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fund Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="pdf_apra_fund_name" required
+                               value="<?= $employee['pdf_apra_fund_name'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy required">
+                        <span class="text-red-500 text-xs" id="pdf_apra_fund_name_error"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">USI <span class="text-red-500">*</span></label>
+                        <input type="text" name="pdf_apra_fund_usi" required
+                               value="<?= $employee['pdf_apra_fund_usi'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy required">
+                        <span class="text-red-500 text-xs" id="pdf_apra_fund_usi_error"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Member Number</label>
+                        <input type="text" name="pdf_apra_fund_member_no"
+                               value="<?= $employee['pdf_apra_fund_member_no'] ?? '' ?>"
+                               class="form-control w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NO: Use Employer Fund -->
+        <div id="NoSuper" class="tabcontent tabcontent_superAnnuation" style="display: <?= (isset($employee['nominatedByEmployer']) && $employee['nominatedByEmployer'] == 1) ? 'block' : 'none' ?>;">
+            <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-8 text-center">
+                <label class="flex items-center justify-center space-x-4 cursor-pointer text-lg font-bold text-gray-800">
+                    <input type="checkbox" id="select_nominatedByEmployer"
+                           class="w-8 h-8 text-green-600 rounded-lg focus:ring-green-500"
+                           <?= $employee['nominatedByEmployer'] == 1 ? 'checked' : '' ?>
+                           onchange="document.getElementById('nominatedByEmployer').value = this.checked ? 1 : 0">
+                    <span>I agree to use the super fund nominated by my employer <span class="text-red-500">*</span></span>
+                </label>
+                <span class="text-red-500 text-sm mt-3 block" id="nominatedByEmployer_error"></span>
+            </div>
+        </div>
+    </div>
+  
+   <div class="mt-8 flex justify-end">
+            <input type="button"
+                   rel="privacyPolicy"
+                   name="contact_submit"
+                   id="save_continue_annuation"
+                   value="SAVE AND CONTINUE"
+                   class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 text-white 
+                          font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+        </div>
+        
+    <!-- Submit Button -->
+   
+</form>
+    
+                     </div>
+                      <!--Privacy Policyform start here-->
+                    <div class="tab-pane" id="privacyPolicy" role="privacyPolicy">
+                    <p class="fw-bold text-lg font-semibold text-gray-800 mb-4">
+    You must read and agree to the below attached company policies, staff induction 
+    and job description policies before submitting the form.
+</p>
+
+<form role="form" id="privacyDetailsForm" method="post" action="" enctype="multipart/form-data" class="space-y-8">
+      
+
+    <input type="hidden" name="emp_id" value="<?php echo $employee['emp_id']; ?>">
+    <input type="hidden" name="stepsCompleted" class="privacyDetailsFormSteps" value="7">
+
+    <div class="row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- ----------------------- STAFF INDUCTION ----------------------- -->
+        <div class="col-lg-4 bg-white p-6 rounded-xl shadow border border-gray-200">
+
+            <h4 class="text-black text-xl font-semibold mb-4">Staff Induction Manual</h4>
+
+            <?php $inductionAttachment = ''; ?>
+            <?php if(isset($uploadedFiles) && !empty($uploadedFiles)){ ?>
+                <?php foreach($uploadedFiles as $uploadedFile) { ?>
+                    <?php if($uploadedFile['metaData'] == 'induction') { 
+                        $inductionAttachment = unserialize($uploadedFile['data']); ?>
+                        <a href="<?php echo base_url().'uploaded_files/'.$this->session->userdata('tenantIdentifier').'/HR/OtherFiles/'.$inductionAttachment[0] ?>"
+                           target="_blank"
+                           class="btn btn-sm btn-success px-4 py-2 text-white rounded-md shadow-sm hover:bg-green-700 transition bg-green-600">
+                           View Staff Induction Manual
+                        </a>
+                    <?php } ?>
+                <?php } ?>
+            <?php } ?>
+
+            <div class="form-group mt-4">
+                <div class="pdf-view-wrap border rounded-lg overflow-hidden shadow-sm h-[400px]">
+
+                    <iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/OtherFiles/<?php echo $inductionAttachment[0]; ?>"
+                            class="w-full h-full"></iframe>
+
+                </div>
+
+                <div class="form-check mt-3 flex items-start space-x-2">
+                    <input class="form-check-input mt-1"
+                           id="agree_terms_one"
+                           type="checkbox"
+                           value="1"
+                           name="agree_terms_one">
+
+                    <label class="form-check-label text-gray-700 text-sm leading-5" for="agree_terms_one">
+                        I read, understood and agree to the Staff Induction Manual. <span class="text-red-500">*</span>
+                    </label>
+                </div>
+
+                <span class="fieldError text-red-500 text-sm" id="agree_terms_one_error"></span>
+            </div>
+
+        </div>
+
+        <!-- ----------------------- POLICIES ----------------------- -->
+        <div class="col-lg-4 bg-white p-6 rounded-xl shadow border border-gray-200">
+
+            <h4 class="text-black text-xl font-semibold mb-4">Company Policies and Procedures</h4>
+
+            <?php $policyAttachment = ''; ?>
+            <?php if(isset($uploadedFiles) && !empty($uploadedFiles)){ ?>
+                <?php foreach($uploadedFiles as $uploadedFile) { ?>
+                    <?php if($uploadedFile['metaData'] == 'policy') { 
+                        $policyAttachment = unserialize($uploadedFile['data']); ?>
+                        <a href="<?php echo base_url().'uploaded_files/'.$this->session->userdata('tenantIdentifier').'/HR/OtherFiles/'.$policyAttachment[0] ?>"
+                           target="_blank"
+                           class="btn btn-sm btn-success px-4 py-2 text-white rounded-md shadow-sm hover:bg-green-700 transition bg-green-600">
+                           View Policies
+                        </a>
+                    <?php } ?>
+                <?php } ?>
+            <?php } ?>
+
+            <div class="form-group mt-4">
+
+                <div class="pdf-view-wrap border rounded-lg overflow-hidden shadow-sm h-[400px]">
+                    <iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/OtherFiles/<?php echo $policyAttachment[0]; ?>"
+                            class="w-full h-full"></iframe>
+                </div>
+
+                <div class="form-check mt-3 flex items-start space-x-2">
+                    <input class="form-check-input mt-1"
+                           type="checkbox"
+                           id="agree_terms_two"
+                           value="1"
+                           name="agree_terms_two">
+
+                    <label class="form-check-label text-gray-700 text-sm leading-5" for="agree_terms_two">
+                        I read, understood and agree to the Company Policies and Procedures Manual. <span class="text-red-500">*</span>
+                    </label>
+                </div>
+
+                <span class="fieldError text-red-500 text-sm" id="agree_terms_two_error"></span>
+            </div>
+
+        </div>
+
+        <!-- ----------------------- JOB DESCRIPTION ----------------------- -->
+        <div class="col-lg-4 bg-white p-6 rounded-xl shadow border border-gray-200">
+
+            <?php
+                $fileNameArray = unserialize($employee['job_desc']);
+                if(isset($fileNameArray) && !empty($fileNameArray)){
+                    $fileName = $fileNameArray[0];
+                    $file_parts = pathinfo($fileName);
+            ?>
+
+            <h4 class="text-black text-xl font-semibold mb-4">Job Description</h4>
+
+            <a class="btn btn-sm btn-success px-4 py-2 text-white rounded-md shadow-sm hover:bg-green-700 transition bg-green-600"
+               href="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>"
+               target="_blank">
+               View JD
+            </a>
+
+            <div class="form-group mt-4">
+
+                <div class="pdf-view-wrap border rounded-lg overflow-hidden shadow-sm h-[400px]">
+
+                    <?php if($file_parts['extension'] == 'pdf'){ ?>
+                        <iframe src="<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>"
+                                class="w-full h-full"></iframe>
+                    <?php } else { ?>
+                        <iframe src="https://docs.google.com/viewer?url=<?php echo base_url();?>uploaded_files/<?php echo $this->session->userdata('tenantIdentifier'); ?>/HR/JobDescr/<?php echo $fileName; ?>&embedded=true"
+                                class="w-full h-full"></iframe>
+                    <?php } ?>
+
+                </div>
+
+                <div class="form-check mt-3 flex items-start space-x-2">
+                    <input class="form-check-input mt-1"
+                           type="checkbox"
+                           id="agree_terms_three"
+                           value="1"
+                           name="agree_terms_three">
+
+                    <label class="form-check-label text-gray-700 text-sm leading-5" for="agree_terms_three">
+                        I read, understood and agree to the Job Descriptions Manual. <span class="text-red-500">*</span>
+                    </label>
+                </div>
+
+                <span class="fieldError text-red-500 text-sm" id="agree_terms_three_error"></span>
+            </div>
+
+            <?php } ?>
+
+        </div>
+
+    </div>
+
+    <!-- BUTTON -->
+    <div class="flex justify-end mt-8">
+        <input type="button"
+               name="contact_submit"
+               id="save_continue_privacy"
+               value="Submit"
+               class="btn btn-success btn-ph px-10 py-4 bg-green-600 hover:bg-green-700 
+                      text-white font-semibold rounded-lg shadow-md hover:shadow-lg 
+                      transition-all duration-200">
+    </div>
+
+</form>
+  
                      </div>
                       </div>  
-       </div> 
-       </div>  
-     </div>
+                      
+                      
+                     
+
+                      </div>
+                
+        <div id="loaderContainer" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
+       <div class="w-32 h-32 border-8 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
+       </div>
+                      </main>
+      
+      
+<!-- SUCCESS MODAL (HIDDEN BY DEFAULT) -->
+<div id="onboardSuccessModal"
+     class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-8 text-center">
+        
+        <!-- Success Animation Icon -->
+      
+
+        <!-- Title -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            Success
+        </h2>
+
+        <!-- Message -->
+        <p class="text-gray-600 mb-6">
+            Thank you for submitting your onboarding application.
+            You will receive an email shortly with the HR employee portal login steps.
+            Please contact your manager if you face any issues.
+        </p>
+
+        <!-- Close Button -->
+        <button id="closeSuccessModal"
+                class="mt-2 px-6 py-2 bg-red-500 hover:bg-orange-600 text-white rounded-lg transition">
+            Close
+        </button>
+    </div>
 </div>
-<div id="onboardSuccessModal" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body text-center p-5">
-                                                            <lord-icon src="https://cdn.lordicon.com/pithnlch.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:120px;height:120px">
-                                                            </lord-icon>
-                                                            <div class="mt-4">
-                                                                <h4 class="mb-3 text-black">Success</h4>
-  <p class="text-black mb-4"> Thank you for submitting your onboarding application. You will receive an email shortly with the HR employee portal login process. Please contact your manager if any issues.</p>
-                                                                <div class="hstack gap-2 justify-content-center">
-                                                                    <a href="javascript:void(0);" class="btn btn-link link-success fw-medium shadow-none" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div>
+
+  <!-- allow Camera access for browser Instruction Modal -->
+<div id="cameraHelpModal" class="fixed inset-0 bg-black/40 z-[99999] hidden flex items-center justify-center">
+    <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative max-h-[90vh] overflow-y-auto">
+        <!-- Close Button -->
+        <button onclick="hideCameraHelp()"
+                class="absolute top-3 right-3 text-gray-500 hover:text-black">
+            ✕
+        </button>
+        <h2 class="text-xl font-bold mb-4 text-navy">How to Enable Camera Access</h2>
+        <div class="space-y-4 text-gray-700 text-sm">
+            <div>
+                <h3 class="font-semibold text-navy">Google Chrome</h3>
+                <ol class="list-decimal ml-5">
+                    <li>Click the camera icon (or lock/tune icon) in the address bar.</li>
+                    <li>Click on <strong>Camera</strong> and select <strong>"Allow"</strong>.</li>
+                    <li>Alternatively: Click the three dots → Settings → Privacy and security → Site Settings → Camera.</li>
+                    <li>Reload this page.</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="font-semibold text-navy">Safari (Mac)</h3>
+                <ol class="list-decimal ml-5">
+                    <li>Go to Safari → Settings for This Website (or Safari → Preferences → Websites).</li>
+                    <li>Select <strong>Camera</strong> in the left sidebar.</li>
+                    <li>Find this website and set to <strong>Allow</strong>.</li>
+                    <li>Reload the page.</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="font-semibold text-navy">Firefox</h3>
+                <ol class="list-decimal ml-5">
+                    <li>Click the camera icon (or site information icon) in the address bar.</li>
+                    <li>Click the <strong>X</strong> next to "Blocked Temporarily" if camera is blocked.</li>
+                    <li>Click <strong>Allow</strong> when prompted again.</li>
+                    <li>Or go to: Settings → Privacy & Security → Permissions → Camera → Settings.</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="font-semibold text-navy">Microsoft Edge</h3>
+                <ol class="list-decimal ml-5">
+                    <li>Click the lock icon (or camera icon) in the address bar.</li>
+                    <li>Click <strong>Permissions for this site</strong>.</li>
+                    <li>Set <strong>Camera</strong> to <strong>Allow</strong>.</li>
+                    <li>Reload the page.</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="font-semibold text-navy">Mobile Browsers</h3>
+                <ol class="list-decimal ml-5">
+                    <li><strong>iOS Safari:</strong> Settings → Safari → Camera → Allow.</li>
+                    <li><strong>Android Chrome:</strong> Settings → Site settings → Camera → Allow for this site.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+                                          
+                  
+
+
      <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
                                 
   <script>
+  function showCameraHelp() {
+    document.getElementById("cameraHelpModal").classList.remove("hidden");
+}
+
+function hideCameraHelp() {
+    document.getElementById("cameraHelpModal").classList.add("hidden");
+}
+
+
+ $(document).ready(function(){
+     $("#loaderContainer").hide();
+ })
 async function startCamera() {
+
+    // Show loader
+    $("#loaderContainer").show();
+
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const emp_id = document.getElementById('emp_id').value;
     const btn = document.getElementById('faceVerifyBtn');
     const message = document.getElementById('verificationMessage');
     const preVerificationmessage = document.getElementById('verificationPreMessage');
+    const preview = document.getElementById('capturedImagePreview');
+    const savedCapturedImage = document.getElementById('savedCapturedImage');
+    const errorBox = document.getElementById('verificationError');
 
-    // Load face-api models
-    await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('/External/models/tiny_face_detector'),
-        faceapi.nets.faceLandmark68Net.loadFromUri('/External/models/face_landmark_68'),
-        faceapi.nets.faceRecognitionNet.loadFromUri('/External/models/face_recognition')
-    ]);
+    // Reset UI
+    errorBox.textContent = "";
+    btn.innerText = "Capture Photo";
+    savedCapturedImage.classList.add("hidden");
+    preview.classList.add("hidden");
 
-    // Show video stream
-    video.style.display = 'block';
+    // --- STEP 1: Load Models ---
+    try {
+        await Promise.all([
+            faceapi.nets.tinyFaceDetector.loadFromUri('/External/models/tiny_face_detector'),
+            faceapi.nets.faceLandmark68Net.loadFromUri('/External/models/face_landmark_68'),
+            faceapi.nets.faceRecognitionNet.loadFromUri('/External/models/face_recognition')
+        ]);
+    } catch (e) {
+       $("#loaderContainer").hide();
+        errorBox.textContent = "Unable to load face detection models.";
+        return;
+    }
+
+    // --- STEP 2: Ask for Camera Access ---
     navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => video.srcObject = stream);
+        .then(stream => {
 
-    // On video play
-    video.addEventListener('play', async () => {
-        const result = await faceapi
-            .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
-            .withFaceLandmarks()
-            .withFaceDescriptor();
+            // Camera opened successfully → hide loader
+            $("#loaderContainer").hide();
 
-        if (result) {
-            // Draw face to canvas
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvas.toDataURL('image/jpeg');
+            video.classList.remove("hidden");
+            video.srcObject = stream;
 
-            // Stop video
-            video.pause();
-            video.srcObject.getTracks().forEach(track => track.stop());
-            video.style.display = 'none';
+            video.onloadedmetadata = () => video.play();
 
-            // Send image to server
-            fetch("<?= base_url('/External/Employee/uploadFaceImage') ?>", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    emp_id: emp_id,
-                    image: imageData
-                })
-            }).then(res => res.json())
-              .then(response => {
-                  if (response.status === 'success') {
-                      btn.innerText = 'Recapture Photo';
-                      message.style.display = 'block';
-                      preVerificationmessage.style.display = 'none';
-                      $('#employeePhoto').val(true);
-                      alert('Face verification completed.');
-                  } else {
-                      alert('Upload failed: ' + response.message);
-                  }
-              });
-        } else {
-            alert("Face not detected properly. Ensure good lighting and face is visible.");
-        }
-    }, { once: true });
+            // Once video starts playing
+            video.addEventListener('play', async () => {
+
+                const result = await faceapi
+                    .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+                    .withFaceLandmarks()
+                    .withFaceDescriptor();
+
+                if (result) {
+
+                    // Draw frame to canvas
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imageData = canvas.toDataURL('image/jpeg');
+
+                    // Stop camera
+                    stream.getTracks().forEach(t => t.stop());
+                    video.classList.add("hidden");
+
+                    // Show preview
+                    preview.src = imageData;
+                    preview.classList.remove("hidden");
+
+                    // Upload to server
+                    fetch("<?= base_url('/External/Employee/uploadFaceImage') ?>", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            emp_id: emp_id,
+                            image: imageData
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.status === "success") {
+                            btn.innerText = "Recapture Photo";
+                            message.classList.remove("hidden");
+                            preVerificationmessage.classList.add("hidden");
+                            $('#employeePhoto').val(true);
+                            alert("Face verification completed.");
+                        } else {
+                            alert("Upload failed: " + response.message);
+                        }
+                    });
+                }
+            }, { once: true });
+
+        })
+        .catch(err => {
+            // CAMERA BLOCKED by browser
+            document.getElementById("cameraErrorWrapper").classList.remove("hidden");
+document.getElementById("cameraHelpBtn").classList.remove("hidden");
+            $("#loaderContainer").hide();
+            let msg = "Camera access denied. Please enable camera permission in your browser.";
+
+            if (err.name === "NotAllowedError") {
+                msg = "Camera permission blocked. Please allow camera access.";
+            }
+            if (err.name === "NotFoundError") {
+                msg = "No camera device detected.";
+            }
+
+            errorBox.textContent = msg;
+        });
 }
+
 </script>
 <script>
 
@@ -785,9 +1646,13 @@ async function startCamera() {
      $("#yesChanged").show();    
     }
     
-    $('#onboardSuccessModal').on('hidden.bs.modal', function () {
-    window.location.href = 'https://bizadmin.com.au/<?php echo $this->session->userdata('tenantIdentifier'); ?>';
-    });
+   document.getElementById("closeSuccessModal").addEventListener("click", function () {
+    document.getElementById("onboardSuccessModal").classList.add("hidden");
+
+    // Redirect after modal closes
+    window.location.href = "https://bizadmin.com.au/<?php echo $this->session->userdata('tenantIdentifier'); ?>";
+});
+
     
     $('#save_continue_personal').click(function(e){
     var err=0; 
@@ -797,7 +1662,7 @@ async function startCamera() {
     if($('#email').val() == ''){ $('#email_error').html('Please enter email address'); err=1; } 
     if($('#phone').val() == ''){ $('#phone_error').html('Please enter phone number'); err=1; }
     if($('#dob').val() == ''){ $('#dob_error').html('Please enter date of birth'); err=1; }
-    if($('#employeePhoto').val() == ''){ $('#verificationError').html('Please capture your photo'); err=1; }
+    // if($('#employeePhoto').val() == ''){ $('#verificationError').html('Please capture your photo'); err=1; }
     
     if($('#street_name').val() == ''){ $('#streetname_error').html('Please enter street name'); err=1; }
    
@@ -816,7 +1681,9 @@ async function startCamera() {
         	success: function(response){
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
-		        activaTab('emergencyDetails'); $('#loaderContainer').hide();
+		       
+		        activateTab('emergencyDetails')
+		        $('#loaderContainer').hide();
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -834,7 +1701,7 @@ async function startCamera() {
     $('.fieldError').html('');
       $('#emergencyDetailsForm').find('.required').each(function() {
         // if((parseInt($(".emergencyDetailsFormSteps").val()) - parseInt(stepsCompleted)) > 1){
-        //     alert("Please complete previous steps first"); activaTab('personalDetails');
+        //     alert("Please complete previous steps first"); activateTab('personalDetails');
         //     err = 1;
         //     return false;
         // }
@@ -859,7 +1726,7 @@ async function startCamera() {
         	success: function(response){
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
-		        activaTab('bankDetails'); $('#loaderContainer').hide();
+		        activateTab('bankDetails'); $('#loaderContainer').hide();
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -897,7 +1764,7 @@ async function startCamera() {
         	success: function(response){
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
-		        activaTab('taxDetails'); $('#loaderContainer').hide();
+		        activateTab('taxDetails'); $('#loaderContainer').hide();
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -966,7 +1833,7 @@ async function startCamera() {
         	success: function(response){
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
-		        activaTab('policeClearance'); $('#loaderContainer').hide();
+		        activateTab('policeClearance'); $('#loaderContainer').hide();
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -978,49 +1845,85 @@ async function startCamera() {
 	});	
 	
 	// 	police form submit
-	$('#save_continue_police').click(function(e){
-    var err=0;
-    $('.fieldError').html('');
-    let data1 = new FormData(document.getElementById("policeDetailsForm"));
-    if($("#police").val() == "")
-     {
-         err=1;
-         $('#police_error').html('Please upload police clearance certificate.');
-      }
+	$('#save_continue_police').click(function (e) {
+    e.preventDefault();
 
-   
-    if(err == '0'){
-        $('#loaderContainer').show();
+    const isRequired = $('#police').data('required') == '1';
+    const fileInput = $('#police')[0];
+    const hasFiles = fileInput && fileInput.files.length > 0;
 
-       let formData = new FormData($("#policeDetailsForm")[0]);
-           $.ajax({
-            type: "POST",
-            url: '/External/Employee/submit_onboarding_process',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response){
-        	    let res = JSON.parse(response)
-        	    if(res?.status=='success'){
-		        activaTab('superAnnuation'); $('#loaderContainer').hide();
-		        }
-		        else{
-		        alert("Some error occured,Please refresh page and try again.")
-		        } 
-        	},
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-        e.preventDefault();
+    if (isRequired && !hasFiles) {
+        alert('Please upload required document');
+        return;
     }
-    else{ alert('Please enter all the mandatory fields'); return false; }
-	});
+
+    // File size check
+    const maxSize = 10 * 1024 * 1024;
+    for (let file of fileInput.files) {
+        if (file.size > maxSize) {
+            alert('File size must be less than 10MB');
+            return;
+        }
+    }
+
+    $('#loaderContainer').show();
+
+    let formData = new FormData($('#policeDetailsForm')[0]);
+
+    $.ajax({
+        type: "POST",
+        url: '/External/Employee/submit_onboarding_process',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+
+        success: function (res) {
+            if (res && res.status === 'success') {
+                activateTab('superAnnuation');
+            } else {
+                alert(res.message || 'Upload failed. Please try again.');
+            }
+        },
+
+        error: function (xhr) {
+            console.error(xhr.responseText);
+            alert('Upload failed. Please try again.');
+        },
+
+        complete: function () {
+            // 🔥 ALWAYS hide loader
+            $('#loaderContainer').hide();
+        }
+    });
+});
+
 
     // 	annuation
 	$('#save_continue_annuation').click(function(e){
+	    
+	    if ($(".check_super_type").val() === 'yes') {
+    let hasError = false;
+
+    // Loop through all inputs with class "required" inside the form
+    $("#annuationDetailsForm .required").each(function() {
+        if ($(this).attr("id") == "select_nominatedByEmployer") {
+        return; // continues to next iteration
+     }
+        if ($(this).val() === '' || $(this).val() === null) {
+            $(this).addClass('border-red-500'); // optional: highlight empty fields
+            hasError = true;
+        }
+    });
+
+    if (hasError) {
+        alert("Please fill in all required superannuation fund details.");
+        return false; // stop form submission
+    }
+}
+	   
     $('.fieldError').html('');
-    var err=0;
+    let err=0;
     if($(".check_super_type").val() == 'no'){
     if($('#select_nominatedByEmployer').is(":checked")){}else{ $('#nominatedByEmployer_error').html('Please check the checkbox'); err=1; }     
     }
@@ -1036,7 +1939,7 @@ async function startCamera() {
         	success: function(response){
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
-		        activaTab('privacyPolicy'); $('#loaderContainer').hide();
+		        activateTab('privacyPolicy'); $('#loaderContainer').hide();
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -1075,7 +1978,7 @@ async function startCamera() {
         	    let res = JSON.parse(response)
         	    if(res?.status=='success'){
 		        $('#loaderContainer').hide();
-		        $("#onboardSuccessModal").modal('show');
+                document.getElementById("onboardSuccessModal").classList.remove("hidden");
 		        }
 		        else{
 		        alert("Some error occured,Please refresh page and try again.")
@@ -1102,56 +2005,134 @@ async function startCamera() {
 		  }
 		}
 
-   function activaTab(tab){
-    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-   };
+  
 
   });
   
- function openThisTab(evt, selected_value,fieldname) { 
-                                                       
+ function openThisTab(evt, selected_value, fieldname) {
     let i, tabcontent, tablinks;
-                                                        
-    tabcontent = document.getElementsByClassName("tabcontent_"+fieldname);
+
+    // Hide all tab contents
+    tabcontent = document.getElementsByClassName("tabcontent_" + fieldname);
     for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+        tabcontent[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablinks_"+fieldname);
+
+    // Remove "active" from all tab links
+    tablinks = document.getElementsByClassName("tablinks_" + fieldname);
     for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
+
+    // Show selected tab content
     document.getElementById(selected_value).style.display = "block";
-    
-    if(fieldname =='tfn'){
-     if(selected_value == 'No'){
-    $('.check_tfn_type').val('tfn_type');
+
+    // Add "active" class to the clicked tab (this line must be AFTER the loop above!)
+    evt.currentTarget.classList.add("active");
+
+    // Your existing logic for hidden fields
+    if (fieldname === 'tfn') {
+        $('.check_tfn_type').val(selected_value === 'No' ? 'tfn_type' : 'tfn_number');
     }
-    else{
-    $('.check_tfn_type').val('tfn_number');
-    }    
+
+    if (fieldname === 'superAnnuation') {
+        if (selected_value === 'NoSuper') {
+            $('.check_super_type').val('no');
+            $('#nominatedByEmployer').val(1);
+        } else {
+            $('.check_super_type').val('yes');
+            $('#nominatedByEmployer').val(0);
+        }
     }
-   
-   if(fieldname =='superAnnuation'){
-    if(selected_value == 'NoSuper'){
-    $('.check_super_type').val('no');
-    $('#nominatedByEmployer').val(1);
+
+    if (fieldname === 'surname') {
+        if (selected_value === 'noChanged') {
+            $('#previous_surname').val(selected_value);
+        }
+        $('.previous_surname_changed').val(selected_value);
     }
-    else{
-    $('.check_super_type').val('yes');
-    $('#nominatedByEmployer').val(0);
-    }
-    }
-    
-    if(fieldname =='surname'){
-    if(selected_value == 'noChanged'){
-    $('#previous_surname').val(selected_value);
-     }
-    if(selected_value == 'noChanged' || selected_value == 'yesChanged'){
-    $('.previous_surname_changed').val(selected_value);
-    }
-    }
-     document.getElementById(selected_value).style.display = "block";
-    evt.currentTarget.className += " active";
- }
+}
 
 </script>
+
+<script>
+$(document).ready(function () {
+
+    // Default first tab
+    activateTab("personalDetails");
+
+    // On click
+    $(".tab-btn").on("click", function () {
+        let tabId = $(this).data("tab");
+        activateTab(tabId);
+    });
+
+});
+
+
+
+function activateTab(tabId) {
+    // Switch tab buttons
+    $(".tab-btn").removeClass("active border-navy text-navy bg-blue-50 border-b-4")
+                 .addClass("text-gray-600 border-transparent");
+
+    $(".tab-btn[data-tab='" + tabId + "']")
+        .addClass("active border-navy text-navy bg-blue-50 border-b-4")
+        .removeClass("text-gray-600");
+
+    // Switch tab panes
+    $(".tab-pane").hide();
+    $("#" + tabId).show();
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function toggleVisaField() {
+        let value = document.querySelector("input[name='visa_status']:checked")?.value;
+        let wrapper = document.getElementById("visaExpiryWrapper");
+
+        if (value === "yes") {
+            wrapper.classList.remove("hidden");
+        } else {
+            wrapper.classList.add("hidden");
+        }
+    }
+
+    // Attach event listeners
+    document.querySelectorAll("input[name='visa_status']").forEach(radio => {
+        radio.addEventListener("change", toggleVisaField);
+    });
+
+    // Run on load in case the form loads with "yes"
+    toggleVisaField();
+});
+</script>
+
+<footer id="footer" class="bg-white border-t border-gray-200 py-6 mt-16">
+    <div class="max-w-7xl mx-auto text-center">
+        <p class="text-gray-500 text-sm"><?php echo date('Y') ?> © Bizadmin</p>
+    </div>
+</footer>
+
+  <div id="loaderContainer" 
+     class="fixed inset-0 z-50 hidden 
+            flex items-center justify-center 
+            bg-black bg-opacity-40 backdrop-blur-sm">
+
+    <div class="flex flex-col items-center space-y-4">
+
+        <!-- Animated Loader -->
+        <div class="w-16 h-16 border-4 border-success-700 border-t-transparent 
+                    rounded-full animate-spin"></div>
+
+        <!-- Optional Text -->
+        <p class="text-white text-lg font-semibold tracking-wide animate-pulse">
+            Loading, please wait...
+        </p>
+
+    </div>
+</div>
+</body>
+</html>

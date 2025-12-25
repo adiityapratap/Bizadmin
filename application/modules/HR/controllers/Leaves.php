@@ -13,12 +13,136 @@ class Leaves extends MY_Controller {
 		$this->load->model('employee_model');
 		$this->load->model('auth_model');
 	    $this->load->model('common_model');
+	    $this->load->model('Leave_model');
         $this->location_id = $this->session->userdata('location_id') ? $this->session->userdata('location_id') : ($this->session->userdata('User_location_ids') ? $this->session->userdata('User_location_ids')[0] : null);
         $this->tenantIdentifier = $this->session->userdata('tenantIdentifier');
         $this->roleId = get_logged_in_user_role($this->ion_auth,'id');
         // $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
      
     }
+    
+    function leaveDashbaord(){
+       
+	  
+	  $location_id = $this->session->userdata('location_id') ?: null;
+
+        $summary = $this->Leave_model->get_leave_summary($location_id);
+        $recent = $this->Leave_model->get_leave_requests($location_id, null, 10, 0);
+
+        $data = [
+            'summary' => $summary,
+            'recent_requests' => $recent,
+            'csrf_name' => $this->security->get_csrf_token_name(),
+            'csrf_hash' => $this->security->get_csrf_hash()
+        ];
+      $this->load->view('general/header');
+	  $this->load->view('Leaves/leavesDashboard',$data);
+	  $this->load->view('general/footer');
+        
+        
+    }
+    
+    
+    /**
+     * AJAX: list requests (JSON)
+     */
+    public function ajax_list() {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        $location_id = $this->session->userdata('location_id') ?: null;
+        $status = $this->input->get('status'); // optional
+        $limit = (int)$this->input->get('limit') ?: 20;
+        $offset = (int)$this->input->get('offset') ?: 0;
+
+        $rows = $this->Leave_model->get_leave_requests($location_id, $status, $limit, $offset);
+        $this->output->set_content_type('application/json')->set_output(json_encode($rows));
+    }
+
+    /**
+     * Approve leave (POST)
+     */
+    public function approve() {
+        if (!$this->input->is_ajax_request() || $this->input->method() !== 'post') {
+            show_404();
+        }
+
+        $id = (int)$this->input->post('id');
+        $approver_id = $this->session->userdata('user_id') ?: 0;
+        $comment = $this->input->post('comment');
+
+        if (!$id) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>false,'message'=>'Invalid leave id']));
+            return;
+        }
+
+        $ok = $this->Leave_model->approve_leave($id, $approver_id, $comment);
+        if ($ok) {
+            // TODO: send notification/email to employee
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>true]));
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>false,'message'=>'Could not approve leave']));
+        }
+    }
+
+    /**
+     * Reject leave (POST)
+     */
+    public function reject() {
+        if (!$this->input->is_ajax_request() || $this->input->method() !== 'post') {
+            show_404();
+        }
+
+        $id = (int)$this->input->post('id');
+        $comment = trim($this->input->post('comment'));
+        $approver_id = $this->session->userdata('user_id') ?: 0;
+
+        if (!$id || $comment === '') {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>false,'message'=>'Leave id and reject comment required']));
+            return;
+        }
+
+        $ok = $this->Leave_model->reject_leave($id, $approver_id, $comment);
+        if ($ok) {
+            // TODO: send notification/email to employee
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>true]));
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['success'=>false,'message'=>'Could not reject leave']));
+        }
+    }
+
+    /**
+     * Leave details (ajax modal)
+     */
+    public function details($id = 0) {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        $id = (int)$id;
+        if (!$id) {
+            echo json_encode(['success'=>false,'message'=>'Invalid id']);
+            return;
+        }
+        $row = $this->Leave_model->get_leave_by_id($id);
+        echo json_encode(['success'=>true,'data'=>$row]);
+    }
+
+    /**
+     * Employee leave balance (ajax)
+     */
+    public function balance($emp_id = 0) {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        $emp_id = (int)$emp_id;
+        if (!$emp_id) {
+            echo json_encode(['success'=>false,'message'=>'Invalid employee id']);
+            return;
+        }
+        $bal = $this->Leave_model->get_employee_leave_balance($emp_id);
+        echo json_encode(['success'=>true,'data'=>$bal]);
+    }
+    
     
     function requestLeave(){
       $uploadPath='./uploaded_files/'.$this->tenantIdentifier.'/HR/MedicalCertificate';

@@ -5,7 +5,7 @@ class Site extends MY_Controller
     public function __construct() 
     {   
       	parent::__construct();
-   	     $this->load->model('site_model');
+   	    
    	     $this->load->model('common_model');
         !$this->ion_auth->logged_in() ? redirect('auth/login', 'refresh') : '';
         $this->POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -13,7 +13,7 @@ class Site extends MY_Controller
     }
    	public function index(){
 			 
-			 $condition = ['status' => 1,'location_id' => $this->selected_location_id];
+			 $condition = ['status' => 1,'location_id' => $this->selected_location_id,'is_deleted'=>0];
             $data['site_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementsites','',$condition);
 			$this->load->view('general/header');
             $this->load->view('WasteManagement/siteList',$data);
@@ -52,12 +52,13 @@ class Site extends MY_Controller
 						'site_name' => $this->POST['site_name'],
 						'updated_date' => date('Y-m-d'),
 					);
-		
-				$result = $this->site_model->update_site($site_data,$site_id);	
+
 				$this->common_model->commonRecordUpdate('Compliance_WasteManagementsites','id',$site_id, $site_data);
-				redirect('Compliance/Site', 'refresh');
+				redirect('Compliance/Waste/Site', 'refresh');
 			}else{
-			$data['site_detail'] = $this->site_model->get_all_sites($this->selected_location_id,$site_id);    
+		$condition = ['status' => 1,'location_id' => $this->selected_location_id,'id' => $site_id];
+		 $data['site_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementsites','',$condition);
+	
 			 $data['form_type'] ='edit';   
 			$this->load->view('general/header');
             $this->load->view('WasteManagement/siteAdd',$data);
@@ -86,3 +87,4 @@ class Site extends MY_Controller
     
 
 }
+?>

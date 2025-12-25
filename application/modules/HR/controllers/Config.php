@@ -22,13 +22,29 @@ class Config extends MY_Controller {
        $conditionsTwo = array('location' => $this->location_id, 'configureFor' => 'documents');
        $conditionsMail = array('location' => $this->location_id, 'configureFor' => 'emails');
        $conditionsGeneralConfig = array('location' => $this->location_id, 'configureFor' => 'feature_toggle');
+       $conditionsSuperConfig = array('location' => $this->location_id, 'configureFor' => 'superannuation');
         
        $fields = ['data','metaData'];
        $data['allStressProfile'] = $this->common_model->fetchRecordsDynamically('HR_stressProfile', '',$conditionsStressP);
        $data['uploadedFiles'] = $this->common_model->fetchRecordsDynamically('HR_configuration', $fields,$conditionsTwo);
        $data['allLeaveTypes'] = $this->common_model->fetchRecordsDynamically('HR_leaves');
        $data['mailConfigData'] = $this->common_model->fetchRecordsDynamically('HR_configuration','',$conditionsMail);
-       $data['positionConfigData'] = $this->common_model->fetchRecordsDynamically('HR_emp_position','',$conditions);
+       $data['positionConfigData'] = $this->common_model->fetchRecordsDynamically('HR_emp_position',['position_id','position_name','position_type'],$conditions);
+       $data['payrollTypeConfigData'] = $this->common_model->fetchRecordsDynamically('HR_payroll_type',['id','name'],$conditions);
+       
+    
+      $superConfig = $this->common_model->fetchRecordsDynamically('HR_configuration', ['data'], $conditionsSuperConfig);
+
+if(isset($superConfig[0]['data']) && $superConfig[0]['data'] !='') {
+    $data['superConfigData'] = json_decode($superConfig[0]['data'], true);
+} else {
+    // Default values
+    $data['superConfigData'] = [
+        'super_percentage' => '12',
+        'enable_tier_payroll' => '0',
+        'payroll_tax_rate' => '5.45'
+    ];
+}     
        
        $toggleConfig = $this->common_model->fetchRecordsDynamically('HR_configuration', ['data'], $conditionsGeneralConfig);
         if(isset($toggleConfig[0]['data']) && $toggleConfig[0]['data'] !='') {
@@ -158,18 +174,59 @@ class Config extends MY_Controller {
         
      }
    
-     foreach($_POST['position_name'] as $key=> $position_name){
+   foreach ($_POST['position_name'] as $key => $position_name) {
+
+    $data = [
+        'position_name' => $position_name,
+        'position_type' => $_POST['position_type'][$key]
+    ];
+
+    if (isset($_POST['position_id'][$key])) { 
+        $position_id = $_POST['position_id'][$key];
+        $this->common_model->commonRecordUpdate('HR_emp_position', 'position_id', $position_id, $data);
+
+    } else {
+        $data['location_id'] = $this->location_id; 
+        $data['date_added'] = date('Y-m-d');
+        $data['status'] = 1;
+        $this->common_model->commonRecordCreate('HR_emp_position', $data);
+    }
+}
+
+       
+     
+        
+    }
+    
+     function addPayrollType(){
+     $data = []; 
+    // fetch all existing position , to compare & match if some position has been deleted in recent ajax post , if yes, than mark that id as deleted in Database
+     $conditions = array('status' => '1', 'is_deleted' => '0','location_id' => $this->location_id);
+     $fieldsToFetch = array('id');
+     $positionConfigData = $this->common_model->fetchRecordsDynamically('HR_payroll_type',$fieldsToFetch,$conditions);
+     if(isset($positionConfigData) && isset($_POST['id'])){
+         $existingPids = array_column($positionConfigData,'id');
+         $postedPids  = $_POST['id'];
+         $positiontoDelete = array_diff($existingPids, $postedPids);
+         if(isset($positiontoDelete) && !empty($positiontoDelete)){
+       $this->common_model->commonBulkRecordDelete('HR_payroll_type',$positiontoDelete,'id');       
+         }
+        
+     }
+   $this->common_model->commonRecordDelete('HR_payroll_type','location_id',$this->location_id); 
+   
+     foreach($_POST['name'] as $key=> $position_name){
          if (isset($_POST['position_id'][$key])) { 
          $position_id = $_POST['position_id'][$key];
-         $data['position_name'] = $position_name; 
-       $this->common_model->commonRecordUpdate('HR_emp_position','position_id',$position_id,$data);
+         $data['name'] = $position_name; 
+       $this->common_model->commonRecordUpdate('HR_payroll_type','id',$position_id,$data);
          }else{
-      $data['location_id'] = $this->location_id; $data['date_added'] = date('Y-m-d');$data['status'] = 1; $data['position_name'] = $position_name;
-      $this->common_model->commonRecordCreate('HR_emp_position',$data);      
+      $data['location_id'] = $this->location_id; $data['date_added'] = date('Y-m-d');$data['status'] = 1; $data['name'] = $position_name;
+      $this->common_model->commonRecordCreate('HR_payroll_type',$data);      
          }
          
      }
-       
+       echo "success";
      
         
     }
@@ -210,6 +267,55 @@ class Config extends MY_Controller {
         echo json_encode($response);
         exit;
     } 
+    
+    // Add this method in Config controller
+
+public function saveSuperannuationSettings() {
+    $response = ['status' => 'error', 'message' => 'Invalid request'];
+    
+    if($this->input->post()) {
+        $super_percentage = $this->input->post('super_percentage');
+        $enable_tier_payroll = $this->input->post('enable_tier_payroll') ? '1' : '0';
+        $payroll_tax_rate = $this->input->post('payroll_tax_rate');
+        
+        // Prepare data to save
+        $data_to_save = [
+            'super_percentage' => $super_percentage,
+            'enable_tier_payroll' => $enable_tier_payroll,
+            'payroll_tax_rate' => $payroll_tax_rate,
+            'updated_date' => date('Y-m-d H:i:s')
+        ];
+        
+        // Check if config exists
+        $existing = $this->common_model->fetchRecordsDynamically(
+            'HR_configuration',
+            ['id'],
+            [
+                'configureFor' => 'superannuation',
+                'location' => $this->location_id
+            ]
+        );
+        
+        $save_data = [
+            'configureFor' => 'superannuation',
+            'data' => json_encode($data_to_save),
+            'location' => $this->location_id,
+            'metaData' => 'Superannuation Settings',
+            'created_date' => date('Y-m-d H:i:s')
+        ];
+        
+        if (isset($existing[0]['id'])) {
+            $this->common_model->commonRecordUpdate('HR_configuration', 'id', $existing[0]['id'], $save_data);
+        } else {
+            $this->common_model->commonRecordCreate('HR_configuration', $save_data);
+        }
+        
+        $response = ['status' => 'success', 'message' => 'Settings saved successfully'];
+    }
+    
+    echo json_encode($response);
+    exit;
+}
     
 }
 

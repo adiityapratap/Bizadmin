@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Bizadmn Clockin</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -126,6 +127,7 @@
             
               <video id="clockVideo" style="display: none;" autoplay></video>
             <div class="overflow-x-auto">
+                <?php if(isset($empLists) && !empty($empLists)) {  ?>
                 <table class="w-full">
                     <thead>
                         <tr class="bg-gray-100 border-b border-gray-200">
@@ -138,6 +140,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <?php foreach ($empLists as $index => $emp): ?>
                             <tr id="employee-<?php echo htmlspecialchars($emp['employee_id']); ?>" class="border-b border-gray-200 hover:bg-gray-50" data-prep-id="<?php echo htmlspecialchars($emp['prep_area_id']); ?>">
                                 <td class="py-4 px-4">
@@ -179,7 +182,7 @@
 </td>
                                 <td class="py-4 px-4">
                                     <?php if ($emp['clock_out_time']): ?>
-                                        <button class="px-3 py-2 bg-orange-primary text-white rounded-full flex items-center clock-out-btn opacity-50 cursor-not-allowed" disabled>
+                                        <button class="px-3 py-2 bg-orange-primary text-white rounded-full flex items-center clock-out-btn opacity-50 cursor-not-allowed" disabled data-employee-id="<?php echo htmlspecialchars($emp['employee_id']); ?>" data-timesheet-id="<?php echo htmlspecialchars($emp['timesheet_id'] ?: 0); ?>">
                                             <i class="fa-solid fa-stop mr-2"></i> <?php echo date('h:i A', strtotime($emp['clock_out_time'])); ?>
                                         </button>
                                     <?php elseif ($emp['clock_in_time']): ?>
@@ -187,7 +190,7 @@
                                             <i class="fa-solid fa-stop mr-2"></i> Clock Out
                                         </button>
                                     <?php else: ?>
-                                        <button class="px-3 py-2 bg-gray-200 text-gray-500 rounded-full flex items-center clock-out-btn opacity-50 cursor-not-allowed" disabled>
+                                        <button class="px-3 py-2 bg-gray-200 text-gray-500 rounded-full flex items-center clock-out-btn opacity-50 cursor-not-allowed" disabled data-employee-id="<?php echo htmlspecialchars($emp['employee_id']); ?>" data-timesheet-id="<?php echo htmlspecialchars($emp['timesheet_id'] ?: 0); ?>">
                                             <i class="fa-solid fa-stop mr-2"></i> Clock Out
                                         </button>
                                     <?php endif; ?>
@@ -210,8 +213,16 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        
+                        
+                        
                     </tbody>
                 </table>
+                <?php } else {  ?>
+                        <h5><button id="info-button" class="w-6 h-6 bg-red-800 hover:bg-red-800 text-white rounded-full flex items-center justify-center">
+                    <i class="text-sm" data-fa-i2svg=""><svg class="svg-inline--fa fa-info" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" data-fa-i2svg=""><path fill="currentColor" d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V448h32c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H64V256H32c-17.7 0-32-14.3-32-32z"></path></svg></i>
+                </button> No employee exist for today's date.Please check roaster for the date <?php echo date('d-m-y'); ?></h5>
+                        <?php }  ?>
             </div>
         </section>
     </main>
@@ -239,13 +250,13 @@
 // Modified clockAction function
 function clockAction(timesheetId, employeeId, button) {
     const action = button.data('action') || 'unknown';
-    const isFaceVerification = <?php echo json_encode($generalConfigData['feature_toggle'] === '1'); ?>;
+    const isFaceVerification = <?php echo json_encode((isset($generalConfigData) && isset($generalConfigData['feature_toggle']) && $generalConfigData['feature_toggle'] === '1') ? true : false); ?>;
     const originalContent = button.html(); // Store original content
     
     // Store pending action and show loader immediately
     pendingAction = { timesheetId, employeeId, button, action, originalContent };
     button.html('<i class="fa-solid fa-spinner fa-spin mr-2"></i>Verifying...').prop('disabled', true);
-
+    
     if (isFaceVerification) {
         verifyFace(employeeId, (success) => {
             if (success) {
@@ -489,6 +500,8 @@ $(document).ready(function() {
             $('#pinSubmit').html("Submit")
             return;
         }
+        
+        console.log("pendingAction",pendingAction)
 
         verifyPin(pendingAction.employeeId, pin, (success) => {
              $('#pinSubmit').html("Submit");

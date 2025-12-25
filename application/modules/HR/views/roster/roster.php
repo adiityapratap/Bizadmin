@@ -89,189 +89,231 @@
     <div class="spinner"></div>
 </div>
     <div class="flex h-screen overflow-hidden">
-        <!-- Left Sidebar (Employee List) -->
-        <div id="employee-sidebar" class="w-72 bg-white border-r border-gray-200 flex flex-col mt-3">
-            <div class="p-4 border-b border-gray-200">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg text-black font-semibold text-gray-800">Team Members</h2>
-                    <span class="badge bg-primary text-white px-2 py-1 rounded-full"><?php echo count($empLists); ?> members</span>
-                </div>
-                <div class="relative mb-3">
-                    <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" placeholder="Search employees" class="filterEmployeeLeftPanel w-full pl-10 pr-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
-                </div>
+    <!-- Left Sidebar (Employee List) -->
+    <div id="employee-sidebar" class="w-72 bg-white border-r border-gray-200 flex flex-col mt-3">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg text-black font-semibold text-gray-800">Team Members</h2>
+                <span class="badge bg-primary text-white px-2 py-1 rounded-full">
+                    <?php echo (isset($empLists) && is_array($empLists)) ? count($empLists) : 0; ?> members
+                </span>
             </div>
-            <div class="overflow-y-auto flex-grow">
-                <ul id="employee-list" class="px-2">
-                    <?php 
-                     $avatar_colors = ['bg-primary', 'bg-green-600', 'bg-purple-600', 'bg-amber-600', 'bg-rose-600', 'bg-blue-600'];
-                     $color_index = 0;
-                     ?>
-                    <?php if (isset($empLists) && !empty($empLists)) { ?>
-                        <?php foreach ($empLists as $empList) { ?>
-                            <li class="my-1.5">
-                                <a class="text-reset employee-div dragSourceElement" data-employee-name="<?php echo $empList['name']; ?>" data-bs-toggle="collapse" href="#collapse<?php echo $empList['emp_id']; ?>" aria-expanded="false" aria-controls="collapse<?php echo $empList['emp_id']; ?>">
-                                    <span class="flex items-center p-2.5 rounded-lg hover:bg-gray-50 cursor-pointer">
-                                        <?php
-                                     $avatar_color = $avatar_colors[$color_index % count($avatar_colors)];
-                                    $color_index++;
-                                    $is_active = $color_index === 1 ? 'border-primary-500' : 'border-transparent';
-                                     ?>
-
-<div class="w-10 h-10 rounded-full <?php echo $avatar_color; ?> text-white flex items-center justify-center font-medium mr-3">
-    <?php echo strtoupper(substr($empList['name'], 0, 2)); ?>
-</div>
-
-                                        <div class="flex-grow-1">
-                                            <p class="text-sm font-medium text-gray-800"><?php echo $empList['name']; ?></p>
-                                            <p class="text-xs text-gray-500">
-                                                <?php
-                                                $positionDetail = array_filter($positionLists, function ($value) use ($empList) {
-                                                    return $value['position_id'] == $empList['position_id'];
-                                                });
-                                                $positionDetail = reset($positionDetail);
-                                                echo isset($positionDetail['position_name']) ? $positionDetail['position_name'] : '';
-                                                ?>
-                                            </p>
-                                            <input type="hidden" class="position_id" value="<?php echo $empList['position_id']; ?>">
-                                            <input type="hidden" class="empId" value="<?php echo $empList['emp_id']; ?>">
-                                            <input type="hidden" class="empName" value="<?php echo $empList['name']; ?>">
-                                        </div>
-                                        <span class="ml-auto text-xs font-medium bg-green-100 text-green-800 py-1 px-2 rounded-full">
-                                            <?php $timesheets = isset($empList['timesheets']) ? $empList['timesheets'] : 0; ?>
-                                            <?php echo $timesheets; ?>h
-                                        </span>
-                                    </span>
-                                </a>
-                                <div class="collapse mx-3 bg-gray-100 fs-12 py-2" id="collapse<?php echo $empList['emp_id']; ?>"></div>
-                            </li>
-                        <?php } ?>
-                    <?php } ?>
-                </ul>
+            <div class="relative mb-3">
+                <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="Search employees" class="filterEmployeeLeftPanel w-full pl-10 pr-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
             </div>
         </div>
+        <div class="overflow-y-auto flex-grow">
+            <ul id="employee-list" class="px-2">
+                <?php 
+                $avatar_colors = ['bg-primary', 'bg-green-600', 'bg-purple-600', 'bg-amber-600', 'bg-rose-600', 'bg-blue-600'];
+                $color_index = 0;
+                ?>
+                <?php if (isset($empLists) && !empty($empLists)) { ?>
+                    <?php foreach ($empLists as $empList) { ?>
+                        <li class="my-1.5">
+                            <a class="text-reset employee-div dragSourceElement" 
+                               data-employee-name="<?php echo isset($empList['name']) ? htmlspecialchars($empList['name']) : ''; ?>" 
+                               data-bs-toggle="collapse" 
+                               href="#collapse<?php echo isset($empList['emp_id']) ? htmlspecialchars($empList['emp_id']) : ''; ?>" 
+                               aria-expanded="false" 
+                               aria-controls="collapse<?php echo isset($empList['emp_id']) ? htmlspecialchars($empList['emp_id']) : ''; ?>">
+                                <span class="flex items-center p-2.5 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <?php
+                                    $avatar_color = $avatar_colors[$color_index % count($avatar_colors)];
+                                    $color_index++;
+                                    $is_active = $color_index === 1 ? 'border-primary-500' : 'border-transparent';
+                                    ?>
+                                    
+                                    
+                                    <?php
+$showTier = ($tierBasedEnabled === 1 && !empty($empList['tier']));
+$avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($empList['name']) ? strtoupper(substr(htmlspecialchars($empList['name']), 0, 2)) : '??'  );
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden mt-3">
-            <!-- Top Bar (Header Section) -->
-            <header id="header" class="bg-white border-b border-gray-200 py-3 px-4 md:px-6">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
-        <!-- Left Section -->
-        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
-                <button class="prevWeek px-2 py-1.5 text-gray-500 hover:bg-gray-100">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <div class="currentWeek px-2 py-1.5 font-medium text-gray-800 text-sm md:text-base">
+?>
+
+                                    <div class="w-10 h-10 rounded-full bg-orange-300 text-white flex items-center justify-center font-medium mr-3">
+                                        <?php echo $avatarText; ?>
+                                    </div>
+                                    
+                                    <div class="flex-grow-1">
+                                        <p class="text-sm font-medium text-gray-800">
+                                            <?php echo isset($empList['name']) ? htmlspecialchars($empList['name']) : ''; ?>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            <?php
+                                            if (isset($positionLists) && is_array($positionLists) && isset($empList['position_id'])) {
+                                                $positionDetail = array_filter($positionLists, function ($value) use ($empList) {
+                                                    return isset($value['position_id']) && $value['position_id'] == $empList['position_id'];
+                                                });
+                                                $positionDetail = reset($positionDetail);
+                                                echo (isset($positionDetail['position_name']) && $positionDetail !== false) ? htmlspecialchars($positionDetail['position_name']) : '';
+                                            }
+                                            ?>
+                                        </p>
+                                        <input type="hidden" class="position_id" value="<?php echo isset($empList['position_id']) ? htmlspecialchars($empList['position_id']) : ''; ?>">
+                                        <input type="hidden" class="empId" value="<?php echo isset($empList['emp_id']) ? htmlspecialchars($empList['emp_id']) : ''; ?>">
+                                        <input type="hidden" class="empName" value="<?php echo isset($empList['name']) ? htmlspecialchars($empList['name']) : ''; ?>">
+                                    </div>
+                                    <span class="ml-auto text-xs font-medium bg-green-100 text-green-800 py-1 px-2 rounded-full">
+                                        <?php $timesheets = isset($empList['timesheets']) ? $empList['timesheets'] : 0; ?>
+                                        <?php echo htmlspecialchars($timesheets); ?>h
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="collapse mx-3 bg-gray-100 fs-12 py-2" id="collapse<?php echo isset($empList['emp_id']) ? htmlspecialchars($empList['emp_id']) : ''; ?>"></div>
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden mt-3">
+        <!-- Top Bar (Header Section) -->
+        <header id="header" class="bg-white border-b border-gray-200 py-3 px-4 md:px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+                <!-- Left Section -->
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <button class="prevWeek px-2 py-1.5 text-gray-500 hover:bg-gray-100">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="currentWeek px-2 py-1.5 font-medium text-gray-800 text-sm md:text-base">
+                            <?php
+                            if (isset($weekRange) && $weekRange != '') {
+                                $date_text = $weekRange;
+                            } else {
+                                $monday = new DateTime('monday this week');
+                                $date_text = $monday->format('d M') . ' - ' . $monday->modify('+6 days')->format('d M');
+                            }
+                            
+                            if (isset($rosterInfo[0]['start_date']) && !empty($rosterInfo[0]['start_date'])) {
+                                $sdate = $rosterInfo[0]['start_date'];
+                                $endDate = isset($rosterInfo[0]['end_date']) ? $rosterInfo[0]['end_date'] : '';
+                                if (!empty($endDate)) {
+                                    $startDateTime = new DateTime($sdate);
+                                    $endDateTime = new DateTime($endDate);
+                                    $startFormatted = $startDateTime->format('d M');
+                                    $endFormatted = $endDateTime->format('d M');
+                                    $date_text = "$startFormatted - $endFormatted";
+                                }
+                            } else if (isset($rosterStartDate) && $rosterStartDate != '') {
+                                $sdate = $rosterStartDate;
+                            } else {
+                                $cdate = date('Y-m-d');
+                                $timestamp = strtotime($cdate);
+                                $dayOfWeek = date("N", $timestamp);
+                                $daysToMonday = $dayOfWeek - 1;
+                                $sdate = date("Y-m-d", strtotime("-$daysToMonday days", $timestamp));
+                            }
+                            
+                            echo htmlspecialchars($date_text);
+                            ?>
+                        </div>
+                        <button class="nextWeek px-2 py-1.5 text-gray-500 hover:bg-gray-100">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <select class="weekAreaAndTeam px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm">
+                            <option selected value="1">Week by Area</option>
+                            <option value="2">Week by Team Member</option>
+                            <option value="3">Day by Team Member</option>
+                        </select>
+                    </div>
+                    <div class="relative flex-1 md:flex-none">
+                        <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
+                               class="w-full px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm" 
+                               value="<?php echo (isset($rosterInfo[0]['rosterName']) && !empty($rosterInfo[0]['rosterName'])) ? htmlspecialchars($rosterInfo[0]['rosterName']) : ''; ?>">
+                    </div>
+                </div>
+                <!-- Right Section -->
+                <div class="flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
+                    <button data-bs-toggle="modal" 
+                            onclick="showRosterRecreateModal(<?php echo isset($rosterId) ? htmlspecialchars($rosterId) : 0; ?>)" 
+                            class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
+                        <i class="fa-solid fa-rotate mr-1"></i> Recreate
+                    </button>
+                    <button onclick="publishRoster('save')" class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
+                        <i class="fa-regular fa-save mr-1"></i> Save
+                    </button>
+                    <button onclick="publishRoster('publish')" class="px-3 py-1.5 bg-primary text-white rounded-lg text-sm hover:bg-primary/90">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Publish
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Middle Body Section (Schedule Grid) -->
+        <div id="schedule-grid" class="flex-1 overflow-auto p-6">
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <!-- Table Header -->
+                <div class="grid grid-cols-8 border-b border-gray-200">
+                    <div class="px-4 py-3 font-medium text-gray-500 text-sm bg-gray-50 border-r border-gray-200">Area</div>
                     <?php
-                    if (isset($weekRange) && $weekRange != '') {
-                        $date_text = $weekRange;
-                    } else {
-                        $monday = new DateTime('monday this week');
-                        $date_text = $monday->format('d M') . ' - ' . $monday->modify('+6 days')->format('d M');
-                    }
-                    if (isset($rosterInfo[0]['start_date']) && $rosterInfo[0]['start_date'] != '') {
-                        $sdate = $rosterInfo[0]['start_date'];
-                        $endDate = $rosterInfo[0]['end_date'];
-                        $startDateTime = new DateTime($sdate);
-                        $endDateTime = new DateTime($endDate);
-                        $startFormatted = $startDateTime->format('d M');
-                        $endFormatted = $endDateTime->format('d M');
-                        $date_text = "$startFormatted - $endFormatted";
-                    } else if (isset($rosterStartDate) && $rosterStartDate != '') {
-                        $sdate = $rosterStartDate;
-                    } else {
+                    // Ensure $sdate is set before using it
+                    if (!isset($sdate)) {
                         $cdate = date('Y-m-d');
                         $timestamp = strtotime($cdate);
                         $dayOfWeek = date("N", $timestamp);
                         $daysToMonday = $dayOfWeek - 1;
                         $sdate = date("Y-m-d", strtotime("-$daysToMonday days", $timestamp));
                     }
-                    echo $date_text;
-                    ?>
-                </div>
-                <button class="nextWeek px-2 py-1.5 text-gray-500 hover:bg-gray-100">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
-            <div class="relative">
-                <select class="weekAreaAndTeam px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm">
-                    <option selected value="1">Week by Area</option>
-                    <option value="2">Week by Team Member</option>
-                    <option value="3">Day by Team Member</option>
-                </select>
-            </div>
-            <div class="relative flex-1 md:flex-none">
-                <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" class="w-full px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm" value="<?php echo isset($rosterInfo[0]['rosterName']) ? $rosterInfo[0]['rosterName'] : ''; ?>">
-            </div>
-        </div>
-        <!-- Right Section -->
-        <div class="flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
-            <button data-bs-toggle="modal" onclick="showRosterRecreateModal(<?php echo isset($rosterId) ? $rosterId : 0; ?>)" class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
-                <i class="fa-solid fa-rotate mr-1"></i> Recreate
-            </button>
-            <button onclick="publishRoster('save')" class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
-                <i class="fa-regular fa-save mr-1"></i> Save
-            </button>
-            <button onclick="publishRoster('publish')" class="px-3 py-1.5 bg-primary text-white rounded-lg text-sm hover:bg-primary/90">
-                <i class="fa-solid fa-paper-plane mr-1"></i> Publish
-            </button>
-        </div>
-    </div>
-</header>
-
-            <!-- Middle Body Section (Schedule Grid) -->
-            <div id="schedule-grid" class="flex-1 overflow-auto p-6">
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <!-- Table Header -->
-                    <div class="grid grid-cols-8 border-b border-gray-200">
-                        <div class="px-4 py-3 font-medium text-gray-500 text-sm bg-gray-50 border-r border-gray-200">Area</div>
-                        <?php
-                        $currentMonday = date('Y-m-d', strtotime($sdate));
-                        $days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-                        foreach ($days as $day) { ?>
-                            <div class="px-4 py-3 font-medium text-gray-800 text-sm text-center">
-                                <div><?php echo $day; ?></div>
-                                <div class="text-gray-500 text-xs"><?php echo date('d/m', strtotime($currentMonday)); ?></div>
-                            </div>
-                            <?php $currentMonday = date('Y-m-d', strtotime('+1 day', strtotime($currentMonday))); ?>
-                        <?php } ?>
-                    </div>
-
-                    <!-- Dynamic Areas -->
-                    <?php if (isset($prepAreas) && !empty($prepAreas)) { ?>
-                        <?php foreach ($prepAreas as $prepArea) { ?>
-                            <div id="area-<?php echo $prepArea['id']; ?>">
-                                <div class="grid grid-cols-8 border-b border-gray-200">
-                                    <div class="px-4 py-3 font-medium text-gray-800 bg-gray-50 border-r border-gray-200 flex items-center justify-between">
-                                        <span><?php echo $prepArea['prep_name']; ?></span>
-                                        <button class="text-gray-500 hover:text-gray-700" data-bs-toggle="collapse" data-bs-target="#prep_<?php echo $prepArea['id']; ?>">
-                                            <i class="fa-solid fa-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                    <?php
-                                    $currentMonday = date('Y-m-d', strtotime($sdate));
-                                    foreach ($days as $day) {
-                                        $dayName = strtolower($day);
-                                        $dateNumber = date('d', strtotime($currentMonday));
-                                        $shiftBoxName = $dateNumber . '_' . $prepArea['id'];
-                                    ?>
-                                        <div class="p-2 <?php echo $day !== 'Sunday' ? 'border-r border-gray-200' : ''; ?>">
-                                            <div class="allocatedEmpShift_<?php echo $shiftBoxName; ?> dragEmployeeBox"></div>
-                                            <button class="addShiftForPrep w-full py-1 text-xs text-gray-500 hover:bg-gray-50 rounded border border-dashed border-gray-300" data-shiftBoxName="<?php echo $shiftBoxName; ?>" data-date="<?php echo date('d-m-Y', strtotime($currentMonday)); ?>" data-prepArea="<?php echo $prepArea['prep_name']; ?>" data-prepAreaId="<?php echo $prepArea['id']; ?>">
-                                                <i class="fa-solid fa-plus mr-1"></i> Add shift
-                                            </button>
-                                        </div>
-                                        <?php $currentMonday = date('Y-m-d', strtotime('+1 day', strtotime($currentMonday))); ?>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        <?php } ?>
+                    
+                    $currentMonday = date('Y-m-d', strtotime($sdate));
+                    $days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+                    
+                    foreach ($days as $day) { ?>
+                        <div class="px-4 py-3 font-medium text-gray-800 text-sm text-center">
+                            <div><?php echo htmlspecialchars($day); ?></div>
+                            <div class="text-gray-500 text-xs"><?php echo htmlspecialchars(date('d/m', strtotime($currentMonday))); ?></div>
+                        </div>
+                        <?php $currentMonday = date('Y-m-d', strtotime('+1 day', strtotime($currentMonday))); ?>
                     <?php } ?>
                 </div>
+
+                <!-- Dynamic Areas -->
+                <?php if (isset($prepAreas) && !empty($prepAreas)) { ?>
+                    <?php foreach ($prepAreas as $prepArea) { ?>
+                        <div id="area-<?php echo isset($prepArea['id']) ? htmlspecialchars($prepArea['id']) : ''; ?>">
+                            <div class="grid grid-cols-8 border-b border-gray-200">
+                                <div class="px-4 py-3 font-medium text-gray-800 bg-gray-50 border-r border-gray-200 flex items-center justify-between">
+                                    <span><?php echo isset($prepArea['prep_name']) ? htmlspecialchars($prepArea['prep_name']) : ''; ?></span>
+                                    <button class="text-gray-500 hover:text-gray-700" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#prep_<?php echo isset($prepArea['id']) ? htmlspecialchars($prepArea['id']) : ''; ?>">
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                </div>
+                                <?php
+                                $currentMonday = date('Y-m-d', strtotime($sdate));
+                                foreach ($days as $day) {
+                                    $dayName = strtolower($day);
+                                    $dateNumber = date('d', strtotime($currentMonday));
+                                    $shiftBoxName = $dateNumber . '_' . (isset($prepArea['id']) ? $prepArea['id'] : '');
+                                ?>
+                                    <div class="p-2 <?php echo $day !== 'Sunday' ? 'border-r border-gray-200' : ''; ?>">
+                                        <div class="allocatedEmpShift_<?php echo htmlspecialchars($shiftBoxName); ?> dragEmployeeBox"></div>
+                                        <button class="addShiftForPrep w-full py-1 text-xs text-gray-500 hover:bg-gray-50 rounded border border-dashed border-gray-300" 
+                                                data-shiftBoxName="<?php echo htmlspecialchars($shiftBoxName); ?>" 
+                                                data-date="<?php echo htmlspecialchars(date('d-m-Y', strtotime($currentMonday))); ?>" 
+                                                data-prepArea="<?php echo isset($prepArea['prep_name']) ? htmlspecialchars($prepArea['prep_name']) : ''; ?>" 
+                                                data-prepAreaId="<?php echo isset($prepArea['id']) ? htmlspecialchars($prepArea['id']) : ''; ?>">
+                                            <i class="fa-solid fa-plus mr-1"></i> Add shift
+                                        </button>
+                                    </div>
+                                    <?php $currentMonday = date('Y-m-d', strtotime('+1 day', strtotime($currentMonday))); ?>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Add/Edit Shift Modal -->
     <div class="modal fade" id="addShift-modal" tabindex="-1">

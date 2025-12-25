@@ -2,7 +2,33 @@
    <div class="row">
      <div class="col-12 tempDiv">
     <!--<a class="btn btn-danger btn-sm mb-2 " href="/Compliance/Home/index/<?php echo $this->session->userdata('system_id'); ?>">Tasks</a> -->
-     <a class="btn btn-success btn-sm mb-2 d-none" href="<?php echo base_url('/Compliance/Cake/Cakehome/listProduct') ?>">+ Add Product</a>
+   <div class="d-flex flex-wrap gap-2 w-100 mb-3">
+
+  <a class="btn btn-primary d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Cake/Cakehome'); ?>" 
+     data-bs-toggle="tooltip" title="View Best Before Dashboard">
+    <i class="fa-solid fa-cake-candles"></i> Best Before Dashboard
+  </a>
+
+  <a class="btn btn-danger d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Waste/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Manage Waste Records">
+    <i class="fa-solid fa-trash-can"></i> Waste Management
+  </a>
+
+  <a class="btn btn-secondary d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Sanitation/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Sanitation Compliance">
+    <i class="fa-solid fa-soap"></i> Sanitation
+  </a>
+
+  <a class="btn btn-success d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Goods/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Incoming Goods Checks">
+    <i class="fa-solid fa-truck"></i> Incoming Goods
+  </a>
+
+</div>
    
     <div class="card">
      <div class="card-header align-items-center d-flex">

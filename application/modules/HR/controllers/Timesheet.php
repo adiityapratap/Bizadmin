@@ -22,132 +22,28 @@ class Timesheet extends MY_Controller {
         
     }
     
-    public function timesheetWithoutRoster($timesheetDateRange = '') {
-        // Determine date range
-        if ($timesheetDateRange) {
-            $monday = new DateTime('monday this week');
-            $timesheetDateRange = $monday->format('d M') . ' - ' . $monday->modify('+6 days')->format('d M');
-            $dateRange = $this->createDateFormat($timesheetDateRange);
-        } else {
-            $dateRange = [
-                'start_date' => date('Y-m-d', strtotime('monday this week')),
-                'end_date' => date('Y-m-d', strtotime('sunday this week'))
-            ];
-        }
+    public function searchEmployees() {
+    $query = $this->input->post('query');
+    $location_id = $this->location_id;
 
-        // Fetch employee and position lists
-        $conditions = ['location_id' => $this->location_id];
-        $data['empLists'] = $this->employee_model->employeeList('', '', true);
-        $data['positionLists'] = $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditions);
-        $data['prepAreaLists'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions);
-        $data['dateRange'] = $dateRange;
+    $result = $this->timesheet_model->searchEmployees($query, $this->location_id);
 
-        // Load views
-        $this->load->view('general/header');
-        $this->load->view('timesheet/timesheetWithoutRoster', $data);
-        $this->load->view('general/footer');
-    }
+    echo json_encode($result);
+}
 
-    public function save_timesheet() {
-        if (!$this->input->post('ids') || !$this->input->post('date_range')) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid input']);
-            exit;
-        }
-
-        $this->tenantDb->trans_start();
-        $insertData = [];
-        $timesheetWeek = $this->createDateFormat($this->input->post('date_range'));
-        $startDate = $timesheetWeek['start_date'];
-        $endDate = $timesheetWeek['end_date'];
-
-        // Prepare timesheet entries
-        foreach ($this->input->post('ids') as $empId) {
-            $empIdParts = explode("_", $empId);
-            $emp_id = $empIdParts[0];
-            $position_id = $empIdParts[1] ?? null;
-            $prep_area_id = $empIdParts[2] ?? null;
-
-            $date = $startDate;
-            while (strtotime($date) <= strtotime($endDate)) {
-                // Check for existing record (including soft-deleted)
-                $existing = $this->common_model->fetchRecordsDynamically(
-                    'HR_timesheet',
-                    ['timesheet_id', 'is_deleted'],
-                    [
-                        'roster_id' => null,
-                        'employee_id' => $emp_id,
-                        'roster_date' => $date
-                    ]
-                );
-
-                $timesheetData = [
-                    'roster_id' => null,
-                    'employee_id' => $emp_id,
-                    'prep_area_id' => $prep_area_id ?? 0,
-                    'position_id' => $position_id,
-                    'roster_date' => $date,
-                    'roster_start_time' => null,
-                    'roster_end_time' => null,
-                    'roster_break_start_time' => null,
-                    'roster_break_type' => null,
-                    'roster_break_duration' => 0,
-                    'task_description' => null,
-                    'clock_in_time' => null,
-                    'clock_out_time' => null,
-                    'actual_break_duration' => 0,
-                    'approval_status' => 'pending',
-                    'is_deleted' => 0,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ];
-
-                if (!empty($existing)) {
-                    // Update existing record
-                    $this->common_model->commonRecordUpdate(
-                        'HR_timesheet',
-                        'timesheet_id',
-                        $existing[0]['timesheet_id'],
-                        $timesheetData
-                    );
-                } else {
-                    // Insert new record
-                    $insertData[] = $timesheetData;
-                }
-
-                $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
-            }
-        }
-
-        // Insert new timesheet records
-        if (!empty($insertData)) {
-            try {
-                $this->common_model->commonBulkRecordCreate('HR_timesheet', $insertData);
-            } catch (Exception $e) {
-                $this->tenantDb->trans_rollback();
-                echo json_encode(['status' => 'error', 'message' => 'Failed to save timesheet: ' . $e->getMessage()]);
-                exit;
-            }
-        }
-
-        $this->tenantDb->trans_complete();
-        if ($this->tenantDb->trans_status() === FALSE) {
-            echo json_encode(['status' => 'error', 'message' => 'Database error occurred']);
-            exit;
-        }
-
-        echo json_encode(['status' => 'success', 'message' => 'Timesheet saved successfully']);
-        exit;
-    }
+   
 
     public function timesheetList() {
         $conditions = ['location_id' => $this->location_id,'is_published' => 1, 'is_deleted' => 0, 'status' => 1];
-        $data['timesheetList'] = $this->common_model->fetchRecordsDynamically('HR_roster', '', $conditions);
+        $data['timesheets'] = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $conditions);
+        // echo "<pre>"; print_r($data['timesheets']); exit;
         
         $this->load->view('general/header');
         $this->load->view('timesheet/timesheetList', $data);
         $this->load->view('general/footer');
     }
-
+    
+   // timesheet with roster
     public function timesheetView($timesheetId) {
         // Fetch timesheet details
         $conditions = ['timesheet_id' => $timesheetId, 'is_deleted' => 0];
@@ -159,12 +55,12 @@ class Timesheet extends MY_Controller {
             'p.prep_name', 'pos.position_name'
         ];
         $timesheetDetails = $this->common_model->fetchRecordsDynamically(
-            'HR_timesheet',
+            'HR_timesheet_details',
             $fieldsToFetch,
             $conditions,
-            ['JOIN HR_employee e ON HR_timesheet.employee_id = e.id'],
-            ['JOIN 	HR_prepArea p ON HR_timesheet.prep_area_id = p.id'],
-            ['LEFT JOIN HR_emp_position pos ON HR_timesheet.position_id = pos.id']
+            ['JOIN HR_employee e ON HR_timesheet_details.employee_id = e.id'],
+            ['JOIN 	HR_prepArea p ON HR_timesheet_details.prep_area_id = p.id'],
+            ['LEFT JOIN HR_emp_position pos ON HR_timesheet_details.position_id = pos.id']
         );
 
         // Group data by employee and date
@@ -214,49 +110,87 @@ class Timesheet extends MY_Controller {
         ];
     }
     
-    function viewWeeklyTimesheet($start_date = null, $end_date = null){
-      
-	  $start_date = $start_date ?? date('Y-m-d', strtotime('monday this week'));
-      $end_date = $end_date ?? date('Y-m-d', strtotime('sunday this week'));
-      $conditions = ['location_id' => $this->location_id];
-      $data['prepAreaLists'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions);
-        
-        $data['timesheets'] = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id);
-        $data['start_date'] = $start_date;
-        $data['end_date'] = $end_date;
-        
-        // echo "<pre>"; print_r($data['timesheets']); exit;
-        
-      $this->load->view('general/header');
-	  $this->load->view('timesheet/weeklyTimesheet',$data);
-	  $this->load->view('general/footer');
-	  
-    }
+   function viewWeeklyTimesheet($start_date = null, $end_date = null) {
+    $start_date = $start_date ?? date('Y-m-d', strtotime('monday this week'));
+    $end_date = $end_date ?? date('Y-m-d', strtotime('sunday this week'));
+    
+    $conditions = ['location_id' => $this->location_id];
+    $data['prepAreaLists'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions);
+    
+    $data['timesheets'] = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id);
+    $data['start_date'] = $start_date;
+    $data['end_date'] = $end_date;
+    
+    $this->load->view('general/header');
+    $this->load->view('timesheet/weeklyTimesheet', $data);
+    $this->load->view('general/footer');
+}
     
     public function update_timesheet() {
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-        
-        
-        $rolesToAccess =  ['Manager','Admin'];
-        if (!in_array($this->roleName,$rolesToAccess)) {
-            echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
-            return;
-        }
-        
-        $timesheet_id = $this->input->post('timesheet_id');
-        $clock_in_time = $this->input->post('clock_in_time');
-        $clock_out_time = $this->input->post('clock_out_time');
-        
-        $result = $this->timesheet_model->update_timesheet_times($timesheet_id, $clock_in_time, $clock_out_time);
-        
-        if ($result) {
-            echo json_encode(['status' => 'success', 'message' => 'Timesheet updated successfully']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to update timesheet']);
-        }
+    if (!$this->input->is_ajax_request()) {
+        show_404();
     }
+    
+    $rolesToAccess = ['Manager', 'Admin'];
+    if (!in_array($this->roleName, $rolesToAccess)) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+        return;
+    }
+    
+    $timesheet_id = $this->input->post('timesheet_id');
+    $clock_in_time = $this->input->post('clock_in_time');
+    $clock_out_time = $this->input->post('clock_out_time');
+    
+    if (empty($timesheet_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Timesheet ID is required']);
+        return;
+    }
+    
+    if (empty($clock_in_time) && empty($clock_out_time)) {
+        echo json_encode(['status' => 'error', 'message' => 'At least one time field is required']);
+        return;
+    }
+    
+    $result = $this->timesheet_model->update_timesheet_times($timesheet_id, $clock_in_time, $clock_out_time);
+    
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Timesheet updated successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update timesheet']);
+    }
+}
+
+/**
+ * Approve a single timesheet entry
+ * Called via AJAX
+ */
+public function approve_single_timesheet() {
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+    
+    $rolesToAccess = ['Manager', 'Admin'];
+    
+    if (!in_array($this->roleName, $rolesToAccess)) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+        return;
+    }
+    
+    $timesheet_id = $this->input->post('timesheet_id');
+    
+    if (empty($timesheet_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Timesheet ID is required']);
+        return;
+    }
+    
+    $result = $this->timesheet_model->approve_single_timesheet($timesheet_id);
+    
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'Timesheet approved successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to approve timesheet']);
+    }
+}
     
     public function verifyFace()
     {
@@ -328,15 +262,16 @@ class Timesheet extends MY_Controller {
            
          if (isset($employee) && !empty($employee)) {
             echo json_encode(['status' => 'success']);
-        } else {
+          } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid PIN']);
-        }   
+         }   
             
     }
 
      // for timesheet portal only , where employee can clockin and clockout
     public function clock_action()
     {
+    
         $timesheetId = $this->input->post('timesheet_id');
         $employeeId = $this->input->post('employee_id');
         $action = $this->input->post('action');
@@ -373,7 +308,7 @@ class Timesheet extends MY_Controller {
                 'location_id' => $this->location_id
             ];
             try {
-                $timesheetId = $this->common_model->commonRecordCreate('HR_timesheet', $timesheetData);
+                $timesheetId = $this->common_model->commonRecordCreate('HR_timesheet_details', $timesheetData);
             } catch (Exception $e) {
                 $this->tenantDb->trans_rollback();
                 echo json_encode(['status' => 'error', 'message' => 'Failed to create timesheet: ' . $e->getMessage()]);
@@ -385,7 +320,7 @@ class Timesheet extends MY_Controller {
         $updateData = ['updated_at' => date('Y-m-d H:i:s')];
         $responseData = [];
         if ($action === 'clock_in') {
-            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
+            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
             if (!empty($timesheet) && $timesheet[0]['clock_in_time']) {
                 echo json_encode(['status' => 'error', 'message' => 'Employee already clocked in']);
                 exit;
@@ -393,29 +328,74 @@ class Timesheet extends MY_Controller {
             $updateData['clock_in_time'] = date('Y-m-d H:i:s');
             $responseData['clock_in_time'] = date('h:i A');
             try {
-                $this->common_model->commonRecordUpdate('HR_timesheet', 'timesheet_id', $timesheetId, $updateData);
+                $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, $updateData);
             } catch (Exception $e) {
                 $this->tenantDb->trans_rollback();
                 echo json_encode(['status' => 'error', 'message' => 'Failed to update timesheet: ' . $e->getMessage()]);
                 exit;
             }
         } elseif ($action === 'clock_out') {
-            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
+            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
             if (empty($timesheet) || !$timesheet[0]['clock_in_time']) {
                 echo json_encode(['status' => 'error', 'message' => 'Employee must clock in first']);
                 exit;
             }
-            $updateData['clock_out_time'] = date('Y-m-d H:i:s');
-            $responseData['clock_out_time'] = date('h:i A');
+            // add 30 mins and 60 mins break if emp worked for 5 hrs or 10 hrs accordingly
+            $clockOutTime = date('Y-m-d H:i:s');
+$updateData['clock_out_time'] = $clockOutTime;
+$responseData['clock_out_time'] = date('h:i A');
+
+// Fetch the full timesheet row (for clock_in_time)
+$timesheetFull = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', ['clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
+$clockInTime = $timesheetFull[0]['clock_in_time'] ?? null;
+
+if ($clockInTime) {
+    $workedSeconds = strtotime($clockOutTime) - strtotime($clockInTime);
+    $workedHours = $workedSeconds / 3600;
+
+    // Get total break duration for this timesheet
+    $existingBreakMinutes = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId);
+
+    if ($workedHours > 10 && $existingBreakMinutes < 60) {
+        $addBreak = 60 - $existingBreakMinutes;
+    } elseif ($workedHours > 5 && $existingBreakMinutes < 30) {
+        $addBreak = 30 - $existingBreakMinutes;
+    } else {
+        $addBreak = 0;
+    }
+
+    // Add missing break as a closed break entry
+    if ($addBreak > 0) {
+        $autoBreakStart = date('Y-m-d H:i:s', strtotime($clockOutTime) - ($addBreak * 60));
+        $autoBreakEnd   = $clockOutTime;
+
+        $this->common_model->commonRecordCreate('HR_timesheet_breaks', [
+            'timesheet_id'     => $timesheetId,
+            'break_start_time' => $autoBreakStart,
+            'break_end_time'   => $autoBreakEnd,
+            'break_duration'   => $addBreak,
+            'is_deleted'       => 0,
+            'created_at'       => date('Y-m-d H:i:s'),
+            'updated_at'       => date('Y-m-d H:i:s')
+        ]);
+
+        // Update actual_break_duration in timesheet
+        $totalBreak = $existingBreakMinutes + $addBreak;
+        $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, [
+            'actual_break_duration' => $totalBreak
+        ]);
+    }
+}
+
             try {
-                $this->common_model->commonRecordUpdate('HR_timesheet', 'timesheet_id', $timesheetId, $updateData);
+                $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, $updateData);
             } catch (Exception $e) {
                 $this->tenantDb->trans_rollback();
                 echo json_encode(['status' => 'error', 'message' => 'Failed to update timesheet: ' . $e->getMessage()]);
                 exit;
             }
         } elseif ($action === 'break_start') {
-            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
+            $timesheet = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', ['timesheet_id', 'clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
             if (empty($timesheet) || !$timesheet[0]['clock_in_time']) {
                 echo json_encode(['status' => 'error', 'message' => 'Employee must clock in first']);
                 exit;
@@ -461,7 +441,7 @@ class Timesheet extends MY_Controller {
                 $this->common_model->commonRecordUpdate('HR_timesheet_breaks', 'break_id', $latestBreak['break_id'], $breakUpdateData);
                 // Update actual_break_duration in HR_timesheet
                 $totalBreakDuration = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId);
-                $this->common_model->commonRecordUpdate('HR_timesheet', 'timesheet_id', $timesheetId, ['actual_break_duration' => $totalBreakDuration]);
+                $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, ['actual_break_duration' => $totalBreakDuration]);
                 $responseData['break_duration'] = $totalBreakDuration;
                 $responseData['break_end_time'] = date('h:i A');
             } catch (Exception $e) {
@@ -492,7 +472,7 @@ class Timesheet extends MY_Controller {
   
     //     // fetch pending timesheets
     //     $where = ['roster_id' => $rosterId, 'is_deleted' => 0, 'approval_status' => 'pending'];
-    //     $timesheets = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $where);
+    //     $timesheets = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', '', $where);
 
     //     if (empty($timesheets)) {
     //         return ['status' => 'error', 'message' => 'No pending timesheets found'];
@@ -533,7 +513,7 @@ class Timesheet extends MY_Controller {
     //     }
 
     //     if (!empty($updatedTimesheets)) {
-    //         $this->tenantDb->update_batch('HR_timesheet', $updatedTimesheets, 'timesheet_id');
+    //         $this->tenantDb->update_batch('HR_timesheet_details', $updatedTimesheets, 'timesheet_id');
     //         return [
     //             'status' => 'success',
     //             'message' => count($updatedTimesheets) . ' timesheets auto-approved'
@@ -548,28 +528,894 @@ class Timesheet extends MY_Controller {
     // function for  manual approval of timesheet on click of button
     
     public function approve_employee_timesheets() {
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-        $rolesToAccess =  ['Manager','Admin'];
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+    
+    $rolesToAccess = ['Manager', 'Admin'];
+    
+    if (!in_array($this->roleName, $rolesToAccess)) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+        return;
+    }
+    
+    $employee_id = $this->input->post('employee_id');
+    $start_date = $this->input->post('start_date');
+    $end_date = $this->input->post('end_date');
+    
+    if (empty($employee_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Employee ID is required']);
+        return;
+    }
+    
+    if (empty($start_date) || empty($end_date)) {
+        echo json_encode(['status' => 'error', 'message' => 'Start date and end date are required']);
+        return;
+    }
+    
+    $result = $this->timesheet_model->approve_employee_timesheets($employee_id, $start_date, $end_date);
+    
+    if ($result) {
+        echo json_encode(['status' => 'success', 'message' => 'All timesheets for employee approved successfully']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to approve timesheets']);
+    }
+}
+    
+    // add task for emp in timesheet without roster , all methods below are related to timesheet without roster
+    
+public function get_employee_tasks() 
+{
+    $emp_id = $this->input->post('employee_id');
+    $date   = $this->input->post('task_date');
+
+    $row = $this->tenantDb->get_where('HR_tasks', ['employee_id' => $emp_id,'task_date'   => $date])->row_array();
+    
+    if (!$row) {
+        echo json_encode(['success' => true, 'tasks' => []]);
+        return;
+    }
+
+    // Decode JSON tasks
+    $tasksArray = !empty($row['task_description'])  ? json_decode($row['task_description'], true) : [];
        
-        if (!in_array($this->roleName,$rolesToAccess)) {
-            echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+    echo json_encode([
+        'success'      => true,
+        'tasks'        => $tasksArray,          // array of tasks
+        'prep_area_id' => $row['prep_area_id'], // single value now
+        'position_id'  => $row['position_id']
+    ]);
+}
+
+
+   public function save_employee_tasks() 
+   {
+    $this->output->set_content_type('application/json');
+    $input = json_decode($this->input->raw_input_stream, true);
+
+    $employee_id   = $input['employee_id']   ?? null;
+    $task_date     = $input['task_date']     ?? null;
+    $prep_area_id  = $input['prep_area_id']  ?? null;
+    $position_id   = $input['empPositionId'] ?? null;
+    $tasks         = $input['tasks']         ?? []; // array of tasks
+
+    if (!$employee_id || !$task_date) {
+        echo json_encode(['success' => false, 'message' => 'Invalid request']);
+        return;
+    }
+
+    // Create timesheet entry if not exists
+    $timesheetId = $this->create_timesheet_entry($input);
+
+    // Encode tasks as JSON
+    $jsonTasks = json_encode($tasks, JSON_UNESCAPED_UNICODE);
+
+    // Check if entry already exists
+    $existing = $this->common_model->fetchRecordsDynamically('HR_tasks','',  ['employee_id' => $employee_id,'task_date'   => $task_date,'prep_area_id'  => $prep_area_id]);
+
+
+    $data = [
+        'employee_id'  => $employee_id,
+        'location_id'  => $this->location_id,
+        'task_date'    => $task_date,
+        'prep_area_id' => $prep_area_id,
+        'position_id'  => $position_id,
+        'task_description'   => $jsonTasks,
+        'timesheet_id' => $timesheetId,
+        'updated_at'   => date('Y-m-d H:i:s')
+    ];
+
+    if ($existing) {
+        // Update
+        $this->common_model->commonRecordUpdateMultipleConditions('HR_tasks', ['employee_id' => $employee_id,'task_date'   => $task_date,'prep_area_id'  => $prep_area_id], $data);
+    } else {
+        // Insert
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $this->tenantDb->insert('HR_tasks', $data);
+    }
+    
+    
+     // DELETE existing daily task status for this user & date
+     $this->tenantDb->where(['emp_id' => $employee_id,'date'   => $task_date]);
+     $this->tenantDb->delete('hr_task_daily_status');
+
+// INSERT each task as separate row
+foreach ($tasks as $taskNote) {
+
+    // Clean task text again for DB safety
+    $taskNote = trim($taskNote);
+
+    if ($taskNote === '') continue;
+
+    $dailyData = [
+        'emp_id'                => $employee_id,
+        'date'                  => $task_date,
+        'task_descr'            => $taskNote,
+        'status'                => 0, // 0 = pending, 1 = completed
+        'time_task_completed_at'=> null
+    ];
+
+    $this->tenantDb->insert('hr_task_daily_status', $dailyData);
+    
+   
+}
+ echo json_encode(['success' => true]);
+   }
+   
+   public function create_timesheet_entry($postedData) {
+    
+    $employee_id   = $postedData['employee_id']   ?? null;
+    $timesheet_date     = $postedData['task_date']     ?? null;
+    $prep_area_id  = $postedData['prep_area_id']  ?? null;
+    $position_id   = $postedData['empPositionId'] ?? null;
+    $tasks         = $postedData['tasks']         ?? []; // array of tasks
+    
+    $monday = date('Y-m-d', strtotime('monday this week', strtotime($timesheet_date))); // start date
+    $sunday = date('Y-m-d', strtotime('sunday this week', strtotime($timesheet_date))); // end date
+
+    $week_start = date('Y-m-d', strtotime($monday));
+    $week_end = date('Y-m-d', strtotime($sunday));
+  
+    // --------------------------------
+    // 2. Check if parent timesheet exists
+    // --------------------------------
+    $conditionsTimesheet = ['location_id' => $this->location_id, 'date_from' => $week_start];
+    $timesheetExists = $this->common_model->fetchRecordsDynamically('HR_timesheet',['id'],  $conditionsTimesheet);
+  
+    if(!$timesheetExists){
+        $timesheetData = array(
+            'date_from'   => $week_start,
+            'date_to'     => $week_end,
+            'location_id' => $this->location_id,
+            'status'      => 1,
+            'date_added'  => date('Y-m-d H:i:s')
+        );
+
+        $timesheetId = $this->common_model->commonRecordCreate('HR_timesheet', $timesheetData);
+    } else {
+        $timesheetId = $timesheetExists[0]['id'];
+    }
+
+
+       // Check if detail entry exists (HR_timesheet_details)
+   $exists = $this->common_model->fetchRecordsDynamically( 'HR_timesheet_details',[], [ 'employee_id' => $employee_id,'roster_date' => $timesheet_date,'is_deleted'  => 0],'',1);
+
+
+                 
+        if (!$exists) {
+
+            $detail = array(
+                'parent_timesheet_id' => $timesheetId,
+                'location_id' => $this->location_id,
+                'employee_id'          => $employee_id,
+                'prep_area_id'         => $prep_area_id,
+                'position_id'          => $position_id,
+                'roster_date'          => $timesheet_date,
+                'roster_start_time'    => null,
+                'roster_end_time'      => null,
+                'task_description'     => 'Tasks assigned timesheet without roster',
+                'approval_status'      => 'pending',
+                'created_at'           => date('Y-m-d H:i:s'),
+                'updated_at'           => date('Y-m-d H:i:s'),
+                'status'               => 0
+            );
+
+            $this->common_model->commonRecordCreate('HR_timesheet_details', $detail);
+            $inserted++;
+        }
+        
+   return $timesheetId;
+      
+    
+
+    
+}
+  // remove employee from timesheet
+  public function removeEmployeeFromTimesheet()
+  {
+    $employee_id    = $this->input->post('employee_id');
+    $timesheet_week = $this->input->post('timesheet_week'); // "01 Dec - 07 Dec"
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+    if (!$employee_id || !$timesheet_week) {
+        echo json_encode(['success' => false, 'message' => 'Missing data']);
+        return;
+    }
+
+    // -----------------------------
+    // 1. Parse week string
+    // -----------------------------
+    $parts = array_map('trim', explode('-', $timesheet_week));
+    if (count($parts) !== 2) {
+        echo json_encode(['success' => false, 'message' => 'Invalid week format']);
+        return;
+    }
+
+    $year = date('Y');
+    $startDate = date('Y-m-d', strtotime($parts[0] . ' ' . $year));
+    $endDate   = date('Y-m-d', strtotime($parts[1] . ' ' . $year));
+
+    // -----------------------------
+    // 2. Build full date range
+    // -----------------------------
+    $period = new DatePeriod(
+        new DateTime($startDate),
+        new DateInterval('P1D'),
+        (new DateTime($endDate))->modify('+1 day')
+    );
+
+    $dates = [];
+    foreach ($period as $d) {
+        $dates[] = $d->format('Y-m-d');
+    }
+
+    if (empty($dates)) {
+        echo json_encode(['success' => false, 'message' => 'No dates found']);
+        return;
+    }
+
+    // -----------------------------
+    // 3. Find dates that HAVE clock-in or clock-out (we must preserve these)
+    // -----------------------------
+   $rowsWithClock = $this->tenantDb
+    ->distinct()
+    ->select('roster_date')
+    ->from('HR_timesheet_details')
+    ->where('employee_id', $employee_id)
+    ->where_in('roster_date', $dates)
+    ->group_start()
+        ->where('clock_in_time IS NOT NULL', null, false)
+        ->where('clock_in_time !=', '')
+        ->or_group_start()
+            ->where('clock_out_time IS NOT NULL', null, false)
+            ->where('clock_out_time !=', '')
+        ->group_end()
+    ->group_end()
+    ->get()
+    ->result_array();
+    $datesWithClock = array_column($rowsWithClock, 'roster_date');
+
+    // -----------------------------
+    // 4. Delete HR_tasks only for dates WITHOUT clock data
+    // -----------------------------
+    // Build delete candidate query: employee_id + task_date in $dates AND NOT IN $datesWithClock
+    $deleteTaskDates = array_diff($dates, $datesWithClock);
+
+    $deletedTaskCount = 0;
+    if (!empty($deleteTaskDates)) {
+        $taskRows = $this->tenantDb
+            ->select('task_id')
+            ->where('employee_id', $employee_id)
+            ->where_in('task_date', $deleteTaskDates)
+            ->get('HR_tasks')
+            ->result_array();
+
+        foreach ($taskRows as $row) {
+            // use your common delete helper
+            $this->common_model->commonRecordDelete('HR_tasks', $row['task_id'], 'task_id');
+            $deletedTaskCount++;
+        }
+    }
+
+    // -----------------------------
+    // 5. Delete HR_timesheet_details only for rows that have BOTH clock fields blank
+    // -----------------------------
+    // We want: clock_in_time IS NULL OR ''  AND  clock_out_time IS NULL OR ''
+    $detailRows = $this->tenantDb
+        ->select('timesheet_id, roster_date')
+        ->where('employee_id', $employee_id)
+        ->where_in('roster_date', $dates)
+        ->group_start()
+            ->where('clock_in_time', NULL)
+            ->or_where('clock_in_time', '')
+        ->group_end()
+        ->group_start()
+            ->where('clock_out_time', NULL)
+            ->or_where('clock_out_time', '')
+        ->group_end()
+        ->get('HR_timesheet_details')
+        ->result_array();
+
+    $deletedDetailCount = 0;
+    $keptDatesFromDetails = []; // dates we did NOT delete from details because clock exists
+    foreach ($detailRows as $row) {
+        $this->common_model->commonRecordDelete('HR_timesheet_details', $row['timesheet_id'], 'timesheet_id');
+        $deletedDetailCount++;
+    }
+
+    // Note: If you also want to preserve HR_tasks for dates where details had clock entries,
+    // we've already excluded those via $datesWithClock above.
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Employee removed successfully.',
+        'deleted_tasks' => $deletedTaskCount,
+        'deleted_details' => $deletedDetailCount,
+        'preserved_dates_with_clock' => array_values($datesWithClock)
+    ]);
+}
+
+
+   
+
+// update status to 1 for the employee whose task has been added
+ public function publishEmployeetimesheet()
+ {
+    $employee_id = $this->input->post('employee_id');
+    $weekString  = $this->input->post('timesheetWeek');  // "01 Dec - 07 Dec"
+
+    if (empty($employee_id) || empty($weekString)) {
+        echo json_encode(['success' => false, 'message' => 'Missing data']);
+        return;
+    }
+
+//   Extract start & end from string
+    list($start, $end) = array_map('trim', explode('-', $weekString));
+
+    // Append year if missing (from your view you don't have year)
+    $currentYear = date('Y');
+    $startDate = date('Y-m-d', strtotime($start . ' ' . $currentYear));
+    $endDate   = date('Y-m-d', strtotime($end   . ' ' . $currentYear));
+
+//   Generate all dates in this week
+    $period = new DatePeriod(
+        new DateTime($startDate),
+        new DateInterval('P1D'),
+        (new DateTime($endDate))->modify('+1 day')
+    );
+
+    // Update status = 1 for each date
+    foreach ($period as $date) {
+        $task_date = $date->format("Y-m-d");
+        $this->tenantDb
+            ->where([
+                'employee_id' => $employee_id,
+                'roster_date' => $task_date
+            ])
+            ->update('HR_timesheet_details', ['status' => 1]);
+    }
+
+    echo json_encode(['success' => true]);
+}
+
+  // for adding and editing employee and their task to timesheet without roster
+    public function timesheetWithoutRoster($startDate='',$endDate='',$timesheetId = '') {
+        // Determine date range
+        $data['edit'] = false;
+        if (!empty($startDate) && !empty($endDate)) {
+        $weekStart = $startDate;
+        $weekEnd   = $endDate;
+        $timesheetDateRange = date("d M", strtotime($weekStart)) . " - " . date("d M", strtotime($weekEnd));
+        $dateRange = $this->createDateFormat($timesheetDateRange);
+    
+        }else if ($timesheetId) {
+            // fetch DB dates in case of edit timesheet
+    $conditionsTimesheet = ['id' => $timesheetId];
+    $currentTimesheetInfo = $this->common_model->fetchRecordsDynamically('HR_timesheet',['date_from','date_to'],  $conditionsTimesheet);
+     
+    $weekStart = $currentTimesheetInfo[0]['date_from'];
+    $weekEnd   = $currentTimesheetInfo[0]['date_to'];
+    $data['edit'] = true;
+    // FORMAT EXACTLY LIKE ELSE PART:
+    $timesheetDateRange = date("d M", strtotime($weekStart)) . " - " . date("d M", strtotime($weekEnd));
+    $dateRange = $this->createDateFormat($timesheetDateRange);
+        } else {
+            $dateRange = [
+                'start_date' => date('Y-m-d', strtotime('monday this week')),
+                'end_date' => date('Y-m-d', strtotime('sunday this week'))
+            ];
+            
+       $monday = new DateTime('monday this week');
+       $weekStart = $monday->format('Y-m-d');
+       $weekEnd   = $monday->modify('+6 days')->format('Y-m-d');
+       $monday->modify('-6 days'); // reset
+
+        }
+        $data['displayText'] = date("d M", strtotime($weekStart)) . " - " . date("d M", strtotime($weekEnd));
+        // Fetch employee and position lists
+        $conditions = ['location_id' => $this->location_id];
+        $data['empLists']  = $this->employee_model->employeeList('', '', true);
+    
+        $data['positionLists'] = $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditions);
+        $data['prepAreaLists'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions);
+        $data['positions'] = $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditions);
+        $data['dateRange'] = $dateRange;
+        $data['timesheetId'] = $timesheetId;
+        
+        // fetch current week added timesheet
+        // echo "<pre>"; print_r($data['empLists']); exit;
+      
+
+
+// Fetch all timesheet entries for this week
+$timesheetEntries = $this->timesheet_model->timesheetEntryThisweekForTimesheetWithoutRoster($weekStart,$weekEnd);
+$timesheetEmployeeIds = array_column($timesheetEntries, 'employee_id');
+
+// Fetch all tasks for this week (for task count)
+$allTasks = $this->timesheet_model->taskThisweekForTimesheetWithoutRoster($weekStart,$weekEnd);
+
+
+$tasks_by_emp_date = [];
+foreach ($allTasks as $t) {
+    $key = $t['employee_id'] . '_' . $t['task_date'];
+    $tasks_by_emp_date[$key][] = $t;
+}
+// echo "<pre>"; print_r($tasks_by_emp_date); exit;
+
+$data['tasks_by_emp_date'] = $tasks_by_emp_date;
+$data['timesheetEmployeeIds'] = $timesheetEmployeeIds;
+
+
+        // Load views
+        $this->load->view('general/header');
+        $this->load->view('timesheet/timesheetWithoutRoster', $data);
+        $this->load->view('general/footer');
+    }
+    
+ // view timesheet without roster 
+   public function viewTimesheetWithoutRoster($timesheetId)
+   {
+    $data = [];
+
+    /* ------------------------------------
+     * 1. VALIDATE timesheetId
+     * ------------------------------------ */
+    if (empty($timesheetId) || !is_numeric($timesheetId)) {
+        show_error("Invalid timesheet ID", 400);
+        return;
+    }
+
+    /* ------------------------------------
+     * 2. Fetch week start & end safely
+     * ------------------------------------ */
+    $conditions = ['id' => $timesheetId];
+    $startEndDate = $this->common_model->fetchRecordsDynamically('HR_timesheet', ['date_from', 'date_to'],$conditions);
+        
+
+    // Default fallbacks
+    $defaultWeekStart = date('Y-m-d');
+    $defaultWeekEnd   = date('Y-m-d', strtotime('+6 days'));
+
+    if (!empty($startEndDate) && isset($startEndDate[0])) {
+        $data['week_start'] = !empty($startEndDate[0]['date_from']) ? $startEndDate[0]['date_from'] : $defaultWeekStart;
+         $data['week_end'] = !empty($startEndDate[0]['date_to']) ? $startEndDate[0]['date_to'] : $defaultWeekEnd;
+
+    } else {
+        // If no record found, use fallback
+        $data['week_start'] = $defaultWeekStart;
+        $data['week_end']   = $defaultWeekEnd;
+    }
+
+    /* ------------------------------------
+     * 3. Fetch weekly tasks safely
+     * ------------------------------------ */
+     $conditionsPrep = ['location_id' => $this->location_id];
+      $data['prep_areas'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditionsPrep);
+      
+    $data['prep_areas_data'] = $this->timesheet_model->get_weekly_tasks_by_prep_area($timesheetId, $data['week_start']);
+        $data['displayText'] = date("d M", strtotime($data['week_start'])) . " - " . date("d M", strtotime($data['week_end']));
+
+    // Guarantee array exists
+    if (!is_array($data['prep_areas_data'])) {
+        $data['prep_areas_data'] = [];
+    }
+    // echo "<pre>"; print_r($data['prep_areas_data']); exit;
+
+    /* ------------------------------------
+     * 4. Page title
+     * ------------------------------------ */
+    $data['page_title'] = 'Weekly Tasks – Prep Area View';
+    
+    // echo "<pre>"; print_r($data); exit;
+
+    /* ------------------------------------
+     * 5. Load views
+     * ------------------------------------ */
+    $this->load->view('general/header');
+    $this->load->view('timesheet/viewTimesheetWithoutRoster', $data);
+    $this->load->view('general/footer');
+}
+
+   // AJAX method called on Recreate button click
+    public function recreateTimesheet()
+    {
+    // Only allow AJAX
+    if (!$this->input->is_ajax_request()) {
+        show_error('Invalid request', 400);
+    }
+
+    $recreate_timesheet_id = $this->input->post('recreate_timesheet_id');
+    $start_date            = $this->input->post('start_date'); // e.g., 01 Jan, 2025
+    $end_date              = $this->input->post('end_date');
+
+    // Convert to MySQL date
+    $date_from = date('Y-m-d', strtotime($start_date));
+    $date_to   = date('Y-m-d', strtotime($end_date));
+
+    if (!$recreate_timesheet_id || !$date_from || !$date_to) {
+        echo json_encode(['status' => 'error', 'message' => 'Missing required data']);
+        exit;
+    }
+
+    // Begin transaction
+    $this->tenantDb->trans_start();
+
+    // Step 1: Check if timesheet already exists for this date range + location
+    $existing = $this->common_model->fetchRecordsDynamically(
+        'HR_timesheet',
+        [], // fields (empty = all)
+        [
+            'date_from'   => $date_from,
+            'date_to'     => $date_to,
+            'is_deleted'  => 0,
+            'location_id'  => $this->location_id
+        ]
+    );
+
+    if (!empty($existing)) {
+        $this->tenantDb->trans_rollback();
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Timesheet already exists for this week!'
+        ]);
+        exit;
+    }
+
+    // Step 2: Fetch original timesheet (as array)
+    $original_list = $this->common_model->fetchRecordsDynamically(
+        'HR_timesheet',
+        [],
+        ['id' => $recreate_timesheet_id]
+    );
+
+    if (empty($original_list)) {
+        $this->tenantDb->trans_rollback();
+        echo json_encode(['status' => 'error', 'message' => 'Original timesheet not found']);
+        exit;
+    }
+
+    $original_timesheet = $original_list[0]; // first row
+    $location_id = $this->location_id; // fallback if needed
+    $weekOffsetDays = (strtotime($date_from) - strtotime($original_timesheet['date_from'])) / 86400;
+
+    // Step 3: Create new HR_timesheet
+    $new_timesheet_data = [
+        'date_from'                   => $date_from,
+        'date_to'                     => $date_to,
+        'is_timesheet_without_roster' => 1,
+        'is_published'                => 1,
+        'roster_id'                   => $original_timesheet['roster_id'] ?? null,
+        'status'                      => $original_timesheet['status'] ?? 0,
+        'is_deleted'                  => 0,
+        'location_id'                 => $location_id,
+        'date_added'                  => date('Y-m-d H:i:s'),
+        'date_modified'               => date('Y-m-d H:i:s')
+    ];
+
+    $new_timesheet_id = $this->common_model->commonRecordCreate('HR_timesheet', $new_timesheet_data);
+
+    if (!$new_timesheet_id) {
+        $this->tenantDb->trans_rollback();
+        echo json_encode(['status' => 'error', 'message' => 'Failed to create new timesheet']);
+        exit;
+    }
+
+    // Step 4: Copy HR_timesheet_details
+    $details = $this->common_model->fetchRecordsDynamically(
+        'HR_timesheet_details',
+        [],
+        [
+            'parent_timesheet_id' => $recreate_timesheet_id,
+            'is_deleted'          => 0
+        ]
+    );
+
+    foreach ($details as $detail) {
+        $new_detail = $detail; // already array
+        unset($new_detail['timesheet_id']); // remove old reference (auto increment)
+
+        $new_detail['parent_timesheet_id'] = $new_timesheet_id;
+        $new_detail['location_id'] = $this->location_id;
+        $new_detail['roster_date'] = date('Y-m-d', strtotime($detail['roster_date'] . " + $weekOffsetDays days"));
+        $new_detail['created_at']          = date('Y-m-d H:i:s');
+        $new_detail['updated_at']          = date('Y-m-d H:i:s');
+        
+        $this->common_model->commonRecordCreate('HR_timesheet_details', $new_detail);
+    }
+
+    // Step 5: Copy HR_tasks
+    $tasks = $this->common_model->fetchRecordsDynamically(
+        'HR_tasks',
+        [],
+        [
+            'timesheet_id' => $recreate_timesheet_id,
+            'is_deleted'   => 0
+        ]
+    );
+
+    foreach ($tasks as $task) {
+        $new_task = $task;
+        unset($new_task['task_id']);
+        $new_task['task_date'] = date('Y-m-d', strtotime($task['task_date'] . " + $weekOffsetDays days"));
+        $new_task['timesheet_id']   = (int)$new_timesheet_id;
+        $new_task['created_at']     = date('Y-m-d H:i:s');
+        $new_task['updated_at']     = date('Y-m-d H:i:s');
+
+        $this->common_model->commonRecordCreate('HR_tasks', $new_task);
+    }
+
+    // Complete transaction
+    $this->tenantDb->trans_complete();
+    
+    if ($this->tenantDb->trans_status() === FALSE) {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to recreate timesheet. Transaction rolled back.']);
+    } else {
+        echo json_encode([
+            'status'   => 'success',
+            'message'  => 'Timesheet recreated successfully!',
+            'redirect' => base_url('HR/timesheetWithoutRoster')
+        ]);
+    }
+    exit;
+}
+
+
+
+
+// ==========================================
+// Timesheet Payroll superannuation calculations
+// ==========================================
+
+public function payrollCalculation($timesheet_id) {
+  
+    
+    ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+    // Get timesheet info
+    $timesheet = $this->common_model->fetchRecordsDynamically(
+        'HR_timesheet',
+        ['id', 'date_from', 'date_to', 'location_id'],
+        ['id' => $timesheet_id, 'is_deleted' => 0]
+    );
+    
+    if (empty($timesheet)) {
+        show_404();
+        return;
+    }
+    
+    $data['timesheet'] = $timesheet[0];
+    $data['timesheet_id'] = $timesheet_id;
+    
+    // Get superannuation config
+    $superConfig = $this->common_model->fetchRecordsDynamically('HR_configuration',['data'], ['location' => $this->location_id, 'configureFor' => 'superannuation']);
+        
+    if (isset($superConfig[0]['data'])) {
+        $data['superConfig'] = json_decode($superConfig[0]['data'], true);
+    } else {
+        $data['superConfig'] = [
+            'super_percentage' => '11.5',
+            'enable_tier_payroll' => '0',
+            'payroll_tax_rate' => '5.45',
+            'public_holidays' => ''
+        ];
+    }
+    
+    // Get existing calculation if any
+    $existing = $this->common_model->fetchRecordsDynamically(
+        'HR_payroll_calculations',
+        [],
+        ['timesheet_id' => $timesheet_id, 'is_deleted' => 0]
+    );
+    
+    $data['existingCalculation'] = !empty($existing) ? $existing[0] : null;
+    
+    // Calculate net income from timesheet details
+    $netIncome = $this->calculateNetIncome($timesheet_id, $data['timesheet'], $data['superConfig']);
+    $data['calculated_net_income'] = $netIncome;
+    
+    // Get public holidays in date range
+    $data['public_holidays'] = $this->getPublicHolidaysInRange(
+        $data['timesheet']['date_from'],
+        $data['timesheet']['date_to'],
+        $data['superConfig']['public_holidays'] ?? ''
+    );
+    
+    $this->load->view('general/header');
+    $this->load->view('timesheet/payroll_calculation', $data);
+    $this->load->view('general/footer');
+}
+
+private function calculateNetIncome($timesheet_id, $timesheet, $superConfig) {
+    // Get all timesheet details for this timesheet
+    $details = $this->tenantDb
+        ->select('td.*, e.tier, etp.rate, etp.Saturday_rate, etp.Sunday_rate, etp.holiday_rate')
+        ->from('HR_timesheet_details td')
+        ->join('HR_employee e', 'e.emp_id = td.employee_id', 'left')
+        ->join('HR_emp_to_position etp', 'etp.emp_id = td.employee_id AND etp.position_id = td.position_id', 'left')
+        ->where('td.parent_timesheet_id', $timesheet_id)
+        ->where('td.is_deleted', 0)
+        ->where('td.status', 1)
+        ->get()
+        ->result_array();
+    
+    $tierBasedEnabled = isset($superConfig['enable_tier_payroll']) && $superConfig['enable_tier_payroll'] == '1';
+    $publicHolidays = $this->getPublicHolidaysArray($superConfig['public_holidays'] ?? '');
+    
+    $totalCost = 0;
+    $employeeBreakdown = [];
+    
+    // echo "<pre>"; print_r($details); exit;
+    
+    foreach ($details as $detail) {
+        // Skip if tier-based is enabled and employee is not tier 1
+        if ($tierBasedEnabled && $detail['tier'] != 1) {
+            continue;
+        }
+        
+        // Calculate hours worked
+        if (empty($detail['clock_in_time']) || empty($detail['clock_out_time'])) {
+            continue;
+        }
+        
+        $clockIn = new DateTime($detail['roster_date'] . ' ' . $detail['clock_in_time']);
+        $clockOut = new DateTime($detail['roster_date'] . ' ' . $detail['clock_out_time']);
+        
+        $hoursWorked = ($clockOut->getTimestamp() - $clockIn->getTimestamp()) / 3600;
+        
+        // Subtract break duration (in minutes)
+        if (!empty($detail['actual_break_duration'])) {
+            $hoursWorked -= ($detail['actual_break_duration'] / 60);
+        }
+        
+        // Determine which rate to use
+        $dayOfWeek = date('w', strtotime($detail['roster_date']));
+        $isPublicHoliday = in_array($detail['roster_date'], $publicHolidays);
+        
+        $rate = $detail['rate'];
+        if ($isPublicHoliday && !empty($detail['holiday_rate'])) {
+            $rate = $detail['holiday_rate'];
+        } elseif ($dayOfWeek == 0 && !empty($detail['Sunday_rate'])) { // Sunday
+            $rate = $detail['Sunday_rate'];
+        } elseif ($dayOfWeek == 6 && !empty($detail['Saturday_rate'])) { // Saturday
+            $rate = $detail['Saturday_rate'];
+        }
+        
+        $cost = $hoursWorked * $rate;
+        $totalCost += $cost;
+        
+        // Store breakdown
+        $employeeBreakdown[] = [
+            'employee_id' => $detail['employee_id'],
+            'date' => $detail['roster_date'],
+            'hours' => round($hoursWorked, 2),
+            'rate' => $rate,
+            'cost' => round($cost, 2),
+            'is_public_holiday' => $isPublicHoliday,
+            'day_type' => $isPublicHoliday ? 'Public Holiday' : ($dayOfWeek == 0 ? 'Sunday' : ($dayOfWeek == 6 ? 'Saturday' : 'Weekday'))
+        ];
+    }
+    
+    return [
+        'total' => round($totalCost, 2),
+        'breakdown' => $employeeBreakdown
+    ];
+}
+
+private function getPublicHolidaysArray($holidaysString) {
+    if (empty($holidaysString)) {
+        return [];
+    }
+    
+    $dates = explode(',', $holidaysString);
+    return array_map('trim', $dates);
+}
+
+private function getPublicHolidaysInRange($dateFrom, $dateTo, $holidaysString) {
+    $allHolidays = $this->getPublicHolidaysArray($holidaysString);
+    
+    $inRange = array_filter($allHolidays, function($date) use ($dateFrom, $dateTo) {
+        return $date >= $dateFrom && $date <= $dateTo;
+    });
+    
+    return array_values($inRange);
+}
+
+public function savePayrollCalculation() {
+    $response = ['status' => 'error', 'message' => 'Invalid request'];
+    
+    if ($this->input->post()) {
+        $timesheet_id = $this->input->post('timesheet_id');
+        $x_labour_cost = $this->input->post('x_labour_cost');
+        $net_income = $this->input->post('net_income');
+        $superannuation = $this->input->post('superannuation');
+        $super_rate = $this->input->post('super_rate');
+        $cost_inc_super = $this->input->post('cost_inc_super');
+        $payroll_tax = $this->input->post('payroll_tax');
+        $payroll_tax_rate = $this->input->post('payroll_tax_rate');
+        $cost_inc_payroll = $this->input->post('cost_inc_payroll');
+        $final_percentage = $this->input->post('final_percentage');
+        $tier_based_enabled = $this->input->post('tier_based_enabled') ? 1 : 0;
+        
+        // Get timesheet info
+        $timesheet = $this->common_model->fetchRecordsDynamically(
+            'HR_timesheet',
+            ['date_from', 'date_to', 'location_id'],
+            ['id' => $timesheet_id]
+        );
+        
+        if (empty($timesheet)) {
+            $response['message'] = 'Timesheet not found';
+            echo json_encode($response);
             return;
         }
         
-        $employee_id = $this->input->post('employee_id');
-        $start_date = $this->input->post('start_date');
-        $end_date = $this->input->post('end_date');
+        $data = [
+            'timesheet_id' => $timesheet_id,
+            'location_id' => $timesheet[0]['location_id'],
+            'date_from' => $timesheet[0]['date_from'],
+            'date_to' => $timesheet[0]['date_to'],
+            'x_labour_cost' => $x_labour_cost,
+            'net_income' => $net_income,
+            'superannuation' => $superannuation,
+            'super_rate' => $super_rate,
+            'cost_inc_super' => $cost_inc_super,
+            'payroll_tax' => $payroll_tax,
+            'payroll_tax_rate' => $payroll_tax_rate,
+            'cost_inc_payroll' => $cost_inc_payroll,
+            'final_percentage' => $final_percentage,
+            'tier_based_enabled' => $tier_based_enabled,
+            'created_by' => $this->session->userdata('user_id')
+        ];
         
-        $result = $this->timesheet_model->approve_employee_timesheets($employee_id, $start_date, $end_date);
+        // Check if exists
+        $existing = $this->common_model->fetchRecordsDynamically(
+            'HR_payroll_calculations',
+            ['id'],
+            ['timesheet_id' => $timesheet_id, 'is_deleted' => 0]
+        );
         
-        if ($result) {
-            echo json_encode(['status' => 'success', 'message' => 'All timesheets for employee approved successfully']);
+        if (!empty($existing)) {
+            // Update
+            $this->common_model->commonRecordUpdate(
+                'HR_payroll_calculations',
+                'id',
+                $existing[0]['id'],
+                $data
+            );
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to approve timesheets']);
+            // Insert
+            $this->common_model->commonRecordCreate('HR_payroll_calculations', $data);
         }
+        
+        $response = ['status' => 'success', 'message' => 'Payroll calculation saved successfully'];
     }
+    
+    echo json_encode($response);
+}
+
+
 
 
     

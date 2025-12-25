@@ -16,6 +16,9 @@ class Employees extends MY_Controller {
         $this->location_id = $this->session->userdata('location_id') ? $this->session->userdata('location_id') : ($this->session->userdata('User_location_ids') ? $this->session->userdata('User_location_ids')[0] : null);
         $this->tenantIdentifier = $this->session->userdata('tenantIdentifier');
         $this->roleId = get_logged_in_user_role($this->ion_auth,'id');
+         $user_id = $this->ion_auth->user()->row()->id;
+        $empData = $this->common_model->fetchRecordsDynamically('HR_employee', ['emp_id'], ['userId'=>$user_id]);
+        $this->empId = (isset($empData[0]['emp_id']) ? $empData[0]['emp_id'] : ''); // incase of superadmin 
         // $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
      
     }
@@ -133,33 +136,99 @@ class Employees extends MY_Controller {
 	
 	 
 	
-	function editEmployee($empId){
-	  $conditions = array('emp_id'=>$empId);
-	  $conditionsLeave = array('status'=>'1');
-	  $conditionsStress = array('status'=>'1','is_deleted'=>'0');
-	  $conditionsAvail = array('emp_id'=>$empId,'is_deleted'=>'0');
-	  
-	  $empData = $this->employee_model->employeeDetails($empId);
-	
-	  $leaveData = $this->common_model->fetchRecordsDynamically('HR_leaves', '', $conditionsLeave);
-	  $data['empPositionAndRatesData'] = $this->common_model->fetchRecordsDynamically('HR_emp_to_position', '', $conditions);
-	  $data['unavailability'] = $this->common_model->fetchRecordsDynamically('HR_emp_availability', '', $conditionsAvail);
-	  $data['leaveRequestsData'] = $this->employee_model->fetchLeaveRequestsRecord($empId,'past');
-	  $data['upcomingLeaveData'] = $this->employee_model->fetchLeaveRequestsRecord($empId,'upcoming');
-	  $data['countOfLeaves'] = $this->employee_model->fetchCountOfLeaves();
-	  $data['stressProfiles'] = $this->common_model->fetchRecordsDynamically('HR_stressProfile', '', $conditionsStress); 
-	  $data['positions'] = $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditionsStress);
-	   
-	  $locationIdsArray = unserialize($empData[0]['location_ids']);
-	  $data['locationNames'] = fetchLocationNamesFromIds($locationIdsArray);
-	  $data['employee'] = $empData[0]; 
-	  $data['leaveTypes'] = $leaveData;
-// 	  echo "<pre>"; print_r($data['empPositionAndRatesData']); exit;
-	  $this->load->view('general/header');
-	  $this->load->view('employee/editEmployee',$data);
-	  $this->load->view('general/footer');   
-	}
+	public function editEmployee($empId = '')
+{
+    // ---------- Defaults ----------
+    $data = [];
+    $empId = !empty($empId) ? $empId : ($this->empId ?? null);
+
+    // ---------- Guard: empId ----------
+    if (empty($empId)) {
+        // Fail silently – no errors, no notices
+        redirect('dashboard');
+        return;
+    }
+
+    // ---------- Conditions ----------
+    $conditions              = ['emp_id' => $empId];
+    $conditionsLeave         = ['status' => '1'];
+    $conditionsStress        = ['status' => '1', 'is_deleted' => '0'];
+    $conditionsAvail         = ['emp_id' => $empId, 'is_deleted' => '0'];
+    $locationId              = $this->location_id ?? 0;
+
+    // ---------- Employee Data ----------
+    $empData = $this->employee_model->employeeDetails($empId);
+    $employee = (is_array($empData) && !empty($empData[0])) ? $empData[0] : [];
+
+    // ---------- Leaves ----------
+    $leaveData = $this->common_model
+        ->fetchRecordsDynamically('HR_leaves', '', $conditionsLeave) ?? [];
+
+    // ---------- Assign Safe Defaults ----------
+    $data['empPositionAndRatesData'] = $this->common_model
+        ->fetchRecordsDynamically('HR_emp_to_position', '', $conditions) ?? [];
+
+    $data['availability'] = $this->common_model
+        ->fetchRecordsDynamically('HR_emp_availability', '', $conditionsAvail) ?? [];
+
+    $data['leaveRequestsData'] = $this->employee_model
+        ->fetchLeaveRequestsRecord($empId, 'past') ?? [];
+
+    $data['upcomingLeaveData'] = $this->employee_model
+        ->fetchLeaveRequestsRecord($empId, 'upcoming') ?? [];
+
+    $data['countOfLeaves'] = $this->employee_model
+        ->fetchCountOfLeaves() ?? 0;
+
+    $data['stressProfiles'] = $this->common_model
+        ->fetchRecordsDynamically('HR_stressProfile', '', $conditionsStress) ?? [];
+
+    $data['positions'] = $this->common_model
+        ->fetchRecordsDynamically('HR_emp_position', '', $conditionsStress) ?? [];
+
+    $data['payrollTypes'] = $this->common_model
+        ->fetchRecordsDynamically(
+            'HR_payroll_type',
+            ['id', 'name'],
+            ['is_deleted' => 0, 'location_id' => $locationId]
+        ) ?? [];
+
+    // ---------- Locations ----------
+    $locationIdsArray = [];
+
+    if (!empty($employee['location_ids'])) {
+        $unserialized = @unserialize($employee['location_ids']);
+        if (is_array($unserialized)) {
+            $locationIdsArray = $unserialized;
+        }
+    }
+
+    $data['locationNames'] = function_exists('fetchLocationNamesFromIds')
+        ? fetchLocationNamesFromIds($locationIdsArray)
+        : [];
+
+    // ---------- Final Assignments ----------
+    $data['employee']   = $employee;
+    $data['leaveTypes'] = $leaveData;
+    
+    // echo "<pre>"; print_r($employee); exit;
+
+    // ---------- Prep Areas ----------
+    $data['prepAreaLists'] = $this->common_model
+        ->fetchRecordsDynamically(
+            'HR_prepArea',
+            '',
+            ['location_id' => $locationId]
+        ) ?? [];
+
+    // ---------- Views ----------
+    $this->load->view('general/header');
+    $this->load->view('employee/editEmployee', $data);
+    $this->load->view('general/footer');
+}
+
 	function employeeCommonUpdate($empId,$data){
+	   // echo "<pre>"; print_r($data); exit;
 	 $this->common_model->commonRecordUpdate('HR_employee','emp_id',$empId,$data);     
 	}
 	function employeeDelete(){
@@ -202,7 +271,8 @@ class Employees extends MY_Controller {
 			'location_ids' => serialize($this->input->post('locationIds')),
 			'status' => 1,
 			'job_desc' => $jobDescrFilename,
-			'created_at' => date("Y-m-d")
+			'created_at' => date("Y-m-d"),
+			'date_modified' => date("Y-m-d")
 			);
 // 	 echo "<pre>"; print_r($this->input->post('locationIds')); exit;
 	 $emp_id = $this->employee_model->onboardNewEmployee($data); 
@@ -216,35 +286,112 @@ class Employees extends MY_Controller {
       $this->employee_model->allocateLocationToEmployee($locData);  			
 	     }
 	 }
+	 if($this->input->post('type') =='onboard'){
+	     // only send ponboarding email if onboard button has been clicked
+	 $this->sendOnboardingEmail($emp_id,$_POST);     
+	 }else{
+	     
+	     $response = [
+    'emp_id' => $emp_id,
+    'mailStatus' => [
+        'status' => 'success',
+        'error'  =>  ''
+    ]
+];
+
+
+    return $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($response));
+        
+	 }
 	
-	 $this->sendOnboardingEmail($emp_id);
 
 	}
 	
-	function sendOnboardingEmail($emp_id){
-	 
-	  $dataToEncrypt = array(
-         'location_id' => $this->location_id,
-         'location_name' => $this->session->userdata('location_name'),
-         'tenantIdentifier' => $this->tenantIdentifier,
-         'empId' => $emp_id,
-         'mail_from' => $this->session->userdata('mail_from'),
-         'username' => $this->session->userdata('username'),
-         'mail_protocol' => $this->session->userdata('mail_protocol'),
-         'smtp_host' => $this->session->userdata('smtp_host'),
-         'smtp_port' => $this->session->userdata('smtp_port'),
-         'smtp_username' => $this->session->userdata('smtp_username'),
-         'smtp_pass' => $this->session->userdata('smtp_pass'),
-         );
-     $encryptedData = $this->encryption->encrypt(json_encode($dataToEncrypt));
-     $Maildata['onboardingUrl'] = base_url().'External/HR/onboardingForm/'.urlencode(urlencode(urlencode($encryptedData)));  
-     $Maildata['employeeName'] = $this->input->post('first_name');
-     $mailContent = $this->load->view('emails/onboardingEmail',$Maildata,TRUE);
-     $emailSendTo = $this->input->post('email');
-	 $mailStatus = $this->sendEmail($emailSendTo, 'BizAdmin - Welcome to HR management', $mailContent,$this->session->userdata('mail_from'));   
-      echo  $mailStatus;
-	    
-	}
+/**
+ * Send the onboarding e-mail and return emp_id + mail status to Ajax.
+ *
+ * @param int $emp_id
+ * @return void  (outputs JSON)
+ */
+public function sendOnboardingEmail($emp_id, $formData = [])
+{
+ 
+    // ---------------------------------------------------------
+    $dataToEncrypt = [
+        'location_id'       => $this->location_id,
+        'tenantIdentifier'  => $this->tenantIdentifier,
+        'empId'             => $emp_id,
+        'mail_from'         => $this->session->userdata('mail_from'),
+        'username'          => $this->session->userdata('username'),
+        'mail_protocol'     => $this->session->userdata('mail_protocol'),
+        'smtp_host'         => $this->session->userdata('smtp_host'),
+        'smtp_port'         => $this->session->userdata('smtp_port'),
+        'smtp_username'     => $this->session->userdata('smtp_username'),
+        'smtp_pass'         => $this->session->userdata('smtp_pass'),
+    ];
+
+  
+    $locationNamesList = [];
+
+    if (!empty($formData['locationIds'])) {
+
+        $locationIdsArray = $formData['locationIds'];  // Correct variable!
+
+        // Fetch location names using helper
+        $locationAssocArray = fetchLocationNamesFromIds($locationIdsArray, false);  
+        // Example result: [10 => "Bendigo", 12 => "Werribee"]
+
+        // Convert to simple array of names
+        $locationNamesList = array_values($locationAssocArray);
+
+        // Also add to encryption payload:
+        $dataToEncrypt['location_names'] = $locationNamesList;
+    }
+
+   
+    $encryptedData = $this->encryption->encrypt(json_encode($dataToEncrypt));
+
+    $Maildata['onboardingUrl'] = base_url() . 'External/HR/onboardingForm/' 
+        . urlencode(urlencode(urlencode($encryptedData)));
+
+ 
+    $Maildata['employeeName'] = $this->input->post('first_name');
+
+    // Send list of locations to email template
+    $Maildata['locationNamesList'] = $locationNamesList;  
+
+   
+    $mailContent = $this->load->view('emails/onboardingEmail', $Maildata, TRUE);
+
+  
+    $emailSendTo = $this->input->post('email');
+
+   $mailStatus = $this->sendEmail(
+    $emailSendTo,
+    'BizAdmin - Welcome to HR management',
+    $mailContent,
+    $this->session->userdata('mail_from')
+);
+
+// ---------------------------------------------------------
+// 7. AJAX RESPONSE
+// ---------------------------------------------------------
+$response = [
+    'emp_id' => $emp_id,
+    'mailStatus' => [
+        'status' => $mailStatus['status'],
+        'error'  => isset($mailStatus['error']) ? $mailStatus['error'] : ''
+    ]
+];
+
+
+    return $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($response));
+}
+
 	
 	function submitOnboardingProcessForEmployee(){
 	    $empId = $this->input->post('emp_id');
@@ -260,7 +407,9 @@ class Employees extends MY_Controller {
         $data_user['police_certificate'] = $filename;
         }
         $posted_data = $this->input->post();
-        $excludedValues = array('rate','Saturday_rate','Sunday_rate','holiday_rate','position_id','position_unique_id','positionIdToRemove');
+        
+        // NOTE :  please add new index in below array for fiels added to employee form to execulde , if its name not matching with hr_employee table column
+        $excludedValues = array('rate','Saturday_rate','Sunday_rate','holiday_rate','position_id','position_unique_id','positionIdToRemove','payroll_type_id','created_at');
         foreach($posted_data as $key=> $value){
         ($value !='' && !in_array($key,$excludedValues) ? $data_user[$key] = $value : '');   
         }
@@ -277,6 +426,8 @@ class Employees extends MY_Controller {
            $positionRatesData['Saturday_rate'] = isset($_POST['Saturday_rate'][$index]) ? $_POST['Saturday_rate'][$index] : 0;
            $positionRatesData['Sunday_rate'] = isset($_POST['Sunday_rate'][$index]) ? $_POST['Sunday_rate'][$index] : 0;
            $positionRatesData['holiday_rate'] = isset($_POST['holiday_rate'][$index]) ? $_POST['holiday_rate'][$index] : 0;
+           $positionRatesData['payroll_type_id'] = isset($_POST['payroll_type_id'][$index]) ? $_POST['payroll_type_id'][$index] : null;
+          
            
            if(isset($_POST['position_unique_id'][$index])){
             $this->common_model->commonRecordUpdate('HR_emp_to_position','id',$_POST['position_unique_id'][$index],$positionRatesData);   
@@ -306,37 +457,147 @@ class Employees extends MY_Controller {
 		echo json_encode($response);   
 	}
 	
-	function add_unavailability(){
-	    
-	    $data = array(
-           'emp_id' => $this->input->post('emp_id'),
-           'type' => $this->input->post('unavail_type'),
-           'start_date' => date('Y-m-d', strtotime($this->input->post('start_date'))),
-           'end_date' => date('Y-m-d', strtotime($this->input->post('end_date'))),
-           'start_time' => $this->input->post('start_time'),
-           'end_time' => $this->input->post('end_time'),
-           'comments' => $this->input->post('comments'),
-           'location_id' => $this->location_id
-    	        );
-    	        
-    	$result = $this->common_model->commonRecordCreate('HR_emp_availability',$data);
-    	if($result != ''){
-    	    echo $result;
-    	}else{
-    	    echo "error";
-    	}
-	}
-	function del_unavailability(){
-	   
-	    $id = $this->input->post('id'); $data['is_deleted'] = 1;
-	    $result = $this->common_model->commonRecordUpdate('HR_emp_availability','emp_availability_id',$id,$data);
-    
-    	if($result){
-    	    echo 'success';
-    	}else{
-    	    echo "error";
-    	}
-	}
+	
+	
+	// save_availability : To record Employee Availability for each day
+	
+public function save_availability()
+{
+    $emp_id      = $this->input->post('emp_id');
+    $same_hours  = $this->input->post('same_hours') ? 1 : 0;
+    $location_id = $this->location_id;
+
+    if (!$emp_id) {
+        echo json_encode(["status" => "error", "message" => "Invalid employee"]);
+        return;
+    }
+
+    // All week days
+    $days = ["mon","tue","wed","thu","fri","sat","sun"];
+
+    // Weekly structure posted
+    $weekly = $this->input->post('weekly');
+    if (!is_array($weekly)) {
+        $weekly = [];
+    }
+
+    // SAME HOURS MODE: override weekly array
+    if ($same_hours == 1) {
+
+        $start = $this->input->post('same_start');
+        $end   = $this->input->post('same_end');
+
+        foreach ($days as $d) {
+            $weekly[$d] = [
+                "start" => $start ?: "",
+                "end"   => $end   ?: ""
+            ];
+        }
+
+    } else {
+        // Ensure all days exist
+        foreach ($days as $d) {
+            $weekly[$d]["start"] = trim($weekly[$d]["start"] ?? "");
+            $weekly[$d]["end"]   = trim($weekly[$d]["end"] ?? "");
+        }
+    }
+
+    // Encode JSON
+    $weekly_json = json_encode($weekly);
+
+    // Prepare save row
+    $saveData = [
+        "emp_id"       => $emp_id,
+        "weekly_json"  => $weekly_json,
+        "same_hours"   => $same_hours,
+        "location_id"  => $location_id,
+        "updated_at"   => date('Y-m-d H:i:s'),
+        "is_deleted"   => 0
+    ];
+
+    // Check existing
+    $existing = $this->common_model->fetchRecordsDynamically(
+        "HR_emp_availability",
+        "",
+        ["emp_id" => $emp_id, "is_deleted" => 0]
+    );
+
+    if (empty($existing)) {
+        $this->common_model->commonRecordCreate("HR_emp_availability", $saveData);
+    } else {
+        $this->common_model->commonRecordUpdate(
+            "HR_emp_availability",
+            "emp_availability_id",
+            $existing[0]["emp_availability_id"],
+            $saveData
+        );
+    }
+
+    // Log changes
+    $logData = [
+        "emp_id"      => $emp_id,
+        "location_id" => $location_id,
+        "weekly_json" => $weekly_json,
+        "same_hours"  => $same_hours,
+        "ip_address"  => $this->input->ip_address(),
+        "user_agent"  => $this->input->user_agent(),
+        "created_at"  => date("Y-m-d H:i:s")
+    ];
+
+    $this->common_model->commonRecordCreate("HR_employee_unavailability_logs", $logData);
+
+    echo json_encode([
+        "status"  => "success",
+        "message" => "Availability updated successfully"
+    ]);
+}
+
+
+public function get_availability_for_day()
+{
+    $emp_id = $this->input->post("emp_id");
+    $dayKey = $this->input->post("day_key"); // mon/tue/wed...
+    $location_id = $this->location_id;
+
+    // Fetch availability record
+    $result = $this->common_model->fetchRecordsDynamically(
+        "HR_emp_availability",
+        "",
+        ["emp_id" => $emp_id, "is_deleted" => 0]
+    );
+
+    if (empty($result)) {
+        echo json_encode([
+            "available" => false,
+            "message" => "No availability record found."
+        ]);
+        return;
+    }
+
+    $row = $result[0];
+    $weekly = json_decode($row["weekly_json"], true);
+    $same = intval($row["same_hours"]) === 1;
+
+    // Determine availability
+    if ($same) {
+        $start = $weekly["mon"]["start"] ?? "";
+        $end   = $weekly["mon"]["end"] ?? "";
+    } else {
+        $start = $weekly[$dayKey]["start"] ?? "";
+        $end   = $weekly[$dayKey]["end"] ?? "";
+    }
+
+    // No hours set → unavailable
+    $available = (!empty($start) && !empty($end));
+
+    echo json_encode([
+        "available" => $available,
+        "start" => $start ?: "",
+        "end" => $end ?: "",
+        "same_hours" => $same
+    ]);
+}
+
 	
 
 	

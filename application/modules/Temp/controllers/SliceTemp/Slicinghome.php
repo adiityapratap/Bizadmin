@@ -28,9 +28,11 @@ class Slicinghome extends MY_Controller {
     }
 
     public function index($system_id = '') {
-  
+  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
         $data['site_detail'] = $this->slicingtemp_model->get_allSitesForDash();
-    //   echo "<pre>"; print_r($data['site_detail']); exit;
+        // echo "<pre>"; print_r($data['site_detail']); exit;
         $condition = ['status' => 1];
         $data['products'] = $this->common_model->fetchRecordsDynamically('TEMP_slicingProducts','',$condition);
         $chillingTempConfigurationData = $this->config_model->getConfiguration('', 'chillingTemp');

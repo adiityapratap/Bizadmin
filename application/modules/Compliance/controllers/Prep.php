@@ -14,7 +14,7 @@ class Prep extends MY_Controller
         $this->selected_location_id = $this->session->userdata('location_id');
     }
    	public function index(){
-			$data['prep_detail'] = $this->prep_model->fetchAllPrepArea();
+			$data['prep_detail'] = $this->prep_model->fetchAllPrepArea('Compliance_prepArea','Compliance_sites');
 // 			echo "<pre>"; print_r($data['prep_detail']); exit;
 			$data['site_detail'] = $this->generalcomp_model->get_allActive_sites(); 
 			$this->load->view('general/header');
@@ -94,3 +94,4 @@ class Prep extends MY_Controller
     
 
 }
+?>

@@ -71,6 +71,15 @@ $route['index'] = 'Home/index';
   $route['Cleaning/foodTemp/prep']= 'FoodTemp/Prepfood';
   $route['Cleaning/home/foodTempHistory']= 'Config/configureAddUpdate';
   
+//   Waste management routes
+
+$route['Compliance/Sanitation/history']= 'Waste/Home/history';
+$route['Compliance/Waste/historyData']= 'Waste/Home/historyData';
+
+// Sanitation system routes
+$route['Compliance/Sanitation/history']= 'Sanitation/Home/history';
+$route['Compliance/Sanitation/historyData']= 'Sanitation/Home/historyData';
+  
 
 // $route['Temp/prep/index'] = 'Temp/prep/index';
 

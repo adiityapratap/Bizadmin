@@ -175,6 +175,7 @@ class Auth extends MY_Controller
 			    if($this->ion_auth->get_users_groups()->row()->id == 4){
 			    redirect('auth/dashboardEmployee', 'refresh');    
 			    }else if($this->ion_auth->get_users_groups()->row()->id == 5){
+			        // for timesheet role clockin clockout portal
 			    $this->session->set_userdata('location_id',unserialize($user->location_ids)[0]);
 			    redirect('auth/clockInPage', 'refresh');  
 			    }else{
@@ -741,7 +742,8 @@ class Auth extends MY_Controller
        
 		$this->data['title'] = $this->lang->line('create_user_heading');
 
-		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+// 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+if (!$this->ion_auth->logged_in())
 		{   
 		  $tenantIdentifier=$this->session->userdata('tenantIdentifier');
 		  redirect(base_url($tenantIdentifier));
@@ -802,6 +804,9 @@ class Auth extends MY_Controller
 				'menu_ids' => serialize($this->session->userdata('menuIds')),
 				'role_id' => $this->input->post('role_id'),
 				'pin' => $hashed_pin,
+				'active' => 1,
+				'is_deleted' => 0,
+				'deleted_at' => '',
 				'url_identifier' => $this->session->userdata('tenantIdentifier')
 			];
 			$group = array($role_id);

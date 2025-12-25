@@ -1,96 +1,46 @@
-<div class="container-fluid" style="margin-top: 130px !important;">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card py-3" id="orderList">
-                <h3 class="text-black mx-5">View Best Records</h3>
-                <div class="card-header border-0">
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="col-md-3">
-                            <label>From Date</label>
-                            <input type="date" id="from_date" class="form-control">
-                        </div>
-                        <div class="col-md-3">
-                            <label>To Date</label>
-                            <input type="date" id="to_date" class="form-control">
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <button id="view_record" class="btn btn-primary mt-2" type="button">
-                                <span class="spinner-border spinner-border-sm d-none" id="button-loader" role="status" aria-hidden="true"></span>
-                                <span class="visually-hidden">Loading...</span>
-                                View Record
-                            </button>
-                        </div>
+<div class="container-fluid mb-5" style="margin-top: 130px !important;">
+   <div class="row">
+                        <div class="col-12 tempDiv">
+                            <div class="card">
+                              <div class="card-header align-items-center d-flex">
+                               <h4 class="card-title mb-0 flex-grow-1 text-faded">Waste Management History</h4>   
+                                  
+                                   </div>  
+                                
+                                 <div class="card-body">
+                                     <form action="<?php echo base_url('/Compliance/Waste/historyData') ?>" method="post">
+                                <div class="col-md-10 mt-2 d-flex gap-3">
+                                    
+                       <div class="date col-md-4">             
+                      <label class="form-label mb-0 fw-semibold">Date</label>
+                      <input type="text" required class="form-control flatpickr-input" data-provider="flatpickr"  name="date_range" data-date-format="d M, Y" data-range-date="true"  placeholder="Select date" readonly="readonly">         
+                      <small>Select from and to date to view the history, Please select date  in weekly range i.e 1st to 7th</small>
+                      </div>
+                       <div class="date col-md-4">  
+                         <label class="form-label mb-0 fw-semibold">Site</label>
+                       <select class="form-select siteDropdown" name="site_id">
+                                             <option> Select Site</option>
+                                                <?php if(!empty($site_detail)) { $count =0; foreach($site_detail as $sites) { $selected = ($count == 0 ? 'selected' : ''); ?>
+                                                <option <?php echo $selected; ?> class="dropdown-item" href="#" value="<?php echo $sites['id'] ?>"><?php echo $sites['site_name'] ?></option>
+                                                <?php $count++; } } ?>
+                                       </select>
+                                       </div>  
+                      <div class="buttonTemp col-md-1 mt-3">
+            <button type="submit" class="btn btn-success btn-label waves-effect waves-light"><i class="ri-check-double-line label-icon align-middle fs-16 me-2"></i> View</button>              
+                    
+                      </div>
+                          
+                     
                     </div>
-                </div>
-
-                <div class="card-body pt-0">
-                    <div class="table-responsive table-card mb-1">
-                        <table id="recordTable" class="table table-nowrap align-middle">
-                            <thead class="text-muted table-light">
-                                <tr>
-                                    <th>Product Name</th>
-                                    <th>No of Cake</th>
-                                    <th>Best Before</th>
-                                    <th>Date Entered</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-$(document).ready(function () {
-    let table = $('#recordTable').DataTable({
-        "pageLength": 100
-    });
-
-    $('#view_record').on('click', function () {
-        var from = $('#from_date').val();
-        var to = $('#to_date').val();
-
-        if (!from || !to) {
-            alert('Please select both dates');
-            return;
-        }
-
-        // Show loader inside button
-        $(this).prop('disabled', true); // Disable button to prevent multiple clicks
-        $('#button-loader').removeClass('d-none');
-        $(this).find('span.visually-hidden').text('Loading...');
-        $(this).find('span:contains("View Record")').addClass('d-none');
-
-        $.ajax({
-            url: "<?= base_url('Compliance/Cake/Cakehome/getCakeRecords') ?>",
-            method: "POST",
-            data: {
-                from_date: from,
-                to_date: to
-            },
-            dataType: "json",
-            success: function (data) {
-                table.clear().draw();
-                $.each(data, function (index, row) {
-                    table.row.add([
-                        row.product_name,
-                        row.no_of_cake,
-                        row.best_before,
-                        row.date_entered_formatted
-                    ]).draw(false);
-                });
-            },
-            complete: function () {
-                // Hide loader and restore button state
-                $('#view_record').prop('disabled', false);
-                $('#button-loader').addClass('d-none');
-                $('#view_record').find('span.visually-hidden').text('');
-                $('#view_record').find('span:contains("View Record")').removeClass('d-none');
-            }
-        });
-    });
-});
-</script>
+                    </form>
+                   
+                                 
+                                     
+                                
+                                 </div>
+                                </div>
+                                
+                                </div>
+                                
+                                </div>
+                                </div>

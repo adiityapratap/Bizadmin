@@ -19,8 +19,12 @@
                     </a>
                 <?php } ?>
                 
-                <a class="btn btn-warning d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/SliceTemp/Slicinghome'); ?>" data-bs-toggle="tooltip" title="Record Chilling Temperature">
+                <a class="btn btn-warning d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/SliceTemp/Slicinghome'); ?>" data-bs-toggle="tooltip" title="Record Slicing Temperature">
                         <i class="fas fa-snowflake"></i> Slicing Temp
+                    </a>
+                    
+                    <a class="btn btn-blue d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/FryerTemp/Fryerhome'); ?>" data-bs-toggle="tooltip" title="Record Fryer Temperature">
+                        <i class="fas fa-fire"></i> Fryer Temp
                     </a>
                 
                  <button id="managerSignatureBtn" class="btn btn-primary d-flex align-items-center gap-1" data-bs-toggle="tooltip" title="Add Manager Signature">
@@ -134,7 +138,7 @@
                                                    
                                                     
                                                     <td>
-                                                     <select class="form-select staffComments" disabled name="staff_comments_<?php echo $Equip['id']; ?>" >
+                                                     <select class="form-select staffComments" <?php echo $is_completed ?>  name="staff_comments_<?php echo $Equip['id']; ?>" >
                                                          <option value=""> Select Comment</option>
                                                      <?php if(!empty($staffComments)) { foreach($staffComments as $staffComment)  { ?>
                                                      <?php if(isset($todaysTempData[$eqipID]['staff_comments']) && $todaysTempData[$eqipID]['staff_comments'] == $staffComment) {  ?>
@@ -185,11 +189,12 @@
                                     <ul class="list-group list-group-flush border-dashed d-flex">
                                         <li class="list-group-item ps-0 liHeader">
                                         <div class="row align-items-center px-3">
-                                            <div class="col-2 fw-bold">Date</div>
-                                             <div class="col-3 fw-bold">Equip Name</div>
-                                             <div class="col-2 fw-bold">Comments</div>
+                                           
+                                             <div class="col-4 fw-bold">Equip Name</div>
+                                             <div class="col-3 fw-bold">Comments</div>
                                              <div class="col-2 fw-bold">Old Temp</div>
                                              <div class="col-2 fw-bold">New Temp</div>
+                                             <div class="col-1 fw-bold"></div>
                                             </div>
                                             </li>
                                     </ul>        
@@ -198,20 +203,12 @@
                                         <?php $managerComments = (isset($exceededData['manager_comments']) ? unserialize($exceededData['manager_comments']) : '') ?>
                                         <li class="list-group-item ps-0">
                                             <div class="row align-items-center g-3">
-                                                <div class="col-2">
-                                                    <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3 shadow">
-                                                        <div class="text-center">
-                                                            <?php $dateEntered = date("d", strtotime($exceededData['date_entered'])); $monthName = date("M", strtotime($exceededData['date_entered'])); ?>
-                                                            <h5 class="mb-0 text-faded"><?php echo $dateEntered; ?></h5>
-                                                            <div class="text-faded"><?php echo $monthName; ?></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3">
+                                               
+                                                <div class="col-4">
                                                     <h4 class="text-faded mt-0 mb-1 fs-13 fw-bold"><?php echo $exceededData['site_name'] ?></h4>
                                                     <a href="#" class="text-reset fs-14 mb-0"><?php echo $exceededData['equip_name'] ?></a>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-3">
                                                 <select class="form-select" id="manager_comments_<?php echo $exceededData['id']; ?>" name="manager_comments_<?php echo $exceededData['id']; ?>">
                                                     <option value="">Select Comment</option>
                                                      <?php if(!empty($managerComments)) { foreach($managerComments as $managerComment)  { ?>
@@ -223,10 +220,10 @@
                                                      <?php } } ?>
                                                      </select> 
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-2">
                                                 <input type="text" class="form-control" readonly value="<?php echo $exceededData['equip_temp'] ?>" style="padding: 0.5rem 0.6rem;" />
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-2">
                                                 <input type="text" style="padding: 0.5rem 0.6rem;" class="form-control" id="correctedTemp_<?php echo $exceededData['id']; ?>" value="<?php echo $exceededData['correctedTemp'] ?>" />
                                                 </div>
                                                  <div class="col-1">
@@ -258,7 +255,8 @@
                                                         </div>
                                                         <form id="attachmentUploadForm" enctype="multipart/form-data">
                                                         <div class="modal-body">
-                                                            <label> Select multiple images and upload</label>
+                                                            <label> Select multiple images and upload</label></br>
+                                                            <small>Max upload size 2 Mb</small>
                                                      <div class="file-input-container">
                                                              <input type="file" id="userfile" name="userfile[]" class="form-control-file" multiple>
                                                         </div>
@@ -425,28 +423,41 @@ $(document).ready(function(){
   $(".site_"+siteId).removeClass("d-none");  
   
   $(".uploadAttachmentButton").on("click", function () {
-        var formData = new FormData($("#attachmentUploadForm")[0]);
-        $(".uploadAttachmentButton").html("Loading...");
-        // Debugging: Output FormData object to console
-        console.log(formData);
+    var formData = new FormData($("#attachmentUploadForm")[0]);
 
-        $.ajax({
-            type: "POST",
-            url: "/Temp/home/uploadTemperatureAttachment", // Replace with your controller's URL
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                $("#tempAttachmentModal").modal('hide');
-                $(".uploadAttachmentButton").html("Save");
-               let className = 'attchmentN_' + $("#equipId").val();
-               $('.' + className).removeClass(className);
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
+    $(".uploadAttachmentButton").html("Loading...");
+
+    $.ajax({
+        type: "POST",
+        url: "/Temp/home/uploadTemperatureAttachment",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (res) {
+
+            $(".uploadAttachmentButton").html("Save");
+
+            if (res.status === false) {
+                alert("Upload failed: " + res.message);
+                return;
             }
-        });
+
+            // SUCCESS
+            alert("Files uploaded successfully!");
+
+            $("#tempAttachmentModal").modal('hide');
+
+            let className = 'attchmentN_' + $("#equipId").val();
+            $('.' + className).removeClass(className);
+        },
+        error: function (xhr, status, error) {
+            $(".uploadAttachmentButton").html("Save");
+            alert("Something went wrong: " + error);
+        }
     });
+});
+
     
 
     
@@ -455,6 +466,7 @@ $(document).ready(function(){
 
   function fetchAttachment(equipId){
       let orzName =  "<?php echo $this->session->userdata('tenantIdentifier'); ?>";
+      $('.appendSwiperImages').html('');     
        $.ajax({
             type: "POST",
             url: "/Temp/home/fetchAttachmentUploadedToday", // Replace with your controller's URL
@@ -467,7 +479,7 @@ $(document).ready(function(){
            let slide = '<div class="swiper-slide">' +
                     '<img src="' + imageUrl + '" alt="" class="img-fluid" style="width: 100%;" />' +
                     '</div>';
-            console.log("slide",slide)        
+            
              $('.appendSwiperImages').append(slide);
            });
           },

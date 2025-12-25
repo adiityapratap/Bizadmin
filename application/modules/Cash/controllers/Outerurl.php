@@ -18,3 +18,4 @@ class Outerurl extends MY_Controller
     
     
 }
+?>

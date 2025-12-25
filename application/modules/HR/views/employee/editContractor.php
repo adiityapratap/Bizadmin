@@ -193,46 +193,12 @@
         </div> 
 
 				  <h4 class="text-black">Address</h4>	
-				    <div class="col-lg-3 col-md-6">
-							<label for="unit_number" class="form-label">Unit Number:</label>
-							<input type="text" class="form-control" id="unit_number" name="unit_number"  value="<?php echo $contractor['unit_number'] ?>"  autocomplete="off">
-						</div>	
-					<div class="col-lg-3 col-md-6">
-							<label for="street" class="form-label">Street Number:</label>
-							<input type="text" class="form-control" id="street" name="street"   value="<?php echo $contractor['street'] ?>"  autocomplete="off" >
-						
-				    </div>
-					<div class="col-lg-3 col-md-6">
-							<label for="street_name" class="form-label">Street Name:<span>*</span></label>
-							<input type="text" class="form-control" id="street_name" name="street_name"  value="<?php echo $contractor['street_name'] ?>"  autocomplete="off" >
-							 <span class="fieldError" id="streetname_error"></span>
-						
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="suburb" class="form-label">Suburb:<span>*</span></label>
-							<input type="text" class="form-control"  id="suburb" name="suburb"  value="<?php echo $contractor['suburb'] ?>"  autocomplete="off" >
-								 <span class="fieldError" id="suburb_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="postcode" class="form-label">Postcode:<span>*</span></label>
-							<input type="text" id="postcode" class="form-control" name="postcode" onkeypress='validate(event)' value="<?php echo $contractor['postcode'] ?>"  autocomplete="off">
-							 <span class="fieldError" id="postcode_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="state" class="form-label">State:<span>*</span></label>
-							 <span class="fieldError" id="state_error"></span>
-							<select class="form-select" name="state" id="state">
-								<option value="">Select</option>
-								<option value="nsw" <?php echo $contractor['state'] == 'nsw' ? 'selected' : '' ?>>New South Wales</option>
-								<option value="vic" <?php echo $contractor['state'] == 'vic' ? 'selected' : '' ?>>Victoria</option>
-								<option value="qld" <?php echo $contractor['state'] == 'qld' ? 'selected' : '' ?>>Queensland</option>
-								<option value="wa" <?php echo $contractor['state'] == 'wa' ? 'selected' : '' ?>>Western Australia</option>
-								<option value="sa" <?php echo $contractor['state'] == 'sa' ? 'selected' : '' ?>>South Australia</option>
-								<option value="tas" <?php echo $contractor['state'] == 'tas' ? 'selected' : '' ?>>Tasmania</option>
-								<option value="act" <?php echo $contractor['state'] == 'act' ? 'selected' : '' ?>>Australian Capital Territory</option>
-								<option value="nt" <?php echo $contractor['state'] == 'nt' ? 'selected' : '' ?>>Northern Territory</option>
-							</select>
-						</div>
+				   	<div class="col-lg-6 col-md-12">
+    <label for="address" class="form-label">Address :</label>
+    <input type="text" class="form-control" id="address" name="address" value="<?php echo $contractor['address'] ?>" placeholder="Start typing your address…" autocomplete="off">
+    </div>
+
+				
 					</div>
 				     <input type="button" name="contact_submit" id="save_continue_personal" class="btn btn-success btn-ph" value="Save and Continue">		
                 	</form>
@@ -264,26 +230,10 @@
                     						</div>
                     						
                     					 
-                                        <div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Street address:</label>
-                    						<input type="text" class="form-control" name="nextkin_street" value="<?php echo $contractor['nextkin_street'] ?>"  autocomplete="off">
-                    						</div>
-                    						
-                    			  	<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Town/Suburb:</label>
-                    						<input type="text" class="form-control" name="nextkin_suburb"  value="<?php echo $contractor['nextkin_suburb'] ?>"  autocomplete="off" >
-                    						</div>
-                    				
-                    				
-                    				<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Postcode:</label>
-                    						<input type="text" class="form-control" name="nextkin_postcode"  value="<?php echo $contractor['nextkin_postcode'] ?>"  autocomplete="off" >
-                    						</div>
-                    						
-                    							<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">State:</label>
-                    						<input type="text" class="form-control" name="nextkin_state" value="<?php echo $contractor['nextkin_state'] ?>"  autocomplete="off" >
-                    						</div>
+                                          <div class="col-lg-6 col-md-12">
+    <label for="emergency_address" class="form-label">Address :</label>
+    <input type="text" class="form-control" id="emergency_address" name="emergency_address" value="<?php echo $contractor['emergency_address'] ?>" placeholder="Start typing your address…" autocomplete="off">
+    </div>
                     						</div>   
                <input type="button" rel="bankDetails" name="contact_submit" id="save_continue_emergency" class="btn btn-success btn-ph" value="Save and Continue">		
                 						</form>                             
@@ -385,7 +335,7 @@
             });
             
     $('#save_continue_personal').click(function(e){
-    
+     $('#loaderContainer').show();
      $('#save_continue_personal').val("Saving...");
         let data1 = $('#personalDetailsForm').serialize();
         $.ajax({
@@ -395,6 +345,7 @@
         	data: data1,
         	success: function(response){
           $('#save_continue_personal').val("SAVE");
+           $('#loaderContainer').hide();
           let res = JSON.parse(response)
           addHiddenInputFields(res?.positionAddedDetails);     
           localStorage.removeItem("positionIdsToRemove")
@@ -405,9 +356,11 @@
     
 	}); 
     $('#save_continue_emergency').click(function(e){
+         
       if($(".contracterId").val()==''){
       alert("Please enter personal details"); return false;    
       }    
+      $('#loaderContainer').show();
        $('#save_continue_emergency').val("Saving...");
         let data1 = $('#emergencyDetailsForm').serialize();
         $.ajax({
@@ -416,6 +369,7 @@
         	url: '/HR/contractors/submitContractorForm',
         	data: data1,
         	success: function(response){
+        	    $('#loaderContainer').hide();
         	    $('#save_continue_emergency').val("SAVE");
         	    activaTab('companyDetails');
         	}
@@ -426,6 +380,7 @@
     if($(".contracterId").val()==''){
       alert("Please enter details in previous steps"); return false;    
       }  
+      $('#loaderContainer').show();
      $('#save_continue_company').val("Saving...");
         let data1 = $('#companyDetailsForm').serialize();
         $.ajax({
@@ -435,6 +390,7 @@
         	data: data1,
         	success: function(response){
         	    $('#save_continue_company').val("SAVE");
+        	    $('#loaderContainer').hide();
         	    activaTab('documentDetails');
         	}
         });

@@ -1,9 +1,18 @@
 <div class="container-fluid" style="margin-top: 100px !important;">
    <div class="row">
+       <!-- Info icon trigger -->
+     
+
+
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Edit User</h4>
+                                        <h4 class="card-title mb-0 flex-grow-1 text-black">Edit User  
+<i class="fa-solid fa-circle-info text-primary fs-16"
+   role="button"
+   data-bs-toggle="modal"
+   data-bs-target="#infoModal">
+</i></h4>
                                         <div class="flex-shrink-0">
                                             <a type="button" class="btn bg-orange add-btn" 
                                                 id="create-btn" href="<?php echo base_url('auth/userListing') ?>"><i
@@ -102,7 +111,7 @@ $selected_system_ids = array_map('intval', is_array($selected_system_ids) ? $sel
                     </option>
                 <?php } ?>
             </select>
-            <small>Click in the box to view and select multiple locations</small>    
+            <small>Click in the box to view and select multiple locations except for timesheet role(assign just one location)</small>    
         </div>
     <?php } ?> 
 
@@ -147,6 +156,55 @@ $selected_system_ids = array_map('intval', is_array($selected_system_ids) ? $sel
                 </div>
                 </div>
                 </div>
+                
+                <!-- Info Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg border-0 rounded-3">
+
+      <!-- MODAL HEADER -->
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="infoModalLabel">
+          <i class="bi bi-info-circle me-2"></i> How to Use This Page
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- MODAL BODY -->
+      <div class="modal-body py-4">
+        <p class="mb-3">
+          This page allows you to manage user/manager/admin/timesheet user etc...
+          You can:
+        </p>
+
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>
+            For Role =  timesheet do not assign multiple locations, for other roles multiple locations can be assigned
+          </li>
+          
+          <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>
+            For timesheet users: select prep areas they'll see after login to clock in.
+          </li>
+          <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>
+            Make sure to enter all important field marked with *
+          </li>
+        </ul>
+
+        <div class="alert alert-info">
+          <strong>Note :</strong> assign menu to this  user by clicking configure menu from top right corner, note that assignning menu from here will overwrite menu access given at the role level
+          
+        </div>
+      </div>
+
+      <!-- MODAL FOOTER -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
                 
             	<?php 
 	 $menuConfigureCanvas = APPPATH . 'views/auth/MenuConfigureCanvas.php';

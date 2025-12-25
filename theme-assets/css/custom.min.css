@@ -410,6 +410,20 @@ td.task_description {
     background-color: #405189 !important;;
     border-color: #405189 !important;;
 }
+
+.btn-fryer {
+  background-color: #ff7b00; /* Orange heat */
+  border-color: #ff7b00;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+.btn-fryer:hover {
+  background-color: #e55e00;
+  border-color: #e55e00;
+  color: #fff;
+  box-shadow: 0 0 0 0.25rem rgba(255, 123, 0, 0.3);
+}
+
 .btn-blue:hover{
     color: #fff;
     background-color: #405189 !important;;

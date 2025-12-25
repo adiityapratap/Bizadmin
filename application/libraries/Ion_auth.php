@@ -79,7 +79,25 @@ class Ion_auth
 
 		if ($this->config->item('use_ci_email', 'ion_auth') && isset($email_config) && is_array($email_config))
 		{
-			$this->email->initialize($email_config);
+// 			$this->email->initialize($email_config);
+			
+			$email_smtp_config = array(
+        'protocol'     => 'smtp',
+        'smtp_host'    => 'smtp.office365.com',        // add these to config
+        'smtp_port'    => 25,        // e.g. 587
+        'smtp_user'    => 'info@bizadmin.com.au',
+        'smtp_pass'    => '1800@Footscray123!',
+        'smtp_crypto'  => 'tls',
+        'mailtype'     => 'html',
+        'charset'      => 'utf-8',
+        'newline'      => "\r\n",
+        'crlf'         => "\r\n",
+        'encoding'     => '8bit',           // This is the CRUCIAL line – prevents quoted-printable mess
+        'wordwrap'     => FALSE,            // Optional: also helps with long URLs
+    );
+
+    $this->email->initialize($email_smtp_config);
+    
 		}
 
 		$this->ion_auth_model->trigger_events('library_constructor');
@@ -180,6 +198,9 @@ class Ion_auth
 					{
 						$this->set_message('forgot_password_successful');
 						return TRUE;
+					}else{
+					    log_message('error', $this->email->print_debugger());
+        return FALSE;
 					}
 				}
 			}

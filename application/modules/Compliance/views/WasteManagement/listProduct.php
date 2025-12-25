@@ -256,9 +256,9 @@ $(document).ready(function() {
         const id = $(this).val();
         showLoading();
         $.ajax({
-            url: "<?php echo base_url('Compliance/Waste/home/delete'); ?>",
+            url: "<?php echo base_url('Compliance/Waste/Home/delete'); ?>",
             type: "POST",
-            data: { id: id },
+            data: { id: id,table_name:'Compliance_wasteManagementproducts' },
             success: function(response) {
                 hideLoading();
                 if (response === 'success') {

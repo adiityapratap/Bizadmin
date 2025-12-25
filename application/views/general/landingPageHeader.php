@@ -273,7 +273,7 @@
                         <!--<a class="dropdown-item" href="<?= base_url('auth/change_password'); ?>"><i-->
                         <!--        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span-->
                         <!--        class="align-middle">Profile</span></a>-->
-                          <?php if ($this->ion_auth->in_group('admin')): ?>
+                          <?php if ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('manager')): ?>
                            <a class="dropdown-item"  href="<?= base_url('auth/group_listing') ?>">
                              <i class="mdi mdi-account-plus text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Roles</span>

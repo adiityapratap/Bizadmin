@@ -47,3 +47,16 @@
 [22-May-2025 12:40:51 UTC] PHP Warning:  Version warning: Imagick was compiled against ImageMagick version 1692 but version 1693 is loaded. Imagick will run but may behave surprisingly in Unknown on line 0
 [22-May-2025 14:58:13 UTC] PHP Warning:  Version warning: Imagick was compiled against ImageMagick version 1692 but version 1693 is loaded. Imagick will run but may behave surprisingly in Unknown on line 0
 [30-Jul-2025 03:24:59 Australia/Melbourne] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/bizadmincom/public_html/application/modules/Catering/controllers/Config.php on line 36
+[13-Nov-2025 08:08:14 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "APPPATH" in /home/bizadmincom/public_html/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/bizadmincom/public_html/index.php on line 5
+[13-Nov-2025 08:08:16 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "APPPATH" in /home/bizadmincom/public_html/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/bizadmincom/public_html/index.php on line 5
+[23-Nov-2025 21:46:51 Australia/Melbourne] PHP Fatal error:  Cannot declare class PHPMailer\PHPMailer\Exception, because the name is already in use in /home/bizadmincom/public_html/application/third_party/phpmailer/src/Exception.php on line 0
+[04-Dec-2025 22:11:16 Australia/Melbourne] PHP Fatal error:  Constant expression contains invalid operations in /home/bizadmincom/public_html/application/modules/HR/models/Timesheet_model.php on line 324
+[04-Dec-2025 22:11:31 Australia/Melbourne] PHP Fatal error:  Constant expression contains invalid operations in /home/bizadmincom/public_html/application/modules/HR/models/Timesheet_model.php on line 324
+[04-Dec-2025 22:12:12 Australia/Melbourne] PHP Fatal error:  Constant expression contains invalid operations in /home/bizadmincom/public_html/application/modules/HR/models/Timesheet_model.php on line 324
+[04-Dec-2025 22:40:38 Australia/Melbourne] PHP Fatal error:  Constant expression contains invalid operations in /home/bizadmincom/public_html/application/modules/HR/models/Timesheet_model.php on line 324

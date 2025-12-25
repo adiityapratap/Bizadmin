@@ -248,110 +248,130 @@ class Organization extends MY_Controller {
 		return FALSE;
 	}
 	
-	public function edit($id=''){ 
-	    if($this->session->userdata('IsUserLogged')){
-	        if($_POST){
-	            $id = $_POST['id'];
-	           
-	           $postData= array(
-	               'orz_name' => $_POST['orz_name'],
-	               'orz_email' => $_POST['orz_email'],
-	               'tenant_identifier' => $_POST['tenant_identifier'],
-	               
-	                'db_name' => $_POST['db_name'],
-	                'db_username' => $_POST['db_username'],
-	                'db_pass' => $_POST['db_pass'],
-	                
-	                'mail_protocol' => $_POST['mail_protocol'],
-	                'mail_port' => $_POST['mail_port'],
-	                'mail_host' => $_POST['mail_host'],
-	                'mail_username' => $_POST['mail_username'],
-	                'mail_pass' => $_POST['mail_pass'],
-	                
-	               'orz_phone' => $_POST['orz_phone'],
-	               'orz_address' => $_POST['orz_address'],
-	               'organization_list_status' => $_POST['organization_list_status'],
-	               'system_ids' => Serialize($_POST['system_ids']),
-	               'location_ids' => Serialize($_POST['location_ids']),
-	               'date_updated' => date('Y-m-d'),
-	               );
-	               if($_POST['orz_password'] != ''){
-	                  $hasedPassword = $this->hash_password($_POST['orz_password']);
-	                  $postData['orz_password'] = $hasedPassword;
-	               }
-	               if(!empty($_FILES['orz_logo']['name'])){
-    
-                  $_FILES['file']['name'] = $_FILES['orz_logo']['name'];
-                  $_FILES['file']['type'] = $_FILES['orz_logo']['type'];
-                  $_FILES['file']['tmp_name'] = $_FILES['orz_logo']['tmp_name'];
-                  $_FILES['file']['error'] = $_FILES['orz_logo']['error'];
-                  $_FILES['file']['size'] = $_FILES['orz_logo']['size'];
-          
-                  $config['upload_path'] = './uploaded_files/organization_logos';
-                  $config['allowed_types'] = 'jpg|jpeg|png|gif';
-                  $config['max_size'] = '5000';
-                  $config['file_name'] = $_FILES['orz_logo']['name'];
-           
-                  $this->load->library('upload',$config); 
+	public function edit($id = '')
+{
+    if (!$this->session->userdata('IsUserLogged')) {
+        return redirect('auth');
+    }
+
+    // Handle POST submission
+    if ($this->input->post()) {
+
+        $post = $this->input->post();
+
+        // Safely fetch values with fallback defaults
+        $id = isset($post['id']) ? (int)$post['id'] : 0;
+
+        $postData = [
+            'orz_name'      => isset($post['orz_name']) ? trim($post['orz_name']) : '',
+            'orz_email'     => isset($post['orz_email']) ? trim($post['orz_email']) : '',
+            'tenant_identifier' => isset($post['tenant_identifier']) ? trim($post['tenant_identifier']) : '',
             
-                  if($this->upload->do_upload('file')){
-                    $uploadData = $this->upload->data();
-                    $filename = $uploadData['file_name'];
-                   $postData['orz_logo'] = $filename;
-                  }
+            // add DB info while creating orz not while updayting, if needed uncomment this c ode
+            // 'db_name'     => isset($_POST['db_name']) ? trim($_POST['db_name']) : '',
+            // 'db_username' => isset($_POST['db_username']) ? trim($_POST['db_username']) : '',
+            // 'db_pass'     => isset($_POST['db_pass']) ? trim($_POST['db_pass']) : '',
+
+
+            'mail_protocol' => isset($post['mail_protocol']) ? trim($post['mail_protocol']) : '',
+            'mail_port'     => isset($post['mail_port']) ? trim($post['mail_port']) : '',
+            'mail_host'     => isset($post['mail_host']) ? trim($post['mail_host']) : '',
+            'mail_username' => isset($post['mail_username']) ? trim($post['mail_username']) : '',
+            'mail_pass'     => isset($post['mail_pass']) ? trim($post['mail_pass']) : '',
+
+            'orz_phone'     => isset($post['orz_phone']) ? trim($post['orz_phone']) : '',
+            'orz_address'   => isset($post['orz_address']) ? trim($post['orz_address']) : '',
+            'organization_list_status' => isset($post['organization_list_status']) ? (int)$post['organization_list_status'] : 0,
+
+            'system_ids'    => isset($post['system_ids']) ? serialize($post['system_ids']) : serialize([]),
+            'location_ids'  => isset($post['location_ids']) ? serialize($post['location_ids']) : serialize([]),
+
+            'date_updated'  => date('Y-m-d')
+        ];
+
+        // Add password only if provided
+        if (!empty($post['orz_password'])) {
+            $postData['orz_password'] = $this->hash_password($post['orz_password']);
+        }
+
+        /**
+         * FILE UPLOAD (SAFE)
+         */
+        if (!empty($_FILES['orz_logo']['name'])) {
+
+            $config = [
+                'upload_path'   => './uploaded_files/organization_logos',
+                'allowed_types' => 'jpg|jpeg|png|gif',
+                'max_size'      => 5000,
+                'file_name'     => $_FILES['orz_logo']['name']
+            ];
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('orz_logo')) {
+                $uploadData = $this->upload->data();
+                $postData['orz_logo'] = $uploadData['file_name'];
+            } else {
+                log_message('error', 'Logo Upload Error: ' . $this->upload->display_errors());
+            }
+        }
+
+        /**
+         * UPDATE MAIN ORGANIZATION TABLE
+         */
+        $res = $this->general_model->update('organization_list', $id, $postData);
+
+        if ($res) {
+
+            // Now update ORG user in tenant DB
+            $newDBConn = $this->connectToThisDB($post);
+
+            if ($newDBConn) {
+                $orz_user_id = get_user_id_by_organization_id($newDBConn, $id);
+
+                if ($orz_user_id) {
+
+                    $updatedData = [
+                        'username'  => $post['tenant_identifier'] ?? '',
+                        'email'     => $post['orz_email'] ?? '',
+                        'phone'     => $post['orz_phone'] ?? '',
+                        'system_ids'=> serialize($post['system_ids'] ?? []),
+                        'location_ids'=> serialize($post['location_ids'] ?? []),
+                        'active'    => isset($post['organization_list_status']) ? (int)$post['organization_list_status'] : 0,
+                        'date_modified' => date('Y-m-d')
+                    ];
+
+                    if (!empty($post['orz_password'])) {
+                        $updatedData['password'] = $this->hash_password($post['orz_password']);
+                    }
+
+                    $newDBConn->where('id', $orz_user_id);
+                    $newDBConn->update('Global_users', $updatedData);
                 }
-                
-	           $res=$this->general_model->update('organization_list',$id,$postData);
-	           if($res){
-	               // ============================================ Code to updated ORganization Datbase when super admin update something ======= 
-	               $newDBConn = $this->connectToThisDB($_POST);
-	               //echo "<pre>"; print_r($newDBConn); exit;
-	               $orz_user_id = get_user_id_by_organization_id($newDBConn,$id);
-	              
-	               //echo $orz_user_id; exit;
-	            
-	               $updatedData = array(
-                     'username' => $_POST['tenant_identifier'],
-                     'email' => $_POST['orz_email'],
-                     'phone' => $_POST['orz_phone'],
-                     'system_ids' => Serialize($_POST['system_ids']),
-	                 'location_ids' => Serialize($_POST['location_ids']),
-                     'active' => $_POST['organization_list_status'],
-                     'date_modified' => date('Y-m-d'),
-                   );
-                  if($_POST['orz_password'] != ''){
-	                  $hasedPassword = $this->hash_password($_POST['orz_password']);
-	                  $updatedData['password'] = $hasedPassword;
-	               }
-	                $newDBConn->where('id', $orz_user_id);
-                   $newDBConn->update('Global_users', $updatedData);
-	            
-	            
-	            // =============================== END ===================================================================
-	            
-	               $this->session->set_flashdata('sucess_msg','Record updated successfully');
-	           }else{
-	               $this->session->set_flashdata('error_msg','Failed to update record');
-	           }
-	           redirect('organization');
-	        }else{
-	            $res=$this->general_model->fetchAllRecord('organization_list',$id);
-	            $data['locations']  =$this->location_model->fetchAllRecord();
-	            $data['record'] = $res;
-	            $system_details=$this->general_model->fetchRecord('system_details');
-	            $data['system_details'] = $system_details;
-	            $data['form_type'] = 'edit';
-    	        $this->load->view('general/header');
-        		$this->load->view('organization/add',$data);
-        		$this->load->view('general/footer');
-	        }
-	        
-		
-	    }else{
-	        redirect('auth');
-	    }
-	  	
-	}
+            }
+
+            $this->session->set_flashdata('sucess_msg', 'Record updated successfully');
+        } else {
+            $this->session->set_flashdata('error_msg', 'Failed to update record');
+        }
+
+        return redirect('organization');
+
+    } else {
+        // Load edit page
+        $record = $this->general_model->fetchAllRecord('organization_list', $id);
+
+        $data['locations'] = $this->location_model->fetchAllRecord();
+        $data['record'] = $record;
+        $data['system_details'] = $this->general_model->fetchRecord('system_details');
+        $data['form_type'] = 'edit';
+
+        $this->load->view('general/header');
+        $this->load->view('organization/add', $data);
+        $this->load->view('general/footer');
+    }
+}
+
 	public function view($id){ 
 	    if($this->session->userdata('IsUserLogged')){
 	        

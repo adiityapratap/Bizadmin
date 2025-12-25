@@ -214,87 +214,139 @@ class MY_Controller extends MX_Controller
         
     }
     // $to = ['recipient1@example.com', 'recipient2@example.com'];
-    public function sendEmail($to, $subject, $message,$from='info@bizadmin.com.au',$cc='',$fromName='Bizadmin Notification',$attachment='',$reply_to='') {
-   
+   public function sendEmail(
+    $to,
+    $subject,
+    $message,
+    $from = 'info@bizadmin.com.au',
+    $cc = '',
+    $fromName = 'Bizadmin Notification',
+    $attachment = '',
+    $reply_to = ''
+) {
+    try {
+        // =============================
+        // SMTP MODE
+        // =============================
+       
+      
         if ($this->session->userdata('mail_protocol') == 'smtp') {
-           $this->setSmtpSettings(); 
-            
 
-            // Receipent
-            if (is_array($to)) {
-               
-             foreach ($to as $recipient) {
-                $this->phpmailer->addAddress($recipient);
-             }
-              } else {
-            
-            $mailTo = explode(",",$to);
-            if (is_array($mailTo)) {
-             foreach ($mailTo as $recipient) {
-                $this->phpmailer->addAddress($recipient);
-             }
+            $this->setSmtpSettings();
+
+            // Reset PHPMailer recipients to avoid stacking
+            $this->phpmailer->clearAddresses();
+            $this->phpmailer->clearCCs();
+            $this->phpmailer->clearAttachments();
+
+            // -------- Recipients ----------
+            if (!empty($to)) {
+                $recipientList = is_array($to) ? $to : explode(',', $to);
+
+                foreach ($recipientList as $recipient) {
+                    if (trim($recipient) != '') {
+                        $this->phpmailer->addAddress(trim($recipient));
+                    }
+                }
+            } else {
+                return ['status' => false, 'error' => 'Recipient email missing'];
             }
 
-           }
-           
-           //CC
-           
-           if($cc !=''){
-             if (is_array($cc)) {
-             foreach ($cc as $CCrecipient) {
-                $this->phpmailer->addCC($CCrecipient);
-             }
-              } else {
-            $this->phpmailer->addCC($cc);
-           }
-             
-           }
-        //   echo $from; exit;
-            // $this->phpmailer->setFrom($from);
+            // -------- CC ----------
+            if (!empty($cc)) {
+                $ccList = is_array($cc) ? $cc : explode(',', $cc);
+
+                foreach ($ccList as $ccEmail) {
+                    if (trim($ccEmail) != '') {
+                        $this->phpmailer->addCC(trim($ccEmail));
+                    }
+                }
+            }
+
+            // -------- From ----------
             $this->phpmailer->setFrom($from, $fromName);
-            if($reply_to  !=''){
-             $this->phpmailer->addReplyTo($reply_to);   
+
+            if (!empty($reply_to)) {
+                $this->phpmailer->addReplyTo($reply_to);
             }
-            
-            $this->phpmailer->isHTML(true); 
+
+            $this->phpmailer->isHTML(true);
             $this->phpmailer->Subject = $subject;
             $this->phpmailer->Body = $message;
-            if($attachment !=''){
-             $this->phpmailer->addAttachment($attachment);
+
+            // -------- Attachment ----------
+            if (!empty($attachment) && file_exists($attachment)) {
+                $this->phpmailer->addAttachment($attachment);
             }
 
-            if ($this->phpmailer->send()) {
-                // echo "success mail sent"; exit;
-                return true; // Email sent successfully
-            } else {
-                // echo "failed"; exit;
-                return true; // Email sending failed
+            // -------- SEND ----------
+            if (!$this->phpmailer->send()) {
+                return [
+                    'status' => false,
+                    'error'  => $this->phpmailer->ErrorInfo
+                ];
             }
+
+            return ['status' => true];
+
         } else {
-            // Fallback to CodeIgniter's Email library for mail protocol
-            $this->load->library('email');
 
-            // $this->email->from('your-email@example.com', 'Your Name');
-            if (is_array($to)) {
-            foreach ($to as $recipient) {
-                $this->email->to($recipient);
+            // =============================
+            // MAIL() MODE - CodeIgniter email lib
+            // =============================
+            
+             $config = [
+        'mailtype' => 'html',
+        'charset'  => 'utf-8',
+        'newline'  => "\r\n",
+        'crlf'     => "\r\n"
+    ];
+
+    $this->load->library('email', $config);
+    
+            
+
+            // Recipients
+            if (!empty($to)) {
+                $toList = is_array($to) ? $to : explode(',', $to);
+
+                foreach ($toList as $recipient) {
+                    $this->email->to(trim($recipient));
+                }
             }
-             } else {
-            $this->email->to($to);
-           }
-            if($reply_to  !=''){
-            $this->email->reply_to($reply_to);
+
+            if (!empty($reply_to)) {
+                $this->email->reply_to($reply_to);
             }
+            
+            $from = (!empty($from)) ? $from : 'info@bizadmin.com.au';
+    $this->email->from($from, $fromName);
+
             $this->email->subject($subject);
             $this->email->message($message);
-         
-            if ($this->email->send()) {
-                return true; // Email sent successfully
-            } else {
-                return false; // Email sending failed
+
+            if (!empty($attachment) && file_exists($attachment)) {
+                $this->email->attach($attachment);
             }
+
+            if (!$this->email->send()) {
+                return [
+                    'status' => false,
+                    'error'  => $this->email->print_debugger()
+                ];
+            }
+
+            return ['status' => true];
         }
+
+    } catch (Exception $e) {
+        return [
+            'status' => false,
+            'error'  => $e->getMessage()
+        ];
     }
+}
+
     
     public function sendEmailAtRunTimeForCronJobs($to, $subject, $message,$cc='') {
      

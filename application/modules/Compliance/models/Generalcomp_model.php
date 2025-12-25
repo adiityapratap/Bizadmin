@@ -7,6 +7,7 @@ class Generalcomp_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->selected_location_id = $this->session->userdata('location_id') ?? 0;
+        $this->load->model('common_model');
     }
 
     public function get_all_sitesQuestion(): array {
@@ -75,7 +76,7 @@ class Generalcomp_model extends CI_Model {
 
         $curDate = date('Y-m-d');
         $query = $this->tenantDb->select('*')
-            ->from('Compliance_record_History')
+            ->from('Compliance_wasteManagement_history')
             ->where([
                 'task_id' => $task_id,
                 'date_entered' => $curDate
@@ -91,10 +92,10 @@ class Generalcomp_model extends CI_Model {
                 'task_id' => $task_id,
                 'date_entered' => $curDate
             ]);
-            return $this->tenantDb->update('Compliance_record_History', $data);
+            return $this->tenantDb->update('Compliance_wasteManagement_history', $data);
         }
 
-        return $this->tenantDb->insert('Compliance_record_History', $data);
+        return $this->tenantDb->insert('Compliance_wasteManagement_history', $data);
     }
 
     public function fetchTodaysEnteredData(): array {
@@ -141,6 +142,27 @@ class Generalcomp_model extends CI_Model {
 
         return $newArray;
     }
+    
+    public function fetchTodaysEnteredDataForIncomingGoods(): array {
+    $query = $this->tenantDb->select('Compliance_IncomingGoods_history.*')
+        ->from('Compliance_IncomingGoods_history')
+        ->where([
+            'Compliance_IncomingGoods_history.date_entered' => date('Y-m-d'),
+            'Compliance_IncomingGoods_history.location_id' => $this->selected_location_id
+        ])
+        ->get();
+    
+    $newArray = [];
+    if (is_object($query)) {
+        $result = $query->result_array() ?? [];
+        foreach ($result as $item) {
+            if (!empty($item['supplier_id'])) {
+                $newArray[$item['supplier_id']] = $item;
+            }
+        }
+    }
+    return $newArray;
+}
 
     public function fetchHistoryData(string $fromDate, string $toDate, int $site_id): array {
         if (empty($fromDate) || empty($toDate) || empty($site_id)) {
@@ -250,6 +272,30 @@ class Generalcomp_model extends CI_Model {
             ->get();
 
         return is_object($query) ? ($query->result_array() ?? []) : [];
+    }
+    
+    public function fetchWasteManagementHistoryData($fromDate, $toDate, $site_id = '') {
+        $condition = array(
+            'date_entered >=' => $fromDate,
+            'date_entered <=' => $toDate,
+            'location_id' => $this->session->userdata('selected_location_id')
+        );
+        if ($site_id != '') {
+            $condition['site_id'] = $site_id;
+        }
+        $history_data = $this->common_model->fetchRecordsDynamically('Compliance_record_History', '', $condition);
+
+        // Restructure data by date and product_id
+        $restructuredArray = array();
+        foreach ($history_data as $item) {
+            $date_entered = $item['date_entered'];
+            $product_id = $item['product_id'];
+            if (!isset($restructuredArray[$date_entered])) {
+                $restructuredArray[$date_entered] = array();
+            }
+            $restructuredArray[$date_entered][$product_id] = $item;
+        }
+        return $restructuredArray;
     }
 }
 ?>

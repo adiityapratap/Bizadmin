@@ -140,46 +140,13 @@
         </div> 
 
 				  <h4 class="text-black">Address</h4>	
-				    <div class="col-lg-3 col-md-6">
-							<label for="unit_number" class="form-label">Unit Number:</label>
-							<input type="text" class="form-control" id="unit_number" name="unit_number"  autocomplete="off">
-						</div>	
-					<div class="col-lg-3 col-md-6">
-							<label for="street" class="form-label">Street Number:</label>
-							<input type="text" class="form-control" id="street" name="street"   autocomplete="off" >
-						
-				    </div>
-					<div class="col-lg-3 col-md-6">
-							<label for="street_name" class="form-label">Street Name:<span>*</span></label>
-							<input type="text" class="form-control required" id="street_name" name="street_name"  autocomplete="off" >
-							 <span class="fieldError" id="streetname_error"></span>
-						
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="suburb" class="form-label">Suburb:<span>*</span></label>
-							<input type="text" class="form-control required"  id="suburb" name="suburb"  autocomplete="off" >
-								 <span class="fieldError" id="suburb_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="postcode" class="form-label">Postcode:<span>*</span></label>
-							<input type="text" id="postcode" class="form-control required" name="postcode" onkeypress='validate(event)' autocomplete="off">
-							 <span class="fieldError" id="postcode_error"></span>
-						</div>
-					<div class="col-lg-3 col-md-6">
-							<label for="state" class="form-label">State:<span>*</span></label>
-							 <span class="fieldError" id="state_error"></span>
-							<select class="form-select" name="state" id="state">
-								<option value="">Select</option>
-								<option value="nsw">New South Wales</option>
-								<option value="vic">Victoria</option>
-								<option value="qld">Queensland</option>
-								<option value="wa">Western Australia</option>
-								<option value="sa">South Australia</option>
-								<option value="tas">Tasmania</option>
-								<option value="act">Australian Capital Territory</option>
-								<option value="nt">Northern Territory</option>
-							</select>
-						</div>
+				    
+					<div class="col-lg-6 col-md-12">
+    <label for="address" class="form-label">Address :</label>
+    <input type="text" class="form-control" id="address" name="address"
+           placeholder="Start typing your address…" autocomplete="off">
+</div>
+
 					</div>
 			  		
 				<input type="button" name="contact_submit" id="save_continue_personal" class="btn btn-success btn-ph" value="Save and Continue" rel="emergencyDetails">		
@@ -212,26 +179,12 @@
                     						</div>
                     						
                     					 
-                                        <div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Street address:</label>
-                    						<input type="text" class="form-control" name="nextkin_street" autocomplete="off">
-                    						</div>
-                    						
-                    			  	<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Town/Suburb:</label>
-                    						<input type="text" class="form-control" name="nextkin_suburb"  autocomplete="off" >
-                    						</div>
-                    				
-                    					
-                    				<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">Postcode:</label>
-                    						<input type="text" class="form-control" name="nextkin_postcode"  autocomplete="off" >
-                    						</div>
-                    						
-                    						<div class="col-lg-3 col-md-6">
-                    						<label for="businessname" class="form-label">State:</label>
-                    						<input type="text" class="form-control" name="nextkin_state" autocomplete="off" >
-                    						</div>
+                                        <div class="col-lg-6 col-md-12">
+    <label for="emergency_address" class="form-label">Address :</label>
+    <input type="text" class="form-control" id="emergency_address" name="emergency_address"
+           placeholder="Start typing your address…" autocomplete="off">
+</div>
+
                     						</div>   
                <input type="button" rel="bankDetails" name="contact_submit" id="save_continue_emergency" class="btn btn-success btn-ph" value="Save and Continue">		
                 						</form>                             
@@ -287,6 +240,8 @@
 
             </tbody>
         </table>  
+         <input type="button"  name="contact_submit" id="save_continue_documents" class="btn btn-success btn-ph" value="Save and Continue"> 
+        
             </form>
             
             </div>         
@@ -323,21 +278,25 @@
         $('.fieldError').text("");
 
         // Loop through all required fields
-        $('.required').each(function() {
-            let inputField = $(this);
-            let errorField = $(this).parent().find('.fieldError');
-  console.log("inputField",inputField);
-  console.log("errorField",errorField);
-            // If inputField is empty
-            if (inputField.val().trim() === "" || inputField.val() === null) {
-                errorField.text("This field is required!");
-                isValid = false;
-            }
-        });
+       $('.required').each(function() {
+    let inputField = $(this);
+    let errorField = $(this).parent().find('.fieldError');
+
+    // Convert value to string safely
+    let value = $.trim(String(inputField.val() || ""));
+
+    if (value === "") {
+        errorField.text("This field is required!");
+        isValid = false;
+    } else {
+        errorField.text("");
+    }
+});
+
 
         // If validation fails, stop here
         if (!isValid) return;
-    
+    $('#loaderContainer').show();
     $('#save_continue_personal').val("Saving...");
     
     // Create userData object
@@ -393,6 +352,7 @@
         addHiddenInputFields(res?.positionAddedDetails);     
         localStorage.removeItem("positionIdsToRemove")
          $('#save_continue_personal').val("SAVE");	
+         $('#loaderContainer').hide();
          activaTab('emergencyDetails');
         	}
         }); 
@@ -403,6 +363,7 @@
       alert("Please enter personal details"); return false;    
       }    
        $('#save_continue_emergency').val("Saving...");
+       $('#loaderContainer').show();
         let data1 = $('#emergencyDetailsForm').serialize();
         $.ajax({
             type: "POST",
@@ -410,6 +371,7 @@
         	url: '/HR/contractors/submitContractorForm',
         	data: data1,
         	success: function(response){
+        	    $('#loaderContainer').hide();
         	     $('#save_continue_emergency').val("SAVE"); 
         	     activaTab('companyDetails');
         	}
@@ -420,6 +382,7 @@
     if($(".contracterId").val()==''){
       alert("Please enter details in previous steps"); return false;    
       }  
+      $('#loaderContainer').show();
      $('#save_continue_company').val("Saving...");
         let data1 = $('#companyDetailsForm').serialize();
         $.ajax({
@@ -429,7 +392,7 @@
         	data: data1,
         	success: function(response){
         	     $('#save_continue_company').val("SAVE");
-        	    
+        	    $('#loaderContainer').hide();
         	     activaTab('documentDetails');
         	     
 		        

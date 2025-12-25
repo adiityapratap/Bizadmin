@@ -416,3 +416,4 @@ $query = $this->tenantDb->select('supplier_id, location_id, product_id, closing_
     
 
 }
+?>

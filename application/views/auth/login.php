@@ -17,10 +17,10 @@
                         <div class="logo clearfix">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <a href="#" class="btn_login_pin btn btn-outline-success w-100 active" data-id="2">Login using Pin</a>
+                                    <a href="#" class="btn_login_pin btn btn-outline-success w-100" data-id="2">Login using Pin</a>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <a class="btn_login_password btn btn-outline-success w-100" data-id="1" href="#">Login using Username</a>
+                                    <a class="btn_login_password btn btn-outline-success w-100 active" data-id="1" href="#">Login using Username</a>
                                 </div>
                             </div>
                         </div>
@@ -48,6 +48,8 @@
                                         <a href="/auth/forgot_password" class="link-light float-end forgot-password">Forgot password?</a>
                                     </div>
                                 </div>
+                                
+                                
                                 <div id="pin_form">
                                     <input type="hidden" name="login_pin" id="login_pin">
                                     <!-- Added 4 input boxes to display PIN -->
@@ -123,11 +125,11 @@
 <script>
 $(document).ready(function() {
     // Show PIN form by default and hide submit button
-    $('#pin_form').show();
-    $('#email_password_form').hide();
-    $('#submit_button').hide();
-    $('.btn_login_pin').addClass('active');
-    $('.btn_login_password').removeClass('active');
+    $('#pin_form').hide();
+    $('#email_password_form').show();
+    $('#submit_button').show();
+    $('.btn_login_pin').removeClass('active');
+    $('.btn_login_password').addClass('active');
 
     // Toggle forms on button click
     $('.btn_login_pin').on('click', function(e) {

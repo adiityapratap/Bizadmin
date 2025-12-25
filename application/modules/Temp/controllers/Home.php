@@ -171,66 +171,80 @@ error_reporting(E_ALL);
        
     }
     
-    public function uploadTemperatureAttachment()
-    {
+  public function uploadTemperatureAttachment()
+{
     $orzName = $this->tenantIdentifier;    
-    $config['upload_path'] = './uploaded_files/'.$orzName.'/Temp/TemperatureAttachments/';
-    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf'; // Add allowed file types
-    $config['encrypt_name'] = TRUE;
-    $config['max_size'] = 8048; // Maximum file size in KB (2MB)
 
+    $config['upload_path'] = './uploaded_files/'.$orzName.'/Temp/TemperatureAttachments/';
+    $config['allowed_types'] = 'gif|jpg|jpeg|png|pdf';
+    $config['encrypt_name'] = TRUE;
+    $config['max_size'] = 3048;
+
+    $this->load->helper('image_compression'); // IMPORTANT
     $this->load->library('upload', $config);
 
     $uploaded_files = [];
+    $countfiles = count($_FILES['userfile']['name']);
 
+    // initialize upload library once (faster)
+    $this->upload->initialize($config);
 
-      // Count total files
-      $countfiles = count($_FILES['userfile']['name']);
- 
-      // Looping all files
-      for($i=0;$i<$countfiles;$i++){
- 
-        if(!empty($_FILES['userfile']['name'][$i])){
- 
-          // Define new $_FILES array - $_FILES['file']
-          $_FILES['file']['name'] = $_FILES['userfile']['name'][$i];
-          $_FILES['file']['type'] = $_FILES['userfile']['type'][$i];
-          $_FILES['file']['tmp_name'] = $_FILES['userfile']['tmp_name'][$i];
-          $_FILES['file']['error'] = $_FILES['userfile']['error'][$i];
-          $_FILES['file']['size'] = $_FILES['userfile']['size'][$i];
+    for ($i = 0; $i < $countfiles; $i++) {
 
-          // Set preference
-          $config['upload_path'] = './uploaded_files/'.$orzName.'/Temp/TemperatureAttachments/';
-          $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-          $config['max_size'] = '5000'; // max_size in kb
-          $config['file_name'] = $_FILES['files']['name'][$i];
- 
-          //Load upload library
-          $this->load->library('upload',$config); 
- 
-    
-          if($this->upload->do_upload('file')){
-            // Get data about the file
+        if (!empty($_FILES['userfile']['name'][$i])) {
+
+            // Prepare each file for CI upload
+            $_FILES['file']['name']     = $_FILES['userfile']['name'][$i];
+            $_FILES['file']['type']     = $_FILES['userfile']['type'][$i];
+            $_FILES['file']['tmp_name'] = $_FILES['userfile']['tmp_name'][$i];
+            $_FILES['file']['error']    = $_FILES['userfile']['error'][$i];
+            $_FILES['file']['size']     = $_FILES['userfile']['size'][$i];
+
+            // Try upload
+            if (!$this->upload->do_upload('file')) {
+                echo json_encode([
+                    'status' => false,
+                    'message' => $this->upload->display_errors('', '')
+                ]);
+                return;
+            }
+
+            // Uploaded info
             $uploadData = $this->upload->data();
-            $filename = $uploadData['file_name'];
-          
-            // Initialize array
-            $uploaded_files[$i] = $filename;
-          }
-        }
- 
-      }
+            $fullPath   = $uploadData['full_path'];   // full original path
+            $filePath   = $uploadData['file_path'];   // directory path
+            $fileName   = $uploadData['file_name'];   // compressed file uses same name
 
- 
-    
-    $data =  array(
-	       'attachment'=> serialize($uploaded_files),
-	       //'checklistComments'=> (isset($_POST['checklistComments']) ? $_POST['checklistComments'] :'')
-	       );
-	    $this->temp_model->updateTempForTodays($_POST['equipId'],$data,TRUE);
-    // Return a response with information about the uploaded files
-    echo "Uploaded Files: " . implode(', ', $uploaded_files);
+            // Check if file is image (skip PDF)
+            $isImage = in_array($uploadData['file_ext'], ['.jpg', '.jpeg', '.png', '.gif']);
+
+            if ($isImage) {
+                // Compress IN-PLACE (overwrite original)
+                compress_to_size($fullPath, $fullPath, 900);  // target 900 KB
+
+                // Alternatively: compress_image($fullPath, $fullPath, 70); // 70% quality
+            }
+
+            $uploaded_files[] = $fileName;
+        }
+    }
+
+    // Save DB record
+    $data = [
+        'attachment' => serialize($uploaded_files)
+    ];
+    $this->temp_model->updateTempForTodays($_POST['equipId'], $data, TRUE);
+
+    // Return success response
+    echo json_encode([
+        'status' => true,
+        'message' => 'Files uploaded & compressed successfully',
+        'files' => $uploaded_files
+    ]);
+    exit;
 }
+
+
     public function fetchAttachmentUploadedToday(){
     $equipId =  $this->input->post('equipId');
     $result = $this->temp_model->fetchAttachmentUploadedToday($equipId);

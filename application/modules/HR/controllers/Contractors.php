@@ -18,7 +18,8 @@ class Contractors extends MY_Controller {
   
 	
 	function addEditContractor($id=''){
-     $userId = $this->ion_auth->get_user_id();
+	    
+      $userId = $this->ion_auth->get_user_id();
 	  $data['locations'] = $this->auth_model->fetchLocationsFromUserId($userId);
 	  $this->load->view('general/header');
 	  $conditionsStress = array('status'=>'1','is_deleted'=>'0');
@@ -38,6 +39,7 @@ class Contractors extends MY_Controller {
 	   $this->load->view('employee/addContractor',$data);   
 	  }
 	  $this->load->view('general/footer');
+	  
 	}
 	
 	function submitContractorForm(){

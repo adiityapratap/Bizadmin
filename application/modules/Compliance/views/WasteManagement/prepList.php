@@ -304,7 +304,7 @@
             }
             $.ajax({
                  type: "POST",
-                 url: "/Compliance/Waste/Prep/updatePrep",
+                 url: "/Compliance/Waste/Prep/edit",
                  data:'prep_name='+prepName+'&id='+id+'&site_id='+siteId,
                  success: function(data){
                     location.reload();

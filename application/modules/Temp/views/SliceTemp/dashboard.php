@@ -21,8 +21,12 @@
                     </a>
                 <?php } ?>
                 
-                <a class="btn btn-warning d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/SliceTemp/Slicinghome'); ?>" data-bs-toggle="tooltip" title="Record Chilling Temperature">
+                <a class="btn btn-warning d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/SliceTemp/Slicinghome'); ?>" data-bs-toggle="tooltip" title="Record Slicing Temperature">
                         <i class="fas fa-snowflake"></i> Slicing Temp
+                    </a>
+                    
+                    <a class="btn btn-blue d-flex align-items-center gap-1" href="<?php echo base_url('/Temp/FryerTemp/Fryerhome'); ?>" data-bs-toggle="tooltip" title="Record Fryer Temperature">
+                        <i class="fas fa-fire"></i> Fryer Temp
                     </a>
                 
                 <button id="managerSignatureBtn" class="btn btn-primary d-flex align-items-center gap-1" data-bs-toggle="tooltip" title="Add Manager Signature">
@@ -93,8 +97,7 @@
 
 
                                 <div class="card-body">
-                                  <input type="hidden" class="foodMaxTemp" value="<?php echo $foodMaxTemp ?>">
-                                   <input type="hidden" class="foodMinTemp" value="<?php echo $foodMinTemp ?>">
+                                 
                                     <div class="table-responsive table-card">
                                         <table class="table table-borderless table-hover table-nowrap align-middle mb-0 foodTempTable">
                                             <thead class="table-light">
@@ -157,7 +160,7 @@
                                    name="internal_batch_code_allocated"
                                    class="auto-save form-control internalBatchCode"
                                    value="<?php echo htmlspecialchars($matchedData['internal_batch_code_allocated'] ?? ''); ?>"
-                                   data-product-id="<?php echo $productId; ?>" <?php echo $is_completed; ?>>
+                                   data-product-id="<?php echo $productId; ?>" >
                         </td>
        <td>
                             <div class="input-group align-items-center">
@@ -165,7 +168,7 @@
                                        data-prepid="<?php echo $prep_area->id ?>" data-field="start_slicing"
                                        data-product-id="<?php echo $productId; ?>"
                                        value="<?php echo htmlspecialchars($matchedData['start_slicing'] ?? ''); ?>"
-                                       <?php echo $is_completed; ?>>
+                                       >
                                 <button class="btn btn-outline-secondary" type="button" onclick="populateCurrentTime(this)">⏰</button>
                                 
                             </div>
@@ -176,7 +179,7 @@
                                        data-prepid="<?php echo $prep_area->id ?>" data-field="time_finished_slicing"
                                        data-product-id="<?php echo $productId; ?>"
                                        value="<?php echo htmlspecialchars($matchedData['time_finished_slicing'] ?? ''); ?>"
-                                       <?php echo $is_completed; ?>>
+                                       >
                                 <button class="btn btn-outline-secondary" type="button" onclick="populateCurrentTime(this)">⏰</button>
                             </div>
                         </td>
@@ -186,7 +189,7 @@
                                        data-prepid="<?php echo $prep_area->id ?>" data-field="temp_of_product_at_start_of_slicing"
                                        data-product-id="<?php echo $productId; ?>"
                                        value="<?php echo htmlspecialchars($matchedData['temp_of_product_at_start_of_slicing'] ?? ''); ?>"
-                                       <?php echo $is_completed; ?>>
+                                       >
                                
                             </div>
                         </td>
@@ -197,14 +200,14 @@
                                        data-prepid="<?php echo $prep_area->id ?>" data-field="temp_of_product_at_end_of_slicing"
                                        data-product-id="<?php echo $productId; ?>"
                                        value="<?php echo htmlspecialchars($matchedData['temp_of_product_at_end_of_slicing'] ?? ''); ?>"
-                                       <?php echo $is_completed; ?>>
+                                       >
                                
                             </div>
                         </td>
        <td>
                             <textarea name="comments" class="auto-save form-control comments"
                                       data-prepid="<?php echo $prep_area->id ?>" data-field="comments"
-                                      data-product-id="<?php echo $productId; ?>" rows="2" <?php echo $is_completed; ?>>
+                                      data-product-id="<?php echo $productId; ?>" rows="2" >
                                 <?php echo htmlspecialchars($matchedData['comments'] ?? ''); ?>
                             </textarea>
                         </td>
@@ -220,7 +223,7 @@
                                    data-prepid="<?php echo $prep_area->id ?>" data-field="signature"
                                    data-product-id="<?php echo $productId; ?>"
                                    value="<?php echo htmlspecialchars($matchedData['signature'] ?? ''); ?>"
-                                   <?php echo $is_completed; ?>>
+                                   >
                         </td>
         
        

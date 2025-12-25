@@ -49,8 +49,8 @@
     
 <script src="<?php echo base_url(""); ?>theme-assets/libs/swiper/swiper-bundle.min.js"></script>
 <script src="<?php echo base_url(""); ?>theme-assets/js/pages/swiper.init.js"></script>
-                              
-   
+            <!--need to replace later with bizadmin google key                  -->
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkr6VbGs7uYPJn_AFfvnMZztcQIigx9J0&libraries=places"></script>
 
 <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
@@ -140,7 +140,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
     
 </script>
+
+<script>
+    function initAutocomplete() {
+        const fields = ["address", "emergency_address"];
+
+        fields.forEach(function(fieldId) {
+            const input = document.getElementById(fieldId);
+            if (!input) return; // skip if field doesn't exist
+
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                types: ["geocode"],
+                componentRestrictions: { country: "au" }
+            });
+
+            autocomplete.addListener("place_changed", function () {
+                const place = autocomplete.getPlace();
+
+                if (!place.formatted_address) {
+                    alert("Please select an address from the dropdown.");
+                    return;
+                }
+
+                input.value = place.formatted_address;
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", initAutocomplete);
+</script>
+

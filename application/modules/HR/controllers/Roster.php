@@ -16,58 +16,103 @@ class Roster extends MY_Controller {
     }
     
     
-   function rosterForm() {
-    // Set session data for previous URL
-    $this->session->set_userdata('previous_url', current_url());
-
-    // Common conditions
-    $conditions = ['location_id' => $this->location_id, 'is_deleted' => '0'];
-
-    // Base data array
-    $data = [
-        'empLists' => $this->employee_model->employeeList('', '', true),
-        'positionLists' => $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditions),
-        'prepAreas' => $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions),
-        'rosterId' => 0,
-        'weekRange' => '',
-        'rosterStartDate' => '',
-        'rosterInfo' => [],
-        'allDayRosterData' => []
-    ];
-
-    // Calculate current week's date range (Monday to Sunday)
-    try {
-        $startDate = new DateTime('monday this week');
-        $endDate = (clone $startDate)->modify('+6 days');
-        $data['rosterStartDate'] = $startDate->format('Y-m-d');
-        $data['weekRange'] = $startDate->format('d M') . ' - ' . $endDate->format('d M');
-    } catch (Exception $e) {
-        // Fallback in case of DateTime failure
-        $data['rosterStartDate'] = date('Y-m-d');
-        $data['weekRange'] = date('d M') . ' - ' . date('d M', strtotime('+6 days'));
+  public function rosterForm()
+    {
+    // ---------- Previous URL (safe) ----------
+    if (isset($this->session)) {
+        $this->session->set_userdata('previous_url', current_url());
     }
 
-    // Simulate query parameters for fetchRosterByWeek
-    $_GET['weekRange'] = $data['weekRange'];
+    // ---------- Location ----------
+    $locationId = $this->location_id ?? 0;
+
+    // ---------- Conditions ----------
+    $conditions = [
+        'location_id' => $locationId,
+        'is_deleted'  => '0'
+    ];
+
+    // ---------- Base Data (safe defaults) ----------
+    $data = [
+        'empLists'          => [],
+        'positionLists'    => [],
+        'prepAreas'         => [],
+        'rosterId'          => 0,
+        'weekRange'         => '',
+        'rosterStartDate'   => '',
+        'rosterInfo'        => [],
+        'allDayRosterData'  => []
+    ];
+
+    // ---------- Employees ----------
+    $data['empLists'] = $this->employee_model->employeeList('', '', true) ?? [];
+   
+
+    // ---------- Positions ----------
+    $data['positionLists'] = $this->common_model->fetchRecordsDynamically('HR_emp_position', '', $conditions) ?? [];
+
+    $data['prepAreas'] = $this->common_model->fetchRecordsDynamically('HR_prepArea', '', $conditions) ?? [];
+
+    // ---------- Week Date Range ----------
+    try {
+        $startDate = new DateTime('monday this week');
+        $endDate   = (clone $startDate)->modify('+6 days');
+
+        $data['rosterStartDate'] = $startDate->format('Y-m-d');
+        $data['weekRange']       = $startDate->format('d M') . ' - ' . $endDate->format('d M');
+    } catch (Throwable $e) {
+        // Absolute fallback
+        $data['rosterStartDate'] = date('Y-m-d');
+        $data['weekRange']       = date('d M') . ' - ' . date('d M', strtotime('+6 days'));
+    }
+
+    // ---------- Safely simulate GET params ----------
+    $_GET['weekRange']       = $data['weekRange'];
     $_GET['rosterStartDate'] = $data['rosterStartDate'];
 
-    // Call fetchRosterByWeek and capture its data
-    $rosterData = $this->fetchRosterByWeek(true);
+    // ---------- Fetch Roster ----------
+    $rosterData = [];
 
-    // Merge roster data with existing data, ensuring no overwrite of critical fields
-    $data = array_merge($data, array_intersect_key($rosterData, [
-        'rosterId' => true,
-        'weekRange' => true,
-        'rosterStartDate' => true,
-        'rosterInfo' => true,
-        'allDayRosterData' => true
-    ]));
-  
-    // Load views
+    if (method_exists($this, 'fetchRosterByWeek')) {
+        $response = $this->fetchRosterByWeek(true);
+        if (is_array($response)) {
+            $rosterData = $response;
+        }
+    }
+
+    // ---------- Merge only allowed keys ----------
+    $allowedKeys = [
+        'rosterId',
+        'weekRange',
+        'rosterStartDate',
+        'rosterInfo',
+        'allDayRosterData'
+    ];
+
+    foreach ($allowedKeys as $key) {
+        if (isset($rosterData[$key])) {
+            $data[$key] = $rosterData[$key];
+        }
+    }
+    
+    // Get superannuation config
+    $superConfig = $this->common_model->fetchRecordsDynamically('HR_configuration',['data'], ['location' => $this->location_id, 'configureFor' => 'superannuation']);
+        
+    
+    $data['tierBasedEnabled'] = (isset($superConfig[0]['data']) && is_array($config = json_decode($superConfig[0]['data'], true)) && isset($config['enable_tier_payroll']) && $config['enable_tier_payroll'] == '1') ? 1 : 0;
+    
+
+    // ---------- Final Safety ----------
+    $data['rosterInfo']       = is_array($data['rosterInfo']) ? $data['rosterInfo'] : [];
+    $data['allDayRosterData'] = is_array($data['allDayRosterData']) ? $data['allDayRosterData'] : [];
+    $data['rosterId']         = (int) ($data['rosterId'] ?? 0);
+
+    // ---------- Views ----------
     $this->load->view('general/header');
     $this->load->view('roster/roster', $data);
     $this->load->view('general/footer');
 }
+
 
    public function fetchRosterByWeek($returnData = false) {
     // Fetch and decode query parameters with null coalescing
@@ -171,10 +216,11 @@ class Roster extends MY_Controller {
     }
     
 
-// add roster details at the same time populate timesheet table also with the employee from roster table
+// add roster details at the same time populate timesheet table also with the employee from roster table , save roster
    public function addRoster() {
         // Get the posted data
         $empDatas = $this->input->post();
+        $parentTimesheetId = null;
 
         // Parse the week range (e.g., "26 May - 01 Jun")
         $rosterWeek = $this->createDateForRoster($empDatas['week']);
@@ -192,6 +238,7 @@ class Roster extends MY_Controller {
         // Check if a roster already exists for this week and location
         $cols = ['roster_id'];
         $existingRosterOfThisWeek = $this->common_model->fetchRecordsDynamically('HR_roster', $cols, $conditions);
+        $existingTimesheetOfThisWeek = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $conditions);
         $updateRecord = false;
         $rosterData = [
             'start_date' => $rosterWeek['start_date'],
@@ -201,15 +248,34 @@ class Roster extends MY_Controller {
             'is_published' => ($empDatas['savetype'] == 'publish' ? 1 : 0),
             'updated_at' => date('Y-m-d H:i:s')
         ];
+        $timesheetData = [
+            'date_from' => $rosterWeek['start_date'],
+            'date_to' => $rosterWeek['end_date'],
+            'status' => 1,
+            'location_id' => $this->location_id,
+            'is_published'=>$rosterData['is_published'],
+            'is_timesheet_without_roster' => 0,
+            ];
 
         $this->tenantDb->trans_start();
         if (!empty($existingRosterOfThisWeek)) {
             $updateRecord = true;
             $rosterId = $existingRosterOfThisWeek[0]['roster_id'];
             $this->common_model->commonRecordUpdate('HR_roster', 'roster_id', $rosterId, $rosterData);
-        } else {
-            $rosterData['created_at'] = date('Y-m-d H:i:s');
+            // change the timesheet stats to published as well
+            $timesheetUpdateData['is_published'] = $rosterData['is_published'];
+            $this->common_model->commonRecordUpdate('HR_timesheet', 'roster_id', $rosterId, $timesheetUpdateData);
+          
+        } else if(!empty($existingTimesheetOfThisWeek)){
+           // timesheet already exist for thhis week so we cannot create another roster/timehseet for this week for this location
+           echo json_encode(['status' => 'error', 'message' => 'Roster/Timesheet already exist for this week.']);
+            return;
+        }else{
+           $rosterData['created_at'] = date('Y-m-d H:i:s');
             $rosterId = $this->common_model->commonRecordCreate('HR_roster', $rosterData);
+              //make entry in timesheet teble so we can show on listing page , added on 25-11-2025 after making updating timesheet table names 
+            $timesheetData['roster_id'] = $rosterId;
+            $parentTimesheetId = $this->common_model->commonRecordCreate('HR_timesheet', $timesheetData);  
         }
 
         // Prepare roster details
@@ -259,7 +325,7 @@ class Roster extends MY_Controller {
         }
 
         // Synchronize timesheet
-        $this->synchronizeTimesheetFromRoster($rosterId);
+        $this->synchronizeTimesheetFromRoster($rosterId,$parentTimesheetId);
 
         $this->tenantDb->trans_complete();
         if ($this->tenantDb->trans_status() === FALSE) {
@@ -333,8 +399,9 @@ class Roster extends MY_Controller {
             $this->common_model->commonBulkRecordCreate('HR_roster_details', $recordsToInsert);
         }
     }
+    
 // used when we create/edit a roster we have to accordingly make changes in timesheet table
-    public function synchronizeTimesheetFromRoster($rosterId) {
+    public function synchronizeTimesheetFromRoster($rosterId,$parentTimesheetId='') {
         if (empty($rosterId) || !is_numeric($rosterId)) {
             return ['status' => 'error', 'message' => 'Invalid roster ID'];
         }
@@ -352,7 +419,7 @@ class Roster extends MY_Controller {
 
         // Fetch all existing timesheet entries (including soft-deleted)
         $existingTimesheets = $this->common_model->fetchRecordsDynamically(
-            'HR_timesheet',
+            'HR_timesheet_details',
             ['timesheet_id', 'employee_id', 'roster_date', 'clock_in_time', 'clock_out_time', 'actual_break_duration', 'approval_status', 'is_deleted'],
             ['roster_id' => $rosterId]
         );
@@ -396,9 +463,10 @@ class Roster extends MY_Controller {
                 $timesheetData['approval_status'] = $existing['approval_status'];
                 $recordsToUpdate[] = array_merge($timesheetData, ['timesheet_id' => $existing['timesheet_id']]);
             } else {
-                // New timesheet entry
+     // New timesheet entry, we need to enter parent_timesheet_id just when creating new row in "HR_timesheet_details" table parent id will not change so no need in update case
                 $timesheetData['clock_in_time'] = null;
                 $timesheetData['clock_out_time'] = null;
+                $timesheetData['parent_timesheet_id'] = $parentTimesheetId;
                 $timesheetData['actual_break_duration'] = 0;
                 $timesheetData['created_at'] = date('Y-m-d H:i:s');
                 $recordsToInsert[] = $timesheetData;
@@ -417,7 +485,7 @@ class Roster extends MY_Controller {
             }
             if (!$found && $ts['is_deleted'] == 0) {
                 $this->common_model->commonRecordUpdate(
-                    'HR_timesheet',
+                    'HR_timesheet_details',
                     'timesheet_id',
                     $ts['timesheet_id'],
                     ['is_deleted' => 1, 'updated_at' => date('Y-m-d H:i:s')]
@@ -427,14 +495,14 @@ class Roster extends MY_Controller {
 
         // Insert new timesheet entries
         if (!empty($recordsToInsert)) {
-            $this->common_model->commonBulkRecordCreate('HR_timesheet', $recordsToInsert);
+            $this->common_model->commonBulkRecordCreate('HR_timesheet_details', $recordsToInsert);
         }
 
         // Update existing timesheet entries
         foreach ($recordsToUpdate as $record) {
             $timesheetId = $record['timesheet_id'];
             unset($record['timesheet_id']);
-            $this->common_model->commonRecordUpdate('HR_timesheet', 'timesheet_id', $timesheetId, $record);
+            $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, $record);
         }
 
         return ['status' => 'success', 'message' => 'Timesheet synchronized successfully'];
@@ -640,7 +708,7 @@ class Roster extends MY_Controller {
     // Fetch roster details
     $rosterDetailConditions = ['roster_id' => $rosterId,'is_deleted' => 0];
     $rosterDetails = $this->common_model->fetchRecordsDynamically('HR_roster_details', '', $rosterDetailConditions);
-    log_message('debug', 'Roster Details Query: ' . $this->db->last_query());
+   
     log_message('debug', 'Roster Details: ' . json_encode($rosterDetails));
 
     // Determine the week range
@@ -747,7 +815,7 @@ class Roster extends MY_Controller {
         return;
     }
 
-    // Check if a roster already exists for the new date range
+    // Check if a roster or timesheet already exists for the new date range
     $validateCondition = [
         'start_date' => $nextMonday,
         'end_date' => $nextSunday,
@@ -755,8 +823,9 @@ class Roster extends MY_Controller {
         'is_deleted' => 0
     ];
     $rosterCheck = $this->common_model->fetchRecordsDynamically('HR_roster', '', $validateCondition);
-    if (!empty($rosterCheck)) {
-        $this->session->set_flashdata('error_message', 'Roster already exists for the specified week.');
+    $timesheetCheck = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $validateCondition);
+    if (!empty($rosterCheck) || !empty($timesheetCheck)) {
+        $this->session->set_flashdata('error_message', 'Roster/Timesheet already exists for the specified week.');
         redirect($this->session->userdata('previous_url'));
         return;
     }
@@ -794,6 +863,20 @@ class Roster extends MY_Controller {
         'is_deleted' => 0
     ];
     $newRosterId = $this->common_model->commonRecordCreate('HR_roster', $new_roster_data);
+    
+      //make entry in timesheet teble so we can show on listing page , added on 25-11-2025 after making updating timesheet table names 
+             $timesheetData = [
+            'date_from' => $nextMonday,
+            'date_to' => $nextSunday,
+            'roster_id' => $newRosterId,
+            'status' => 1,
+            'is_published' => $roster[0]['is_published'] ?? 0,
+            'location_id' => $this->location_id,
+            'is_timesheet_without_roster' => 0,
+            ];
+            
+            $parentTimesheetId = $this->common_model->commonRecordCreate('HR_timesheet', $timesheetData);
+            
     if (!$newRosterId) {
         $this->session->set_flashdata('error_message', 'Failed to create new roster.');
         redirect($this->session->userdata('previous_url'));
@@ -835,7 +918,7 @@ class Roster extends MY_Controller {
     }
 
     // enter data in timesheet table
-    $this->synchronizeTimesheetFromRoster($newRosterId);
+    $this->synchronizeTimesheetFromRoster($newRosterId,$parentTimesheetId);
    
 
     // Set success message and redirect
@@ -878,7 +961,7 @@ class Roster extends MY_Controller {
        $data['is_deleted'] = 1; 
 	   $this->common_model->commonRecordUpdate('HR_roster','roster_id',$_POST['rosterId'],$data);
 	   $this->common_model->commonRecordUpdate('HR_roster_details','roster_id',$_POST['rosterId'],$data);
-	   $this->common_model->commonRecordUpdate('HR_timesheet','roster_id',$_POST['rosterId'],$data);
+	   $this->common_model->commonRecordUpdate('HR_timesheet_details','roster_id',$_POST['rosterId'],$data);
 	   echo "Success"; exit;
     }
     

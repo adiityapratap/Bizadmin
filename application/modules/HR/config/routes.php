@@ -60,6 +60,7 @@ $route['HR/employees'] = 'Employees/employeeList';
 $route['HR/Employee/employeeStatusUpdate'] = 'Employees/employeeStatusUpdate';
 $route['HR/Employee/employeeDelete'] = 'Employees/employeeDelete';
 $route['HR/Employee/edit/(:any)'] = 'Employees/editEmployee/$1';
+$route['HR/Employee/employeeprofile'] = 'Employees/editEmployee';
 $route['HR/onboardNewEmployee'] = 'Employees/onboardNewEmployee';
 $route['HR/Employee/sendOnboardingEmail/(:any)'] = 'Employees/sendOnboardingEmail/$1';
 $route['HR/Employee/submitOnboardingProcessForEmployee'] = 'Employees/submitOnboardingProcessForEmployee';
@@ -153,9 +154,21 @@ $route['HR/fetchRosterOnArrowClick/(:any)/(:any)'] = 'Roster/fetchRosterOnArrowC
 //timesheet
 $route['HR/timesheetWithoutRoster'] = 'Timesheet/timesheetList';
 $route['HR/verifyFaceForClockIn'] = 'Timesheet/verifyFaceForClockIn';
-$route['HR/addTimesheetWithoutRoster'] = 'Timesheet/timesheetWithoutRoster';
 $route['HR/timesheetView/(:any)'] = 'Timesheet/timesheetView/$1';
 $route['HR/timesheet'] = 'Timesheet/timesheet';
 $route['HR/timesheet/verifyFace'] = 'Timesheet/verifyFace';
 $route['HR/viewWeeklyTimesheet/(:any)/(:any)'] = 'Timesheet/viewWeeklyTimesheet/$1/$2';
+$route['HR/viewTimesheetWithoutRoster/(:any)'] = 'Timesheet/viewTimesheetWithoutRoster/$1';
+$route['HR/timesheet/searchEmployees'] = 'Timesheet/searchEmployees';
+
+$route['HR/addTimesheetWithoutRoster/(:num)'] = 'Timesheet/timesheetWithoutRoster/0/0/$1'; // edit timesheet without roster
+$route['HR/addTimesheetWithoutRoster/([0-9]{4}-[0-9]{2}-[0-9]{2})/([0-9]{4}-[0-9]{2}-[0-9]{2})'] = 'Timesheet/timesheetWithoutRoster/$1/$2'; // view timesheet from weekly calender chnage from inner page
+
+// MOST GENERAL last
+$route['HR/addTimesheetWithoutRoster'] = 'Timesheet/timesheetWithoutRoster'; // add timesheet withhout roster
+
+
+//leaves
+
+$route['HR/leaveDashbaord'] = 'Leaves/leaveDashbaord';
 

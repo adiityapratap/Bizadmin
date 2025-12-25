@@ -2,7 +2,7 @@ $(document).ready(function(){
 
         $('#save_continue_documents').click(function(){
             let formData = new FormData($('#documentDetailsForm')[0]);
-            
+            $('#loaderContainer').show();
             // Check if files are selected
             let files = formData.getAll('userfile[]');
             if (files.length === 0) {
@@ -51,10 +51,15 @@ $(document).ready(function(){
                     return xhr;
                 },
                 success: function(response){
+                    $('#loaderContainer').hide();
                     if(response.error){
                         $('#result').html('<p>Error: ' + response.error + '</p>');
                     } else {
-                        $('#result').html('<p>Files uploaded successfully.</p>');
+                        
+                      alert("Contractor created successfully");
+        window.location.href = "https://bizadmin.com.au/HR/employees";
+                        
+                        // $('#result').html('<p>Files uploaded successfully.</p>');
                     }
                     // Hide progress bar
                     $('#progress').hide();

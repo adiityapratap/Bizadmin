@@ -18,29 +18,37 @@ class Employee_model extends CI_Model{
 	}
 	// if u will pass "$seprateRowsForPositions" true, than it will return seprate rows/indexes for seprate roles per employee i.e Employee A is manager 
 	// and Chef , than it will return two index in array one for chef and one for Manager role
- function employeeList($is_deleted = 0,$employeeType='',$separateRowsForPositions = false) {
+ function employeeList($is_deleted = 0, $employeeType = '', $fetchPositions = false)
+  {
+      
     
-   $selectFields = ['DISTINCT CONCAT_WS(" ", e.first_name, e.last_name) as name','e.company_name', 'e.userId', 'e.created_at', 'e.emp_id', 'e.email', 'e.phone', 'e.status', 'e.stress_profile'];
 
-    if ($separateRowsForPositions) {
-        $selectFields[] = 'ep.position_id';
-    }
+    $selectFields = [
+        'DISTINCT CONCAT_WS(" ", e.first_name, e.last_name) AS name',
+        'e.company_name',
+        'e.emp_prep_area',
+        'e.tier',
+        'hpa.prep_name',
+        'e.userId',
+        'e.created_at',
+        'e.emp_id',
+        'e.email',
+        'e.phone',
+        'e.status',
+        'e.stress_profile'
+    ];
 
-    // Convert select fields array to string
     $selectFieldsString = implode(', ', $selectFields);
 
+    // Base employee query
     $this->tenantDb->select($selectFieldsString);
     $this->tenantDb->from('HR_employee e');
+    $this->tenantDb->join('HR_prepArea hpa', 'e.emp_prep_area = hpa.id', 'LEFT');
     $this->tenantDb->join('HR_empIdToLocationId el', 'e.emp_id = el.empId', 'LEFT');
 
-    if ($separateRowsForPositions) {
-        $this->tenantDb->join('HR_emp_to_position ep', 'e.emp_id = ep.emp_id', 'LEFT');
-    }
-    
-    $this->tenantDb->where('e.is_deleted', $is_deleted ? 1: 0);
+    $this->tenantDb->where('e.is_deleted', $is_deleted ? 1 : 0);
 
     if ($employeeType != '') {
-        // 0 =  employeee 1= contractor
         $this->tenantDb->where('e.is_contractor', $employeeType);
     }
 
@@ -49,12 +57,69 @@ class Employee_model extends CI_Model{
     } else {
         return [];
     }
-    // Execute the query
+
+    $this->tenantDb->order_by('e.created_at', 'DESC');
     $query = $this->tenantDb->get();
-    // echo $this->tenantDb->last_query(); exit;
-    // echo "<pre>"; print_r($query->result_array()); exit;
-    return $query->result_array();
+    $employees = $query->result_array();
+
+    // ----------------------------------------------------
+    // If no need to fetch positions, return employees now
+    // ----------------------------------------------------
+    if (!$fetchPositions) {
+        return $employees;
+    }
+     
+
+    // ----------------------------------------------------
+    // STEP 2: Fetch positions for all employees at once
+    // ----------------------------------------------------
+    $empIds = array_column($employees, 'emp_id');
+    if (empty($empIds)) {
+        return $employees;
+    }
+
+    // Get all positions for all employees
+    $this->tenantDb->select('etp.emp_id, etp.position_id, ep.position_name, etp.rate, etp.Saturday_rate, etp.Sunday_rate, etp.holiday_rate');
+    $this->tenantDb->from('HR_emp_to_position etp');
+    $this->tenantDb->join('HR_emp_position ep', 'etp.position_id = ep.position_id', 'LEFT');
+    $this->tenantDb->where_in('etp.emp_id', $empIds);
+
+    $positionQuery = $this->tenantDb->get();
+    $positions = $positionQuery->result_array();
+    
+   
+
+    // ----------------------------------------------------
+    // Organize positions by emp_id
+    // ----------------------------------------------------
+    $empPositionMap = [];
+    foreach ($positions as $pos) {
+        $empPositionMap[$pos['emp_id']][] = [
+            'position_id'     => $pos['position_id'],
+            'position_name'   => $pos['position_name'],
+            'rate'            => $pos['rate'],
+            'Saturday_rate'   => $pos['Saturday_rate'],
+            'Sunday_rate'     => $pos['Sunday_rate'],
+            'holiday_rate'    => $pos['holiday_rate']
+        ];
+    }
+
+
+    
+    // ----------------------------------------------------
+    // Merge positions into employee array
+    // ----------------------------------------------------
+    foreach ($employees as &$emp) {
+        $empId = $emp['emp_id'];
+        $emp['positions'] = isset($empPositionMap[$empId]) ? $empPositionMap[$empId] : [];
+    }
+    
+//   echo "================================== after"; 
+//  echo "<pre>"; print_r($employees);
+//     exit;
+    return $employees;
 }
+
 
 	
 	function employeeDetails($emp_id) {

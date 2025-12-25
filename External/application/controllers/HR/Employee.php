@@ -22,6 +22,7 @@ class Employee extends CI_Controller {
          $decryptedData = json_decode($this->encryption->decrypt($encryptedData), true);
          
          $tenantIdentifier =  $decryptedData['tenantIdentifier'];
+      
          $empId =  $decryptedData['empId'];
          $location_id =  $decryptedData['location_id'];
          $this->session->set_userdata('tenantIdentifier',$tenantIdentifier);
@@ -43,9 +44,9 @@ class Employee extends CI_Controller {
      	$this->session->set_userdata('employeeEmail',$employeeData[0]['email']);
      	$data['headerTitle'] = 'Onboarding Form';
     //  	echo "<pre>"; print_r($data['employee']); exit;
-     	$this->load->view('general/header',$data);
+    //  	$this->load->view('general/header',$data);
 	   $this->load->view('HR/Employee/onboardingForm',$data);
-	    $this->load->view('general/footer');
+	   // $this->load->view('general/footer');
 
     }
     
@@ -56,10 +57,21 @@ class Employee extends CI_Controller {
    	       initializeTenantDbConfig($this->session->userdata('tenantIdentifier'));
             $empId = $this->input->post('emp_id');
             
-            if (!empty($_FILES['userfile']['name'])){
-             $filename = $this->uploadAttachment($this->session->userdata('tenantIdentifier'));
-             $data_user['police_certificate'] = $filename;
-            }
+        if (!empty($_FILES['userfile']['name'][0])) {
+
+    $filename = $this->uploadAttachment($this->session->userdata('tenantIdentifier'));
+
+    if ($filename === false) {
+        echo json_encode([
+            'status' => 'fail',
+            'message' => 'File upload failed. Please try again.'
+        ]);
+        return;
+    }
+
+    $data_user['police_certificate'] = $filename;
+}
+
            
                 $posted_data = $this->input->post();
                 foreach($posted_data as $key=> $value){
@@ -179,47 +191,90 @@ class Employee extends CI_Controller {
       $this->updateLeaveStatus($doubleEncodedParams,'rejected',$message);  
     }
   
-  public function uploadAttachment($orzName)
-    {
+ public function uploadAttachment($orgName)
+{
+    // ---------- Safety ----------
+    if (
+        empty($_FILES['userfile']) ||
+        !isset($_FILES['userfile']['name']) ||
+        !is_array($_FILES['userfile']['name'])
+    ) {
+        return false;
+    }
 
-        $uploaded_files = [];
-        $countfiles = count($_FILES['userfile']['name']);
-        for($i=0;$i<$countfiles;$i++){
- 
-        if(!empty($_FILES['userfile']['name'][$i])){
- 
-          // Define new $_FILES array - $_FILES['file']
-          $_FILES['file']['name'] = $_FILES['userfile']['name'][$i];
-          $_FILES['file']['type'] = $_FILES['userfile']['type'][$i];
-          $_FILES['file']['tmp_name'] = $_FILES['userfile']['tmp_name'][$i];
-          $_FILES['file']['error'] = $_FILES['userfile']['error'][$i];
-          $_FILES['file']['size'] = $_FILES['userfile']['size'][$i];
+    $uploaded_files = [];
 
-        //   $config['upload_path']   = './application/controllers/HR/uploads/';
-         $config['upload_path'] = '../uploaded_files/cjs/HR/OnboardingFiles/';
-          $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-          $config['max_size'] = '8000';
-          $config['file_name'] = $_FILES['userfile']['name'][$i];
- 
-          $this->load->library('upload',$config); 
-          if($this->upload->do_upload('file')){
-            $uploadData = $this->upload->data();
-            $filename = $uploadData['file_name'];
-            // Initialize array
-            $uploaded_files[$i] = $filename;
-          }else{
-         $error = $this->upload->display_errors();
-         echo $error."=".$config['upload_path'];
-          }
+    // ---------- Upload path ----------
+    $uploadPath = FCPATH . 'uploaded_files/' .
+                  $this->session->userdata('tenantIdentifier') .
+                  '/HR/OnboardingFiles/';
+
+    // ---------- Ensure directory exists ----------
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
+    }
+
+    // ---------- Base config ----------
+    $config = [
+        'upload_path'   => $uploadPath,
+        'allowed_types' => 'jpg|jpeg|png|gif|pdf',
+        'max_size'      => 10240, // 10MB
+        'overwrite'     => false
+    ];
+
+    $this->load->library('upload');
+
+    $countFiles = count($_FILES['userfile']['name']);
+
+    for ($i = 0; $i < $countFiles; $i++) {
+
+        if (empty($_FILES['userfile']['name'][$i])) {
+            continue;
         }
- 
-      }
-         
-	   return serialize($uploaded_files);
-   
-}	
-	
-  public function setSmtpSettings($decryptedData){
+
+        // ---------- Validate tmp file (mobile fix) ----------
+        if (
+            empty($_FILES['userfile']['tmp_name'][$i]) ||
+            !is_uploaded_file($_FILES['userfile']['tmp_name'][$i])
+        ) {
+            continue;
+        }
+
+        // ---------- Build $_FILES for CI ----------
+        $_FILES['file'] = [
+            'name'     => $_FILES['userfile']['name'][$i],
+            'type'     => $_FILES['userfile']['type'][$i],
+            'tmp_name' => $_FILES['userfile']['tmp_name'][$i],
+            'error'    => $_FILES['userfile']['error'][$i],
+            'size'     => $_FILES['userfile']['size'][$i]
+        ];
+
+        // ---------- Unique filename (MUST for mobile) ----------
+        $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        $config['file_name'] = 'police_' . time() . '_' . mt_rand(1000, 9999) . '.' . strtolower($ext);
+
+        // ---------- Reinitialize upload ----------
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('file')) {
+            $uploadData = $this->upload->data();
+            $uploaded_files[] = $uploadData['file_name'];
+        } else {
+            // Log error instead of silent fail
+            log_message('error', 'Upload error: ' . $this->upload->display_errors('', ''));
+        }
+    }
+
+    // ---------- Final validation ----------
+    if (empty($uploaded_files)) {
+        return false;
+    }
+
+    return serialize($uploaded_files);
+}
+
+
+ public function setSmtpSettings($decryptedData){
         $this->phpmailer = new PHPMailer(true);
        
         $this->phpmailer->isSMTP();
@@ -352,7 +407,7 @@ class Employee extends CI_Controller {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
-    
+
 }
 
 ?>

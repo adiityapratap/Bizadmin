@@ -23,14 +23,20 @@ class Prep_model extends CI_Model{
 	$this->tenantDb->update('Compliance_prepArea');
 return true;
 } 
-  function fetchAllPrepArea(){
-      $query = $this->tenantDb->query("SELECT tp.*,ts.site_name from Compliance_prepArea tp  left join Compliance_sites ts on tp.site_id = ts.id   where tp.is_deleted = 0 AND  tp.location_id = ".$this->selected_location_id." order by tp.sort_order ASC");
-	    if ($query !== false) {
-         return $res=	$query->result_array();
-        } else {
-         return $res = array();
-        }
-  }
+  function fetchAllPrepArea($prepTableName, $siteTableName)
+{
+    // Validate table names (avoid SQL injection)
+    $prepTable   = $this->tenantDb->escape_str($prepTableName);
+    $siteTable   = $this->tenantDb->escape_str($siteTableName);
+    $location_id = (int) $this->selected_location_id;
+
+    $sql = "SELECT tp.*, ts.site_name  FROM {$prepTable} AS tp LEFT JOIN {$siteTable} AS ts  ON tp.site_id = ts.id WHERE tp.is_deleted = 0 AND tp.status = 1 AND tp.location_id = ? ORDER BY tp.sort_order ASC";
+     
+    $query = $this->tenantDb->query($sql, [$location_id]);
+
+    return ($query) ? $query->result_array() : [];
+}
+
        function deletesite($id){	
      	$data = array(
 		'is_deleted' => 1,

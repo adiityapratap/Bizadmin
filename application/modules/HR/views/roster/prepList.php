@@ -103,13 +103,13 @@
  
          <?php 
       $colors = array(
-    "bg-primary-subtle" => "Blue",
-    "bg-secondary-subtle" => "Sky Blue",
-    "bg-success-subtle" => "Green",
-    "bg-info-subtle" => "Light Blue",
-    "bg-warning-subtle" => "Yellow",
-    "bg-danger-subtle" => "Red",
-    "bg-dark-subtle" => "Black"
+    "bg-purple-500" => "Purple",
+    "bg-blue-500" => "Blue",
+    "bg-green-500" => "Green",
+    "bg-orange-500" => "Orange",
+    "bg-orange-600" => "Yellow",
+    "bg-red-500" => "Red",
+    "bg-blue-600" => "Navy"
 ); 
       ?>
 

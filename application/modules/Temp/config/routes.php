@@ -108,5 +108,20 @@ $route['index'] = 'Home/index';
   $route['Temp/home/saveChillingDashboardData']= 'SliceTemp/Slicinghome/saveTempDashboardData';
   $route['Temp/home/tempSliceHistoryUpdatec'] = 'SliceTemp/Slicinghome/tempHistoryUpdatec';
   
+  // Fryer Temp 
+  
+  
+ $route['Temp/Fryertemp/site']= 'FryerTemp/Sitefry';
+  $route['Temp/Fryertemp/prep']= 'FryerTemp/Prepfry';
+  $route['Temp/home/fryerTempHistory']= 'FryerTemp/Fryerhome/tempHistory';
+  $route['Temp/home/fryerhistoryData'] = 'FryerTemp/Fryerhome/historyData';
+  $route['Temp/home/fryerhistoryData/(:any)/(:any)'] = 'FryerTemp/Fryerhome/historyData/$1/$2';
+  $route['Temp/home/tempHistoryUpdate'] = 'FryerTemp/Fryerhome/tempHistoryUpdate';
+  $route['Temp/home/uploadFoodTemperatureAttachment'] = 'FryerTemp/Fryerhome/uploadTemperatureAttachment';
+  $route['Temp/home/fetchFoodAttachmentUploadedToday'] = 'FryerTemp/Fryerhome/fetchAttachmentUploadedToday';
+  
+  $route['Temp/Fryerhome/saveTempDashboardData']= 'FryerTemp/Fryerhome/saveTempDashboardData';
+  $route['Temp/Fryerhome/updateExceededTemp']= 'FryerTemp/Fryerhome/updateExceededTemp';
+  
 
 ?>

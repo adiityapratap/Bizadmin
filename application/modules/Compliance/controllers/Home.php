@@ -11,10 +11,16 @@ class Home extends MY_Controller {
 		   $this->load->model('general_model');
 		$this->tenantIdentifier = $this->session->userdata('tenantIdentifier');
 	   $this->selected_location_id = $this->session->userdata('location_id');
+	  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+	   
 	}
 	
 	 public function index($system_id='')
     {   
+       
+  
         (isset($system_id) && $system_id !='' ? $this->session->set_userdata('system_id',$system_id) : '');
         // $this->load->model('equip_model');
         
@@ -180,3 +186,4 @@ class Home extends MY_Controller {
     
 	
 }
+?>

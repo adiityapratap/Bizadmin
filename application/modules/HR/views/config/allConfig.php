@@ -12,6 +12,9 @@
                          <a class="nav-link mb-4 fs-16" id="docsSettings-tab" data-bs-toggle="pill" href="#docsSettings" role="tab" aria-selected="false">Documents</a>
                          <a class="nav-link mb-4 fs-16" id="leaveSettings-tab" data-bs-toggle="pill" href="#leaveSettings" role="tab" aria-selected="false">Leaves</a>
                          <a class="nav-link mb-4 fs-16" id="positionSettings-tab" data-bs-toggle="pill" href="#positionSettings" role="tab" aria-selected="false">Positions</a>
+                         <a class="nav-link mb-4 fs-16" id="payrollTypeSettings-tab" data-bs-toggle="pill" href="#payrollTypeSettings" role="tab" aria-selected="false">Payroll Type</a>
+                         <a class="nav-link mb-4 fs-16" id="superannuationSettings-tab" data-bs-toggle="pill" href="#superannuationSettings" role="tab" aria-selected="false">Superannuation</a>
+
                         </div>
                         </div>
                         </div>
@@ -211,10 +214,16 @@
                    <?php   if(isset($positionConfigData) && !empty($positionConfigData)) {  ?>
                    <?php foreach($positionConfigData as $position) { ?>
                   <tr>
-                 <td class="gap-2 d-flex">
-                <input type="hidden" name="position_id[]" value="<?php echo (isset($position['position_id']) ? $position['position_id'] : ''); ?>">     
-                <input  type="text" name="position_name[]" required class="form-control " value="<?php echo (isset($position['position_name']) ? $position['position_name'] : ''); ?>" placeholder="Enter position name" autocomplete="off" />
-              </td>
+                <td class="gap-2 d-flex">
+    <input type="hidden" name="position_id[]" value="<?php echo $position['position_id']; ?>">
+
+    <input type="text" name="position_name[]" class="form-control" value="<?php echo $position['position_name']; ?>" />
+     <select name="position_type[]" class="form-select ms-2" required>
+        <option value="boh" <?php echo ($position['position_type'] == 'boh') ? 'selected' : ''; ?>>BOH</option>
+        <option value="foh" <?php echo ($position['position_type'] == 'foh') ? 'selected' : ''; ?>>FOH</option>
+    </select>
+</td>
+
               <td><button class="btn btn-success add-Positionrow" type="button">+</button></td>
               <td><button type="button" class="btn btn-danger remove-Positionrow">-</button></td>
                 </tr>
@@ -222,8 +231,14 @@
                <?php }  else {   ?>
                  <tr>
                     <td class="gap-2 d-flex">
-                    <input type="text" name="position_name[]" class="form-control" placeholder="Enter position name" autocomplete="off" required />
-                    </td>
+
+    <input type="text" name="position_name[]" class="form-control" />
+    <select name="position_type[]" class="form-select ms-2" required>
+        <option value="boh">BOH</option>
+        <option value="foh">FOH</option>
+    </select>
+</td>
+
                     <td><button class="btn btn-success add-Positionrow" type="button">+</button></td>
                 </tr>  
                <?php  } ?>
@@ -238,6 +253,45 @@
         </div>
        </form>     
          </div>
+           <div class="tab-pane fade" id="payrollTypeSettings" role="tabpanel" aria-labelledby="payrollTypeSettings-tab">
+                             <form  method="post" class="form-horizontal" id="payrollTypeSettingsForm">
+                            <div class="row">       
+                          <div class="col-md-6 col-sm-12">
+                         <label for="sort_order" class="form-label fw-semibold">Add Payroll Type</label>
+                 
+                      <table class="table table-bordered mt-3" id="notificationMailTable">
+                     <tbody>
+                   <?php   if(isset($payrollTypeConfigData) && !empty($payrollTypeConfigData)) {  ?>
+                   <?php foreach($payrollTypeConfigData as $position) { ?>
+                  <tr>
+                 <td class="gap-2 d-flex">
+                <input type="hidden" name="id[]" value="<?php echo (isset($position['id']) ? $position['id'] : ''); ?>">     
+                <input  type="text" name="name[]" required class="form-control " value="<?php echo (isset($position['name']) ? $position['name'] : ''); ?>" placeholder="Enter payroll type name" autocomplete="off" />
+              </td>
+              <td><button class="btn btn-success add-Payrolltyperow" type="button">+</button></td>
+              <td><button type="button" class="btn btn-danger remove-Payrolltyperow">-</button></td>
+                </tr>
+                <?php } ?>
+               <?php }  else {   ?>
+                 <tr>
+                    <td class="gap-2 d-flex">
+                    <input type="text" name="name[]" class="form-control" placeholder="Enter payroll type name" autocomplete="off" required />
+                    </td>
+                    <td><button class="btn btn-success add-Payrolltyperow" type="button">+</button></td>
+                </tr>  
+               <?php  } ?>
+               
+            </tbody>
+        </table> 
+
+        </div>  
+        </div> 
+        <div class="col-xxl-3 col-md-6 mt-2">
+         <button class="btn btn-success savePayrollSettingsBtn"  type="button" onclick="savePayrollType()" >Save</button>
+        </div>
+       </form>     
+         </div>
+         
                              <div class="tab-pane fade" id="generalSettings" role="tabpanel" aria-labelledby="generalSettings-tab">
                             <div class="row">
                             <div class="col"></div>  
@@ -273,6 +327,117 @@
                                             </table>
                            </div>  
                             </div> 
+                            
+                            <div class="tab-pane fade" id="superannuationSettings" role="tabpanel" aria-labelledby="superannuationSettings-tab">
+    <form method="post" class="form-horizontal" id="superannuationSettingsForm">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h5 class="mb-3 text-black">Superannuation Configuration</h5>
+                
+                <!-- Superannuation Percentage -->
+                <div class="mb-4">
+                    <label for="super_percentage" class="form-label fw-semibold">Superannuation Percentage (%)</label>
+                    <input type="number" 
+                           step="0.01" 
+                           min="0" 
+                           max="100" 
+                           name="super_percentage" 
+                           id="super_percentage" 
+                           class="form-control" 
+                           value="<?= isset($superConfigData['super_percentage']) ? $superConfigData['super_percentage'] : '11.5' ?>" 
+                           placeholder="e.g., 11.5" 
+                           required>
+                    <small class="text-muted">Current Australian rate: 11.5% (2024-2025). Will increase to 12% from July 1, 2025.</small>
+                </div>
+
+                <!-- Enable Tier-Based Payroll -->
+                <div class="mb-4">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" 
+                               class="form-check-input" 
+                               id="enable_tier_payroll" 
+                               name="enable_tier_payroll"
+                               <?= isset($superConfigData['enable_tier_payroll']) && $superConfigData['enable_tier_payroll'] == '1' ? 'checked' : '' ?>>
+                        <label class="form-check-label fw-semibold" for="enable_tier_payroll">
+                            Enable Tier-Based Payroll
+                        </label>
+                    </div>
+                    <small class="text-muted d-block mt-2">
+                        When enabled, superannuation will only be calculated for Tier 1 employees. 
+                        Tier classifications can be set in employee profiles.
+                    </small>
+                </div>
+
+                <!-- Payroll Tax Rate -->
+                <div class="mb-4">
+                    <label for="payroll_tax_rate" class="form-label fw-semibold">Payroll Tax Rate (%)</label>
+                    <input type="number" 
+                           step="0.01" 
+                           min="0" 
+                           max="100" 
+                           name="payroll_tax_rate" 
+                           id="payroll_tax_rate" 
+                           class="form-control" 
+                           value="<?= isset($superConfigData['payroll_tax_rate']) ? $superConfigData['payroll_tax_rate'] : '5.45' ?>" 
+                           placeholder="e.g., 5.45" 
+                           required>
+                    <small class="text-muted">Standard payroll tax rate for your state/territory.</small>
+                </div>
+
+               
+            </div>
+            
+             <!-- Public Holidays Configuration -->
+                <div class="mb-4">
+                    <label for="public_holidays" class="form-label fw-semibold">Public Holidays</label>
+                    <div class="input-group mb-2">
+                        <select class="form-select" id="state_select" style="max-width: 150px;">
+                            <option value="nsw" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'nsw' ? 'selected' : '' ?>>NSW</option>
+                            <option value="vic" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'vic' ? 'selected' : '' ?>>VIC</option>
+                            <option value="qld" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'qld' ? 'selected' : '' ?>>QLD</option>
+                            <option value="wa" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'wa' ? 'selected' : '' ?>>WA</option>
+                            <option value="sa" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'sa' ? 'selected' : '' ?>>SA</option>
+                            <option value="tas" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'tas' ? 'selected' : '' ?>>TAS</option>
+                            <option value="act" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'act' ? 'selected' : '' ?>>ACT</option>
+                            <option value="nt" <?= isset($superConfigData['holiday_state']) && $superConfigData['holiday_state'] == 'nt' ? 'selected' : '' ?>>NT</option>
+                        </select>
+                        <input type="number" class="form-control" id="year_select" placeholder="Year" value="<?= isset($superConfigData['holiday_year']) ? $superConfigData['holiday_year'] : date('Y') ?>" style="max-width: 100px;">
+                        <button type="button" class="btn btn-primary" onclick="fetchPublicHolidays()">
+                            <i class="ri-download-line"></i> Fetch Holidays
+                        </button>
+                    </div>
+                    <input type="hidden" name="holiday_state" id="holiday_state" value="<?= isset($superConfigData['holiday_state']) ? $superConfigData['holiday_state'] : 'nsw' ?>">
+                    <input type="hidden" name="holiday_year" id="holiday_year" value="<?= isset($superConfigData['holiday_year']) ? $superConfigData['holiday_year'] : date('Y') ?>">
+                    
+                    <textarea class="form-control" 
+                              name="public_holidays" 
+                              id="public_holidays" 
+                              rows="5" 
+                              placeholder="Enter dates in YYYY-MM-DD format, comma separated. e.g., 2025-01-01, 2025-01-26, 2025-04-25"><?= isset($superConfigData['public_holidays']) ? $superConfigData['public_holidays'] : '' ?></textarea>
+                    <small class="text-muted">
+                        Enter public holiday dates manually or click "Fetch Holidays" to automatically load holidays for your state.
+                        Format: YYYY-MM-DD, comma separated.
+                    </small>
+                    
+                    <!-- Display parsed holidays -->
+                    <div id="holidays_preview" class="mt-2"></div>
+                </div>
+
+          
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <button class="btn btn-success saveSuperSettingsBtn" type="button" onclick="saveSuperannuationSettings()">
+                    <i class="ri-save-line"></i> Save Settings
+                </button>
+                <button class="btn btn-secondary" type="reset">
+                    <i class="ri-refresh-line"></i> Reset
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
        </div>
       </div>
       </div>    
@@ -427,17 +592,31 @@
             });
 
      // Remove row on minus button click
-     $('form').on('click', '.remove-row, .remove-Positionrow', function () {
+     $('form').on('click', '.remove-row, .remove-Positionrow,.remove-Payrolltyperow', function () {
      $(this).closest('tr').remove();
      });
             
         // for adding new positions
      $('form').on('click', '.add-Positionrow', function () {
              let newRow = '<tr>';
-             newRow +='<td class="gap-2 d-flex"><input type="text" name="position_name[]" class="form-control " placeholder="Enter position name" autocomplete="off"  />';
-             newRow +='</td><td><button type="button" class="btn btn-success add-Positionrow">+</button></td><td><button type="button" class="btn btn-danger remove-Positionrow">-</button></td></tr>';
+          newRow += `<td class="gap-2 d-flex"><input type="text" name="position_name[]" class="form-control" placeholder="Enter position name" />;
+            <select name="position_type[]" class="form-select ms-2" required>
+             <option value="boh">BOH</option>
+            <option value="foh">FOH</option>
+            </select>
+            </td>`;
+             newRow +='<td><button type="button" class="btn btn-success add-Positionrow">+</button></td><td><button type="button" class="btn btn-danger remove-Positionrow">-</button></td></tr>';
                 $(this).closest('tr').after(newRow);
             });
+            // for payroll type
+            
+             $('form').on('click', '.add-Payrolltyperow', function () {
+             let newRow = '<tr>';
+             newRow +='<td class="gap-2 d-flex"><input type="text" name="name[]" class="form-control " placeholder="Enter payroll type name" autocomplete="off"  />';
+             newRow +='</td><td><button type="button" class="btn btn-success add-Payrolltyperow">+</button></td><td><button type="button" class="btn btn-danger remove-Payrolltyperow">-</button></td></tr>';
+                $(this).closest('tr').after(newRow);
+            });
+            
             
    })
    let table = $('#stressProfileList').DataTable({
@@ -574,6 +753,20 @@
            }
        });  
   }
+  // save payroll type
+   function savePayrollType(){
+      $(".savePayrollSettingsBtn").html('Saving...');
+     let formData = $("#payrollTypeSettingsForm").serialize();
+       $.ajax({
+           "url" : "/HR/Config/addPayrollType",
+           "method" :"post",
+           "data" :formData,
+           "success" :function(response){
+             $(".savePayrollSettingsBtn").html('Save');;
+           }
+       });  
+  }
+  
   function editLeave(id, leaveTypeName, entitlements, is_paid) {
     $("#leaveTypeName").val(leaveTypeName);
     $("#leaveId").val(id);
@@ -672,5 +865,96 @@ $(document).ready(function() {
 });
 </script>
                                             
-           
+     <script>
+     
+   function fetchPublicHolidays() {
+    let state = $('#state_select').val();
+    let year = $('#year_select').val() || new Date().getFullYear();
+    
+    // Update hidden fields
+    $('#holiday_state').val(state);
+    $('#holiday_year').val(year);
+    
+    // Show loading
+    $('#public_holidays').val('Loading holidays...');
+    
+    // Australian Public Holidays API
+    let apiUrl = 'https://date.nager.at/api/v3/PublicHolidays/' + year + '/AU';
+    
+    $.ajax({
+        url: apiUrl,
+        method: 'GET',
+        dataType: 'json',
+        success: function(holidays) {
+            // Filter by state (counties in API response)
+            let filteredHolidays = holidays.filter(function(holiday) {
+                // If no counties specified, it's a national holiday
+                if (!holiday.counties || holiday.counties.length === 0) {
+                    return true;
+                }
+                // Check if state is in counties
+                return holiday.counties.includes('AU-' + state.toUpperCase());
+            });
+            
+            // Extract dates
+            let dates = filteredHolidays.map(h => h.date).join(', ');
+            
+            if (dates) {
+                $('#public_holidays').val(dates);
+                
+                // Show success message with holiday names
+                let holidayList = '<div class="alert alert-success mt-2"><strong>Fetched ' + filteredHolidays.length + ' holidays for ' + state.toUpperCase() + ' ' + year + ':</strong><ul class="mb-0 mt-2">';
+                filteredHolidays.forEach(function(holiday) {
+                    holidayList += '<li>' + holiday.localName + ' - ' + holiday.date + '</li>';
+                });
+                holidayList += '</ul></div>';
+                $('#holidays_preview').html(holidayList);
+            } else {
+                $('#public_holidays').val('');
+                alert('No holidays found for ' + state.toUpperCase() + ' in ' + year);
+            }
+        },
+        error: function() {
+            $('#public_holidays').val('');
+            alert('Failed to fetch holidays. Please enter manually or try again.');
+        }
+    });
+}
+
+function saveSuperannuationSettings() {
+    // Validate holidays format
+    let holidays = $('#public_holidays').val().trim();
+    if (holidays) {
+        let dates = holidays.split(',').map(d => d.trim());
+        let invalidDates = dates.filter(d => !/^\d{4}-\d{2}-\d{2}$/.test(d));
+        
+        if (invalidDates.length > 0) {
+            alert('Invalid date format detected. Please use YYYY-MM-DD format.\nInvalid dates: ' + invalidDates.join(', '));
+            return;
+        }
+    }
+    
+    $('.saveSuperSettingsBtn').html('<i class="ri-loader-4-line"></i> Saving...');
+    let formData = $("#superannuationSettingsForm").serialize();
+    
+    $.ajax({
+        url: "/HR/Config/saveSuperannuationSettings",
+        method: "post",
+        data: formData,
+        success: function(response) {
+            $('.saveSuperSettingsBtn').html('<i class="ri-check-line"></i> Saved!');
+            setTimeout(function() {
+                $('.saveSuperSettingsBtn').html('<i class="ri-save-line"></i> Save Settings');
+            }, 2000);
+        },
+        error: function() {
+            $('.saveSuperSettingsBtn').html('<i class="ri-close-line"></i> Error');
+            alert('Failed to save settings. Please try again.');
+            setTimeout(function() {
+                $('.saveSuperSettingsBtn').html('<i class="ri-save-line"></i> Save Settings');
+            }, 2000);
+        }
+    });
+}
+     </script>
                                             

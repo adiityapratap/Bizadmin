@@ -4,11 +4,30 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
-            <div class="card-header d-flex justify-content-end align-items-center gap-2">
-              <!--<h5 class="card-title mb-0 text-black">Manage Employees</h5>-->
-              <button class="btn btn-primary" type="button" id="addEmployeeBtn" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="ri-user-add-line"></i> Add Employee</button>
-              <a href="/HR/contractors/addEditContractor" class="btn btn-success" id="addEmployeeBtn"><i class="ri-user-add-line"></i> Add Contractor</a> 
-            </div>
+           <div class="card-header d-flex justify-content-between align-items-center">
+    
+    <!-- Left Side Title -->
+    <h5 class="card-title mb-0 text-black">Manage Employees</h5>
+
+    <!-- Right Side Buttons -->
+    <div class="d-flex gap-2">
+        <button 
+            class="btn btn-primary" 
+            type="button" 
+            id="addEmployeeBtn" 
+            data-bs-toggle="modal" 
+            data-bs-target="#addEmployeeModal">
+            <i class="ri-user-add-line"></i> Add Employee
+        </button>
+
+        <a href="/HR/contractors/addEditContractor" 
+           class="btn btn-success">
+            <i class="ri-user-add-line"></i> Add Contractor
+        </a>
+    </div>
+
+</div>
+
             <div class="card-body">
             <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
                 <li class="nav-item">
@@ -83,9 +102,11 @@
                          </a>
                          </li>
                           <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Send Onboarding Email">
-                          <a class="text-primary d-inline-block remove-item-btn"  href="#" onclick="sendOnboardingEmail(this,<?php echo $empList['emp_id']; ?>)">
-                         <i class="ri-mail-send-fill fs-16"></i>
-                         </a>
+                          <a class="text-primary d-inline-block" href="#"
+   onclick="confirmSendOnboarding(this, <?php echo $empList['emp_id']; ?>)">
+   <i class="ri-mail-send-fill fs-16"></i>
+</a>
+
                          </li>
                         </ul>      
                         
@@ -315,23 +336,35 @@
                                        <input type="file" id="jd" name="userfile[]" class="form-control mt-2" multiple>
                                         </div>
                                                                 
-                                <?php if(isset($locations) && !empty($locations)){  ?>   
-                              <div class="col-lg-12">
-                                            <h6 class="fw-semibold text-black">Location Access *</h6>
-                                            <select class="js-example-basic-multiple employeeLocations" name="locationIds[]" multiple="multiple">
-                                               <?php foreach($locations as $location){ ?>     
-                                                 <option value=" <?php echo $location['location_id']; ?> "> <?php echo $location['location_name']; ?>   </option>
-                                                  <?php } ?>
-                                            </select>
-                                        <small> click on the box to view and select multiple locations</small>    
-                                        </div>
-                                           <?php } ?> 
+                               <?php if (isset($locations) && !empty($locations)) { ?>   
+    <div class="col-lg-12">
+        <h6 class="fw-semibold text-black">Location Access *</h6>
+
+        <select class="js-example-basic-multiple employeeLocations" name="locationIds[]" multiple="multiple">
+
+            <?php 
+            $totalLocations = count($locations);
+            foreach ($locations as $location) { 
+                $isSelected = ($totalLocations == 1) ? 'selected' : ''; 
+            ?>
+                <option value="<?php echo trim($location['location_id']); ?>" <?php echo $isSelected; ?>>
+                    <?php echo $location['location_name']; ?>
+                </option>
+            <?php } ?>
+
+        </select>
+
+        <small> click on the box to view and select multiple locations</small>    
+    </div>
+<?php } ?>
+
                                                             </div>
                                                             </form>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-success onboardNewEmployeeBtn" onclick="onboardNewEmployee()">Onboard</button>
+                                                             <button type="button" class="btn btn-secondary save" onclick="onboardNewEmployee('save')">Save</button>
+                                                            <button type="button" class="btn btn-success onboard" onclick="onboardNewEmployee('onboard')">Onboard and send email</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -369,13 +402,50 @@ let table = $('#employeeList').DataTable({
     pageLength: 100,
 });
 
-function onboardNewEmployee(){
+function confirmSendOnboarding(obj, empId) {
+    Swal.fire({
+        title: "Send Onboarding Email?",
+        text: "This will send the onboarding email to the employee.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, send it",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#45CB88",
+        cancelButtonColor: "#d33"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            sendOnboardingEmail(obj, empId);
+        }
+    });
+}
+
+
+function sendOnboardingEmail(obj, empId) {
+    let first_name = $(obj).parents('.empMainRow').find(".first_name").html();
+    let email = $(obj).parents('.empMainRow').find(".email").html();
+    $(obj).html("Sending...");
+    
+    $.ajax({
+        type: "POST",
+        dataType: 'json',
+        data: { first_name: first_name, email: email },
+        url: "/HR/Employee/sendOnboardingEmail/" + empId,
+        success: function(data) {
+            $(obj).html("Mail Sent");
+        },
+        error: function(xhr, status, error) {
+            console.error(error); // Log any errors that occur during the Ajax request
+        }
+    });   
+}
+
+function onboardNewEmployee(type){
    
    $("#username").val($("#email").val());
    
    // by default we have to set any dummy password for new employee , so that later they can reset it, it must not be guessed by employee
  $("#password").val($("#email").val()+'#123!Allowed!');
- $(".onboardNewEmployeeBtn").html('Loading...');
+ $("."+type).html('Loading...');
   let formData = $("#onboardNewEmployeeForm").serialize();
   $.ajax({
   url: '/auth/create_user',
@@ -386,11 +456,16 @@ function onboardNewEmployee(){
       let responseData = JSON.parse(response);
       if (responseData?.status === 'success') {
         $("#lastInsertedUserId").val(responseData?.user_id)    
-        addRecordToEmployeeTable();
+        addRecordToEmployeeTable(type);
       } else {
         $('.dangerEmployee').html(responseData?.message);
         $('.dangerEmployee').show();
-        $(".onboardNewEmployeeBtn").html('Onboard');
+        if(type == 'save'){
+           $("."+type).html('Save');  
+        }else{
+           $("."+type).html('Onboard and send email');  
+        }
+       
       }
 
     } catch (error) {
@@ -406,23 +481,95 @@ function onboardNewEmployee(){
       }, 5000);
 }
 
-function addRecordToEmployeeTable() {
-    let formData = new FormData($("#onboardNewEmployeeForm")[0]); // Use FormData to serialize form data
+function addRecordToEmployeeTable(type) {
+    let formData = new FormData($("#onboardNewEmployeeForm")[0]);
+    formData.append('type', type);
     $.ajax({
         url: "/HR/onboardNewEmployee",
         method: "post",
         data: formData,
-        processData: false, // Set processData to false when using FormData
-        contentType: false, // Set contentType to false when using FormData
+        processData: false,
+        contentType: false,
         success: function(response) {
+            console.log("response", response);
+
+            // Parse form data into usable object
+            let formObj = {};
+            formData.forEach((value, key) => {
+                formObj[key] = value;
+            });
+
+            // Extract needed values
+            let firstName = formObj.first_name || '';
+            let lastName  = formObj.last_name || '';
+            let fullName  = firstName + ' ' + lastName;
+            let email     = formObj.email || '';
+            let empId     = response.emp_id; // From backend
+            let hireDate  = new Date().toLocaleDateString('en-GB'); // Today: dd-mm-yyyy
+            let phone     = formObj.phone || '-';
+            let stress    = 'Not Set';
+
+            // Build the new row HTML
+            let newRow = `
+                <tr data-delete-id="${empId}" class="empMainRow">
+                    <th scope="row">
+                        <div class="form-check">
+                            <input class="form-check-input fs-15" type="checkbox" name="checkAll" value="option1">
+                            <label class="form-check-label"><i class="bx bx-chevron-down"></i></label>
+                        </div>
+                    </th>
+                    <td><a class="first_name" href="/HR/Employee/edit/${empId}">${fullName}</a></td>
+                    <td><a class="email" href="/HR/Employee/edit/${empId}">${email}</a></td>
+                    <td>${hireDate}</td>
+                    <td>${phone}</td>
+                    <td>${stress}</td>
+                    <td>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                <a class="text-success" href="/HR/Employee/edit/${empId}" class="text-primary d-inline-block edit-item-btn">
+                                    <i class="ri-pencil-fill fs-16"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                <a class="text-danger d-inline-block remove-item-btn" href="#" onclick="deleteEmployee(this, ${empId}, ${formObj.userId || 0})">
+                                    <i class="ri-delete-bin-5-fill fs-16"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Send Onboarding Email">
+                                <a class="text-primary d-inline-block" href="#" onclick="confirmSendOnboarding(this, ${empId})">
+                                    <i class="ri-mail-send-fill fs-16"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>`;
+
+            // Prepend to table body
+            $('#employeeList tbody').prepend(newRow);
+
+            // Show success feedback
             $('.successEmployee').show();
-            $(".onboardNewEmployeeBtn").html('Success');
+             if(type == 'save'){
+           $("."+type).html('Save');  
+        }else{
+           $("."+type).html('Onboard and send email');  
+        }
+
+            // Optional: Re-init tooltips if using Bootstrap
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        },
+        error: function(xhr, status, error) {
+            console.error("Ajax Error:", error);
+            alert("Failed to add employee. Please try again.");
         }
     });
+
+    // Hide success message & modal after delay
     setTimeout(function() {
         $('.successEmployee').hide();
         $('#addEmployeeModal').modal('hide');
         $('#onboardNewEmployeeForm')[0].reset();
+       
     }, 3000);
 }
 
@@ -477,24 +624,7 @@ function reHire(obj,deleteEmpId){
                 });     
     }  
     
-    function sendOnboardingEmail(obj, empId) {
-    let first_name = $(obj).parents('.empMainRow').find(".first_name").html();
-    let email = $(obj).parents('.empMainRow').find(".email").html();
-    $(obj).html("Sending...");
     
-    $.ajax({
-        type: "POST",
-        dataType: 'json',
-        data: { first_name: first_name, email: email },
-        url: "/HR/Employee/sendOnboardingEmail/" + empId,
-        success: function(data) {
-            $(obj).html("Mail Sent");
-        },
-        error: function(xhr, status, error) {
-            console.error(error); // Log any errors that occur during the Ajax request
-        }
-    });   
-}
 
  
 </script>

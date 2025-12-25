@@ -1,27 +1,51 @@
 <div class="container-fluid mb-5" style="margin-top: 130px !important;">
    <div class="row">
      <div class="col-12 tempDiv">
-    <!--<a class="btn btn-danger btn-sm mb-2 " href="/Compliance/Home/index/<?php echo $this->session->userdata('system_id'); ?>">Tasks</a> -->
-     <a class="btn btn-success btn-sm mb-2 d-none" href="<?php echo base_url('/Compliance/Cake/Cakehome/listProduct') ?>">+ Add Product</a>
-   
+    <div class="d-flex flex-wrap gap-2 w-100 mb-3">
+
+  <a class="btn btn-primary d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Cake/Cakehome'); ?>" 
+     data-bs-toggle="tooltip" title="View Best Before Dashboard">
+    <i class="fa-solid fa-cake-candles"></i> Best Before Dashboard
+  </a>
+
+  <a class="btn btn-danger d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Waste/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Manage Waste Records">
+    <i class="fa-solid fa-trash-can"></i> Waste Management
+  </a>
+
+  <a class="btn btn-secondary d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Sanitation/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Sanitation Compliance">
+    <i class="fa-solid fa-soap"></i> Sanitation
+  </a>
+
+  <a class="btn btn-success d-flex align-items-center gap-1" 
+     href="<?php echo base_url('/Compliance/Goods/Home'); ?>" 
+     data-bs-toggle="tooltip" title="Incoming Goods Checks">
+    <i class="fa-solid fa-truck"></i> Incoming Goods
+  </a>
+
+</div>
     <div class="card">
      <div class="card-header align-items-center d-flex">
-     <h4 class="card-title mb-0 flex-grow-1 text-faded"><a href="<?php echo base_url('Temp/home/tempHistory') ?>">🌡</a> Best Before 🗓</h4>
+     <h4 class="card-title mb-0 flex-grow-1 text-faded">Waste Management Dashboard</h4>
                                     <div class="flex-shrink-0">
                                      <select class="form-select siteDropdown">
                                              <option> Select Site</option>
-                                                <?php if(!empty($site_detail)) { $count =0; foreach($site_detail as $sites) { $selected = ($count == 0 ? 'selected' : ''); ?>
-                                                <option <?php echo $selected; ?> class="dropdown-item" href="#" value="<?php echo $sites['id'] ?>"><?php echo $sites['site_name'] ?></option>
+                                                <?php if (!empty($site_detail)) { $count = 0; foreach ($site_detail as $site) { $selected = ($count == 0 ? 'selected' : ''); ?>
+                                                <option <?php echo $selected; ?> class="dropdown-item" href="#" value="<?php echo $site['id'] ?>"><?php echo $site['site_name'] ?></option>
                                                 <?php $count++; } } ?>
                                        </select>
                                     </div>
-                                    <a id="saveBtn" class="btn btn-success mx-4" onclick="handleSaveClick(this)"><i class='fas fa-save' ></i> Save</a>
+                                    <a id="saveBtn" class="btn btn-success mx-4" onclick="handleSaveClick(this)"><i class='fas fa-save'></i> Save</a>
 
                                 </div><!-- end card header -->
                                 
                                 <div class="d-none alert alert-success alert-dismissible alert-label-icon rounded-label shadow fade show tempSuccessRecorded" role="alert">
                                   <i class="ri-notification-off-line label-icon"></i><strong>Success</strong>
-                                   Value recorded succesfully.
+                                   Value recorded successfully.
                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
 
@@ -31,108 +55,81 @@
                                             <thead class="table-light">
                                                 <tr class="text-muted">
                                                     <th scope="col">Product Name</th>
-                                                    <th scope="col">No Of cakes</th>
-                                                    <th scope="col">Best Before</th>
-                                                    <th scope="col">Entered by</th>
-                                                   
+                                                    <th scope="col">Enter Value</th>
+                                                    <th scope="col">Par Level</th>
+                                                    <th scope="col">Entered By</th>
                                                 </tr>
                                             </thead>
-                                         <?php   
-                                       if(isset($site_detail) && !empty($site_detail)){  ?>
-                                       <?php  foreach($site_detail as $AllSites) { ?>
-                                       <?php  $staffcComments = unserialize($AllSites['staff_comments']);?>
-                                        <?php  $prep_areas = json_decode($AllSites['prep_areas']); ?>
-                                      
-                                      <?php foreach($prep_areas as $prep_area) {  ?>
-                                        <tbody class="prep_<?php echo $prep_area->id ?>  tbodySite <?php echo 'siteId_'.$AllSites['id'] ?>">
-                                        <th colspan="9" class="text-black w-100 " style="background-color: #dff0fa;"> <b><?php echo $prep_area->prep_name; ?></b></th>     
-                                       <?php if(isset($products) && !empty($products)){  ?>
-                                       <?php  foreach($products as $product) {   $productId = $product['id']; ?> 
-                                       <?php $disabled = (isset($todaysEnteredData[$productId]) ? 'disabled' : ''); ?>
-                                       <?php $is_completed = (isset($todaysEnteredData[$productId]) ? 'disabled' : ''); ?>
-                                     
-                                    
-                                       <?php if($product['prep_id'] == $prep_area->id) { ?>
-                                       <tr>
-      <td><?php echo $product['product_name'] ?></td>
-      <td>
-  <input type="text" class="form-control auto-save" 
-         data-product-id="<?= $productId ?>" 
-         data-field="no_of_cake"
-         value="<?= isset($todaysEnteredData[$productId]) ? $todaysEnteredData[$productId]['no_of_cake'] : '' ?>">
-</td>
-
-<?php
-$bestBeforeRaw = isset($todaysEnteredData[$productId]['best_before']) 
-                 ? $todaysEnteredData[$productId]['best_before'] 
-                 : '';
-
-$bestBefore = !empty($bestBeforeRaw) 
-              ? date('d M, Y', strtotime($bestBeforeRaw)) 
-              : '';
-?>
-<td>
-  <div class="input-group">
-    <input type="text" 
-           class="form-control auto-save dash-filter-picker shadow flatpickr-input" 
-           id="best_before_<?= $productId ?>"
-           data-product-id="<?= $productId ?>" 
-           data-field="best_before"
-           value="<?= $bestBefore ?>"
-           data-provider="flatpickr" 
-           data-date-format="d M, Y" 
-           readonly="readonly">
-
-    <div class="input-group-text bg-dark border-dark text-white calendar-trigger" 
-         data-target="#best_before_<?= $productId ?>">
-      <i class="ri-calendar-2-line"></i>
-    </div>
-  </div>
-</td>
-
-
-
-
-
-<td>
-  <input type="text" class="form-control auto-save" 
-         data-product-id="<?= $productId ?>" 
-         data-field="entered_by"
-         value="<?= isset($todaysEnteredData[$productId]['entered_by']) ? $todaysEnteredData[$productId]['entered_by'] : '' ?>">
-</td>
-
-                                  </tr>
-                                       <?php } ?>
-                                       <?php } ?>
-                                        <?php } ?>
-                                        </tbody>   
-                                        <?php } ?>
-                                        
-                                     <?php } } ?>    
-                                       
+                                            <?php if (isset($site_detail) && !empty($site_detail)) { ?>
+                                                <?php foreach ($site_detail as $site) { ?>
+                                                    <?php foreach ($prep_detail as $prep_area) { ?>
+                                                        <?php if ($prep_area['site_id'] == $site['id']) { ?>
+                                                            <tbody class="prep_<?php echo $prep_area['id'] ?> tbodySite <?php echo 'siteId_' . $site['id'] ?>">
+                                                                <th colspan="4" class="text-black w-100" style="background-color: #dff0fa;">
+                                                                    <b><?php echo $prep_area['prep_name']; ?> (Site: <?php echo $site['site_name']; ?>)</b>
+                                                                </th>
+                                                                <?php if (isset($products) && !empty($products)) { ?>
+                                                                    <?php foreach ($products as $product) { ?>
+                                                                        <?php if ($product['prep_id'] == $prep_area['id'] && ($product['site_id'] == $site['id'] || $product['site_id'] == 0)) { ?>
+                                                                            <tr>
+                                                                                <td><?php echo $product['product_name']; ?></td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control auto-save" 
+                                                                                           data-product-id="<?= $product['id']; ?>" 
+                                                                                           data-field="wasteM_value"
+                                                                                           value="<?= isset($todaysEnteredData[$product['id']]) ? $todaysEnteredData[$product['id']]['wasteM_value'] : ''; ?>">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <?php echo isset($product['par_level']) ? $product['par_level'] : 'N/A'; ?>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control auto-save" 
+                                                                                           data-product-id="<?= $product['id']; ?>" 
+                                                                                           data-field="entered_by"
+                                                                                           value="<?= isset($todaysEnteredData[$product['id']]['entered_by']) ? $todaysEnteredData[$product['id']]['entered_by'] : ''; ?>">
+                                                                                </td>
+                                                                            </tr>
+                                                                        <?php } ?>
+                                                                    <?php } ?>
+                                                                <?php } else { ?>
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-center">No products found for this prep area.</td>
+                                                                    </tr>
+                                                                <?php } ?>
+                                                            </tbody>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } else { ?>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">No sites or prep areas found.</td>
+                                                    </tr>
+                                                </tbody>
+                                            <?php } ?>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                      
-                  
                     </div>
-                    
-                     
-       
-         </div>
-                       
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <script>
-$(document).on('blur', '.auto-save', function() {
+
+
+
+$(document).on('blur change', '.auto-save', function() {
     const productId = $(this).data('product-id');
     const field = $(this).data('field');
     const value = $(this).val();
     let prep = $(".siteDropdown").val();
 
     $.ajax({
-        url: "<?= base_url('Compliance/Cake/Cakehome/saveCakeRecord') ?>",
+        url: "<?= base_url('Compliance/Waste/Home/saveDashboardData') ?>",
         method: "POST",
         data: {
             product_id: productId,

@@ -6,6 +6,7 @@ class Prep extends MY_Controller
         parent::__construct();
         $this->load->model('common_model');
         $this->load->model('site_model');
+         $this->load->model('prep_model');
         !$this->ion_auth->logged_in() ? redirect('auth/login', 'refresh') : '';
         $this->POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $this->selected_location_id = $this->session->userdata('location_id');
@@ -14,7 +15,7 @@ class Prep extends MY_Controller
     public function index()
     {
         $condition = ['status' => 1, 'location_id' => $this->selected_location_id];
-        $data['prep_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementPrepArea', '', $condition);
+        $data['prep_detail'] = $this->prep_model->fetchAllPrepArea('Compliance_WasteManagementPrepArea','Compliance_WasteManagementsites');
         $data['site_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementsites', '', ['status' => 1, 'location_id' => $this->selected_location_id]);
         $this->load->view('general/header');
         $this->load->view('WasteManagement/prepList', $data);
@@ -42,16 +43,16 @@ class Prep extends MY_Controller
         }
     }
 
-    public function edit($prep_id = '')
+    public function edit()
     {
         if (isset($this->POST['prep_name'])) {
+            $prep_id = $this->POST['id'];
             $prep_data = array(
                 'prep_name' => $this->POST['prep_name'],
                 'site_id' => (isset($this->POST['site_id']) ? $this->POST['site_id'] : ''),
                 'updated_date' => date('Y-m-d'),
             );
             $this->common_model->commonRecordUpdate('Compliance_WasteManagementPrepArea', 'id', $prep_id, $prep_data);
-            redirect('Compliance/Prep', 'refresh');
         } else {
             $data['prep_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementPrepArea', '', ['id' => $prep_id, 'location_id' => $this->selected_location_id]);
             $data['site_detail'] = $this->common_model->fetchRecordsDynamically('Compliance_WasteManagementsites', '', ['status' => 1, 'location_id' => $this->selected_location_id]);

@@ -38,7 +38,7 @@ class Cakehome extends MY_Controller {
         $data['todaysEnteredData'] = $this->generalcomp_model->fetchTodaysEnteredDataForCakeDisplay();
         // echo "<pre>"; print_r($data['todaysEnteredData']); exit;
         $data['site_detail'] = $this->generalcomp_model->get_allSitesForDash(); 
-        $data['prep_detail'] = $this->prep_model->fetchAllPrepArea();
+        $data['prep_detail'] = $this->prep_model->fetchAllPrepArea('Compliance_prepArea','Compliance_sites');
         $this->load->view('general/header');
       	$this->load->view('Cakehome/dashboard',$data);
       	$this->load->view('general/footer');
@@ -49,7 +49,7 @@ class Cakehome extends MY_Controller {
          $condition = array('status' => 1);
         $data['products'] = $this->common_model->fetchRecordsDynamically('Compliance_cakeproducts','',$condition);
         $data['site_detail'] = $this->generalcomp_model->get_allSitesForDash(); 
-        $data['prep_detail'] = $this->prep_model->fetchAllPrepArea();
+        $data['prep_detail'] = $this->prep_model->fetchAllPrepArea('Compliance_prepArea','Compliance_sites');
         $this->load->view('general/header');
         $this->load->view('Cakehome/listProduct', $data);
         $this->load->view('general/footer');
