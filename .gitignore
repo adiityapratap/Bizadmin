@@ -1,0 +1,35 @@
+# Dependencies
+vendor/
+node_modules/
+
+# Cache and temporary files
+cache/
+/vendor/
+/application/logs/
+/application/cache/
+/uploads/
+/uploaded_files/
+.env
+.env.*
+error_log
+.vscode/
+.idea/
+*.cache
+*.log
+
+# User uploads
+uploads/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
