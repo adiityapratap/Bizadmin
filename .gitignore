@@ -4,11 +4,15 @@ node_modules/
 
 # Cache and temporary files
 cache/
-/vendor/
-/application/logs/
+
+application/logs/
 /application/cache/
-/uploads/
-/uploaded_files/
+application/config/
+/application/config/
+application/third_party/
+/application/third_party/
+uploads/
+uploaded_files/
 .env
 .env.*
 error_log
