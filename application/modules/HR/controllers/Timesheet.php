@@ -148,14 +148,12 @@ class Timesheet extends MY_Controller {
 
 public function exportTimesheetExcel($start_date, $end_date)
 {
-    ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+    
 
     ini_set('memory_limit', '512M');
 
     // Fetch timesheets
-    $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id);
+    $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id,true);
         
 
     if (empty($timesheets)) {
@@ -204,6 +202,8 @@ error_reporting(E_ALL);
 
         // Break in minutes → seconds
         $breakMinutes = (int) ($ts['total_break_duration'] ?? 0);
+        $breakHours   = round($breakMinutes / 60, 2);
+
         $workedSeconds -= ($breakMinutes * 60);
 
         if ($workedSeconds < 0) {
@@ -217,7 +217,7 @@ error_reporting(E_ALL);
         $sheet->setCellValue('B' . $row, date('d-m-Y', strtotime($ts['roster_date'])));
         $sheet->setCellValue('C' . $row, date('h:i A', $clockIn));
         $sheet->setCellValue('D' . $row, date('h:i A', $clockOut));
-        $sheet->setCellValue('E' . $row, $breakMinutes);
+        $sheet->setCellValue('E' . $row, $breakHours);
         $sheet->setCellValue('F' . $row, $decimalHours);
 
         $row++;
