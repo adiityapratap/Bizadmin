@@ -83,17 +83,18 @@ class Ion_auth
 			
 			$email_smtp_config = array(
         'protocol'     => 'smtp',
-        'smtp_host'    => 'smtp.office365.com',        // add these to config
-        'smtp_port'    => 25,        // e.g. 587
+        'smtp_host'    => 'smtp.office365.com',
+        'smtp_port'    => 587,        // Changed from 25 to 587 for Office365
         'smtp_user'    => 'info@bizadmin.com.au',
         'smtp_pass'    => '1800@Footscray123!',
         'smtp_crypto'  => 'tls',
+        'smtp_timeout' => 30,         // Add timeout
         'mailtype'     => 'html',
         'charset'      => 'utf-8',
         'newline'      => "\r\n",
         'crlf'         => "\r\n",
-        'encoding'     => '8bit',           // This is the CRUCIAL line – prevents quoted-printable mess
-        'wordwrap'     => FALSE,            // Optional: also helps with long URLs
+        'encoding'     => '8bit',
+        'wordwrap'     => FALSE,
     );
 
     $this->email->initialize($email_smtp_config);
@@ -163,51 +164,83 @@ class Ion_auth
 	} 
 	public function forgotten_password($identity)
 	{
-		// Retrieve user information
-		$user = $this->where($this->ion_auth_model->identity_column, $identity)
-					 ->where('active', 1)
-					 ->users()->row();
+        log_message('info', 'Forgot Password: Process started for identity: ' . $identity);
+        
+        // Retrieve user information
+        $user = $this->where($this->ion_auth_model->identity_column, $identity)
+                     ->where('active', 1)
+                     ->users()->row();
 
-		if ($user)
-		{
-			// Generate code
-			$code = $this->ion_auth_model->forgotten_password($identity);
+        if ($user)
+        {
+            log_message('info', 'Forgot Password: User found - Email: ' . $user->email . ', ID: ' . $user->id);
+            
+            // Generate code
+            $code = $this->ion_auth_model->forgotten_password($identity);
 
-			if ($code)
-			{
-				$data = [
-					'identity' => $identity,
-					'forgotten_password_code' => $code
-				];
+            if ($code)
+            {
+                log_message('info', 'Forgot Password: Code generated successfully');
+                
+                $data = [
+                    'identity' => $identity,
+                    'forgotten_password_code' => $code
+                ];
 
-				if (!$this->config->item('use_ci_email', 'ion_auth'))
-				{
-					$this->set_message('forgot_password_successful');
-					return $data;
-				}
-				else
-				{
-					$message = $this->load->view($this->config->item('email_templates', 'ion_auth') . $this->config->item('email_forgot_password', 'ion_auth'), $data, TRUE);
-					$this->email->clear();
-					$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
-					$this->email->to($user->email);
-					$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
-					$this->email->message($message);
+                if (!$this->config->item('use_ci_email', 'ion_auth'))
+                {
+                    log_message('info', 'Forgot Password: use_ci_email is FALSE, returning data array');
+                    $this->set_message('forgot_password_successful');
+                    return $data;
+                }
+                else
+                {
+                    log_message('info', 'Forgot Password: Preparing to send email to ' . $user->email);
+                    
+                    try {
+                        $message = $this->load->view($this->config->item('email_templates', 'ion_auth') . $this->config->item('email_forgot_password', 'ion_auth'), $data, TRUE);
+                        
+                        log_message('info', 'Forgot Password: Email template loaded successfully');
+                        
+                        $this->email->clear();
+                        $this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+                        $this->email->to($user->email);
+                        $this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
+                        $this->email->message($message);
 
-					if ($this->email->send())
-					{
-						$this->set_message('forgot_password_successful');
-						return TRUE;
-					}else{
-					    log_message('error', $this->email->print_debugger());
+                        log_message('info', 'Forgot Password: Email configured - From: ' . $this->config->item('admin_email', 'ion_auth') . ', To: ' . $user->email);
+                        
+                        if ($this->email->send())
+                        {
+                            log_message('info', 'Forgot Password: Email sent successfully to ' . $user->email);
+                            $this->set_message('forgot_password_successful');
+                            return TRUE;
+                        }
+                        else
+                        {
+                            log_message('error', 'Forgot Password: Email send FAILED to ' . $user->email);
+                            log_message('error', 'Forgot Password Debug Info: ' . $this->email->print_debugger());
+                            return FALSE;
+                        }
+                    } catch (Exception $e) {
+                        log_message('error', 'Forgot Password: Exception caught - ' . $e->getMessage());
+                        log_message('error', 'Forgot Password Debug Info: ' . $this->email->print_debugger());
+                        return FALSE;
+                    }
+                }
+            }
+            else
+            {
+                log_message('error', 'Forgot Password: Failed to generate code for identity: ' . $identity);
+            }
+        }
+        else
+        {
+            log_message('warning', 'Forgot Password: No active user found for identity: ' . $identity);
+        }
+
+        $this->set_error('forgot_password_unsuccessful');
         return FALSE;
-					}
-				}
-			}
-		}
-
-		$this->set_error('forgot_password_unsuccessful');
-		return FALSE;
 	}
 
 	/**
