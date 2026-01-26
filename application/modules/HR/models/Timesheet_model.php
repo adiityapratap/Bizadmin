@@ -96,8 +96,8 @@ class Timesheet_model extends CI_Model{
         return $query->row_array();
     }
     
-    // timesheet with roaster
-     public function get_timesheets_by_date_range($start_date, $end_date, $location_id) {
+    // timesheet with roster
+     public function get_timesheets_by_date_range($start_date, $end_date, $location_id,$dateSort=false) {
         $fields = [
             'HR_timesheet_details.timesheet_id',
             'HR_timesheet_details.employee_id',
@@ -133,8 +133,20 @@ class Timesheet_model extends CI_Model{
                 'HR_timesheet_details.is_deleted' => 0,
                 'HR_timesheet_details.location_id' => $location_id
             ])
-            ->group_by('HR_timesheet_details.timesheet_id')
-            ->order_by('e.first_name, e.last_name, HR_timesheet_details.roster_date');
+            ->group_by('HR_timesheet_details.timesheet_id');
+            
+// Optional date sorting (PRIMARY)
+if ($dateSort == true) {
+    $this->tenantDb->order_by('HR_timesheet_details.roster_date', 'ASC');
+}
+
+// Always keep these secondary sorts
+$this->tenantDb
+    ->order_by('e.first_name', 'ASC')
+    ->order_by('e.last_name', 'ASC')
+    ->order_by('HR_timesheet_details.clock_in_time', 'ASC');
+
+
         
         $query = $this->tenantDb->get();
         $timesheets = $query->result_array();
