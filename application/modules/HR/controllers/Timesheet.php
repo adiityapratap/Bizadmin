@@ -547,6 +547,7 @@ public function approve_single_timesheet() {
         $this->tenantDb->trans_start();
 
         if ($timesheetId == 0 && in_array($action, ['clock_in'])) {
+            $clockInTime = $this->roundClockTime(date('Y-m-d H:i:s'));
             $timesheetData = [
                 'roster_id' => null,
                 'employee_id' => $employeeId,
@@ -559,7 +560,7 @@ public function approve_single_timesheet() {
                 'roster_break_type' => null,
                 'roster_break_duration' => 0,
                 'task_description' => null,
-                'clock_in_time' => ($action === 'clock_in' ? date('Y-m-d H:i:s') : null),
+                'clock_in_time' => ($action === 'clock_in' ? $clockInTime : null),
                 'clock_out_time' => null,
                 'actual_break_duration' => 0,
                 'approval_status' => 'pending',
@@ -586,8 +587,9 @@ public function approve_single_timesheet() {
                 echo json_encode(['status' => 'error', 'message' => 'Employee already clocked in']);
                 exit;
             }
-            $updateData['clock_in_time'] = date('Y-m-d H:i:s');
-            $responseData['clock_in_time'] = date('h:i A');
+            $roundedClockIn = $this->roundClockTime(date('Y-m-d H:i:s'));
+            $updateData['clock_in_time'] = $roundedClockIn;
+            $responseData['clock_in_time'] = date('h:i A', strtotime($roundedClockIn));
             try {
                 $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, $updateData);
             } catch (Exception $e) {
@@ -602,10 +604,10 @@ public function approve_single_timesheet() {
                 exit;
             }
             // add 30 mins and 60 mins break if emp worked for 5 hrs or 10 hrs accordingly
-            $clockOutTime = date('Y-m-d H:i:s');
+            $clockOutTime = $this->roundClockTime(date('Y-m-d H:i:s'));
            
 $updateData['clock_out_time'] = $clockOutTime;
-$responseData['clock_out_time'] = date('h:i A');
+$responseData['clock_out_time'] = date('h:i A', strtotime($clockOutTime));
 
 // Fetch the full timesheet row (for clock_in_time)
 $timesheetFull = $this->common_model->fetchRecordsDynamically('HR_timesheet_details', ['clock_in_time'], ['timesheet_id' => $timesheetId, 'is_deleted' => 0]);
@@ -724,6 +726,51 @@ if ($clockInTime) {
 
         echo json_encode($responseData);
         exit;
+    }
+
+    /**
+     * Round clock time to nearest 15-minute quarter
+     * If more than 5 minutes past a quarter (0, 15, 30, 45), round up to next quarter
+     * If 5 minutes or less past a quarter, round back to that quarter
+     * 
+     * Examples:
+     * 6:04 -> 6:00, 6:06 -> 6:15, 6:11 -> 6:15
+     * 15:18 -> 15:15, 15:22 -> 15:30, 15:28 -> 15:30
+     * 
+     * @param string $datetime DateTime string
+     * @return string Rounded datetime
+     */
+    private function roundClockTime($datetime) {
+        $timestamp = strtotime($datetime);
+        $minutes = (int)date('i', $timestamp);
+        
+        // Calculate minutes past the last quarter hour (0, 15, 30, 45)
+        $minutesPastQuarter = $minutes % 15;
+        
+        // If more than 5 minutes past quarter, round up to next quarter
+        // If 5 minutes or less, round back to current quarter
+        if ($minutesPastQuarter > 5) {
+            $roundedMinutes = $minutes + (15 - $minutesPastQuarter);
+        } else {
+            $roundedMinutes = $minutes - $minutesPastQuarter;
+        }
+        
+        // Handle hour overflow
+        $hours = (int)date('H', $timestamp);
+        if ($roundedMinutes >= 60) {
+            $hours++;
+            $roundedMinutes -= 60;
+        }
+        
+        // Handle day overflow (if hours >= 24)
+        $date = date('Y-m-d', $timestamp);
+        if ($hours >= 24) {
+            $date = date('Y-m-d', strtotime($date . ' +1 day'));
+            $hours -= 24;
+        }
+        
+        // Return rounded datetime
+        return $date . ' ' . sprintf('%02d:%02d:00', $hours, $roundedMinutes);
     }
 
     // public function autoApproveTimesheet($rosterId) {
