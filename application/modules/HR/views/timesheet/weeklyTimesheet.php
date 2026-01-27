@@ -44,6 +44,68 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        
+        /* Mobile Sidebar Styles */
+        #employee-sidebar-timesheet {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            #employee-sidebar-timesheet {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            }
+            
+            #employee-sidebar-timesheet.show {
+                transform: translateX(0);
+            }
+            
+            .mobile-overlay-timesheet {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+            
+            .mobile-overlay-timesheet.show {
+                display: block;
+            }
+        }
+        
+        /* Hamburger Menu */
+        .hamburger-menu {
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .timesheet-item {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            
+            .timesheet-item > div {
+                width: 100%;
+            }
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,10 +116,20 @@
         <div class="main-content">
             <div class="page-content custom-page-content">
                 <div class="custom-container">
+                    <!-- Mobile Overlay -->
+                    <div class="mobile-overlay-timesheet" id="mobile-overlay-timesheet"></div>
+                    
                     <div class="flex h-screen overflow-hidden">
                         <!-- Sidebar -->
-                        <aside id="sidebar" class="w-72 bg-white border-r border-gray-200 overflow-y-auto">
+                        <aside id="employee-sidebar-timesheet" class="w-72 bg-white border-r border-gray-200 overflow-y-auto">
                             <div class="p-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h2 class="text-lg font-semibold text-gray-800">Team Members</h2>
+                                    <!-- Close button for mobile -->
+                                    <button class="md:hidden text-gray-600 hover:text-gray-800" id="close-sidebar-timesheet">
+                                        <i class="fa-solid fa-times text-xl"></i>
+                                    </button>
+                                </div>
                                 <div class="relative">
                                     <input type="text" id="member-search" placeholder="Search members..." class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                                     <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
@@ -144,21 +216,27 @@
                         <!-- Main Content -->
                         <div id="main-content" class="flex-1 overflow-y-auto">
                             <!-- Filter Bar -->
-                            <div id="filter-bar" class="bg-white border-b border-gray-200 p-4">
-                                <div class="flex flex-wrap items-center justify-between gap-4">
-                                    <div class="flex flex-wrap items-center gap-3">
-                                        <div class="relative">
-                                            <select id="status-filter" class="appearance-none bg-white border border-gray-300 rounded-md pl-10 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-w-[180px]">
+                            <div id="filter-bar" class="bg-white border-b border-gray-200 p-3 md:p-4">
+                                <div class="flex flex-wrap items-center justify-between gap-3 md:gap-4">
+                                    <div class="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
+                                        <!-- Hamburger Menu for Mobile -->
+                                        <button class="md:hidden hamburger-menu" id="toggle-sidebar-timesheet">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </button>
+                                        <div class="relative flex-1 md:flex-none">
+                                            <select id="status-filter" class="appearance-none bg-white border border-gray-300 rounded-md pl-8 md:pl-10 pr-8 py-2 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full md:min-w-[180px]">
                                                 <option value="all">All Status</option>
                                                 <option value="pending">Pending</option>
                                                 <option value="approved">Approved</option>
                                             </select>
-                                            <i class="fa-solid fa-filter absolute left-3 top-2.5 text-gray-400"></i>
+                                            <i class="fa-solid fa-filter absolute left-2 md:left-3 top-2.5 text-gray-400 text-xs md:text-sm"></i>
                                             <i class="fa-solid fa-chevron-down absolute right-3 top-2.5 text-gray-400 text-xs"></i>
                                         </div>
-                                        <div class="relative">
-                                            <button class="flex items-center bg-white border border-gray-300 rounded-md pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-w-[220px]">
-                                                <span>
+                                        <div class="relative flex-1 md:flex-none">
+                                            <button class="flex items-center bg-white border border-gray-300 rounded-md pl-8 md:pl-10 pr-3 py-2 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full md:min-w-[220px]">
+                                                <span class="truncate">
                                                     <?php 
                                                     echo isset($start_date) && isset($end_date) 
                                                         ? htmlspecialchars(date('D d M', strtotime($start_date)) . ' - ' . date('D d M', strtotime($end_date))) 
@@ -169,8 +247,8 @@
                                             </button>
                                             <i class="fa-solid fa-calendar-days absolute left-3 top-2.5 text-gray-400"></i>
                                         </div>
-                                        <div class="relative">
-                                            <select id="prep-area-filter" class="appearance-none bg-white border border-gray-300 rounded-md pl-10 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-w-[200px]">
+                                        <div class="relative flex-1 md:flex-none">
+                                            <select id="prep-area-filter" class="appearance-none bg-white border border-gray-300 rounded-md pl-8 md:pl-10 pr-8 py-2 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full md:min-w-[200px]">
                                                 <option value="all">All Preps</option>
                                                 <?php if (isset($prepAreaLists) && !empty($prepAreaLists)) { ?>
                                                     <?php foreach ($prepAreaLists as $prepAreaList) { ?>
@@ -180,21 +258,23 @@
                                                     <?php } ?>
                                                 <?php } ?>
                                             </select>
-                                            <i class="fa-solid fa-layer-group absolute left-3 top-2.5 text-gray-400"></i>
+                                            <i class="fa-solid fa-layer-group absolute left-2 md:left-3 top-2.5 text-gray-400 text-xs md:text-sm"></i>
                                             <i class="fa-solid fa-chevron-down absolute right-3 top-2.5 text-gray-400 text-xs"></i>
                                         </div>
-                                        <button class="p-2 text-gray-500 hover:text-gray-700 border border-gray-300 rounded-md bg-white">
+                                        <button class="p-2 text-gray-500 hover:text-gray-700 border border-gray-300 rounded-md bg-white hidden md:block">
                                             <i class="fa-solid fa-sliders"></i>
                                         </button>
                                     </div>
-                                    <a href="/HR/timesheetWithoutRoster" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition">
-                                        <i class="fa-solid fa-arrow-left mr-2"></i>
-                                        Back
-                                    </a>
+                                    <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                                        <a href="/HR/timesheetWithoutRoster" class="px-2 md:px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs md:text-sm font-medium transition flex items-center justify-center flex-1 md:flex-none">
+                                            <i class="fa-solid fa-arrow-left mr-1 md:mr-2"></i>
+                                            <span class="hidden sm:inline">Back</span>
+                                        </a>
                                
-<a href="<?php echo base_url('HR/timesheet/exportTimesheetExcel/' . $start_date . '/' . $end_date); ?>" class="px-3 py-1.5 bg-green-100 border border-green-300 rounded-lg text-green-700 text-sm hover:bg-green-700">
-<i class="fa-solid fa-file-excel mr-1"></i> Export Excel
-</a>
+                                        <a href="<?php echo base_url('HR/timesheet/exportTimesheetExcel/' . $start_date . '/' . $end_date); ?>" class="inline-flex items-center justify-center px-2 md:px-3 py-1.5 md:py-2 bg-green-100 border border-green-300 rounded-lg text-green-700 text-xs md:text-sm hover:bg-green-200 flex-1 md:flex-none">
+                                            <i class="fa-solid fa-file-excel mr-1"></i> <span class="hidden sm:inline">Export </span>Excel
+                                        </a>
+                                    </div>
 
 
                                 </div>
@@ -230,15 +310,15 @@
                             ?>
 
                             <!-- Timesheet Summary -->
-                            <div id="timesheet-summary">
+                            <div id="timesheet-summary" class="p-3 md:p-4">
                                 <div class="bg-white mb-2">
-                                    <div class="p-4">
+                                    <div class="p-3 md:p-4">
                                         <div class="flex flex-wrap items-center">
                                             <div>
-                                                <h2 class="text-lg font-medium text-gray-800 text-black">Timesheets Summary</h2>
+                                                <h2 class="text-base md:text-lg font-medium text-gray-800 text-black">Timesheets Summary</h2>
                                             </div>
                                             
-                                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 w-full">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-4 w-full">
                                                 <!-- Total Hours -->
                                                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-4">
                                                     <div class="bg-blue-500 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl">
@@ -343,9 +423,9 @@
                                             <?php if ($can_approve_timesheet): ?>
                                             <button onclick="event.stopPropagation(); approveEmployee(<?php echo htmlspecialchars($employee_id); ?>, '<?php echo isset($start_date) ? htmlspecialchars($start_date) : ''; ?>', '<?php echo isset($end_date) ? htmlspecialchars($end_date) : ''; ?>')" 
                                                     data-emp-id="<?php echo htmlspecialchars($employee_id); ?>" 
-                                                    class="bg-success text-white px-3 py-1 rounded-md text-sm flex items-center space-x-2 approve-btn">
+                                                    class="bg-success text-white px-2 md:px-3 py-1 md:py-1.5 rounded-md text-xs md:text-sm flex items-center space-x-1 md:space-x-2 approve-btn">
                                                 <i class="fa-solid fa-check"></i>
-                                                <span>Approve All</span>
+                                                <span class="hidden sm:inline">Approve </span><span>All</span>
                                             </button>
                                             <?php endif; ?>
                                             <?php endif; ?>
@@ -483,10 +563,10 @@
                                                     <?php if ($can_approve_timesheet): ?>
                                                     <button onclick="approveSingle(<?php echo isset($timesheet['timesheet_id']) ? htmlspecialchars($timesheet['timesheet_id']) : 0; ?>)" 
                                                             data-timesheet-id="<?php echo isset($timesheet['timesheet_id']) ? htmlspecialchars($timesheet['timesheet_id']) : 0; ?>"
-                                                            class="text-green-600 hover:text-green-800 p-1 single-approve-btn btn-md" 
+                                                            class="text-green-600 hover:text-green-800 px-2 md:px-3 py-1 single-approve-btn btn-md text-xs md:text-sm border border-green-300 rounded hover:bg-green-50" 
                                                             title="Approve timesheet">
-                                                       <i class="fa-solid fa-clipboard-check"></i>
-                                                       Approve
+                                                       <i class="fa-solid fa-clipboard-check mr-1"></i>
+                                                       <span class="hidden sm:inline">Approve</span>
 
                                                     </button>
                                                     <?php endif; ?>
@@ -872,6 +952,17 @@ function updateSummaryCounts() {
 }
 
         $(document).ready(function() {
+            // Mobile Sidebar Toggle
+            $('#toggle-sidebar-timesheet').on('click', function() {
+                $('#employee-sidebar-timesheet').addClass('show');
+                $('#mobile-overlay-timesheet').addClass('show');
+            });
+            
+            $('#close-sidebar-timesheet, #mobile-overlay-timesheet').on('click', function() {
+                $('#employee-sidebar-timesheet').removeClass('show');
+                $('#mobile-overlay-timesheet').removeClass('show');
+            });
+            
             // Employee search functionality
             $('#member-search').on('input', function() {
                 let searchTerm = $(this).val().toLowerCase().trim();

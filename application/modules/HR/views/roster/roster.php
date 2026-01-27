@@ -430,22 +430,22 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                     </button>
                     <button data-bs-toggle="modal" 
                             onclick="showRosterRecreateModal(<?php echo isset($rosterId) ? htmlspecialchars($rosterId) : 0; ?>)" 
-                            class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
-                        <i class="fa-solid fa-rotate mr-1"></i> Recreate
+                            class="px-2 md:px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-xs md:text-sm hover:bg-gray-50">
+                        <i class="fa-solid fa-rotate mr-1"></i> <span class="hidden sm:inline">Recreate</span>
                     </button>
-                    <button onclick="publishRoster('save')" class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-50">
-                        <i class="fa-regular fa-save mr-1"></i> Save
+                    <button onclick="publishRoster('save')" class="px-2 md:px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-xs md:text-sm hover:bg-gray-50">
+                        <i class="fa-regular fa-save mr-1"></i> <span class="hidden sm:inline">Save</span>
                     </button>
-                    <button onclick="publishRoster('publish')" class="px-3 py-1.5 bg-primary text-white rounded-lg text-sm hover:bg-primary/90">
-                        <i class="fa-solid fa-paper-plane mr-1"></i> Publish
+                    <button onclick="publishRoster('publish')" class="px-2 md:px-3 py-1.5 bg-primary text-white rounded-lg text-xs md:text-sm hover:bg-primary/90">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> <span class="hidden sm:inline">Publish</span>
                     </button>
                      <a href="<?php echo base_url('HR/roster/exportRosterPDF'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>"
-   class="inline-flex items-center px-3 py-1.5 bg-purple-100 border border-purple-300 rounded-lg text-purple-700 text-sm hover:bg-purple-200">
-    <i class="fa-solid fa-file-pdf mr-1"></i> Export PDF
+   class="inline-flex items-center px-2 md:px-3 py-1.5 bg-purple-100 border border-purple-300 rounded-lg text-purple-700 text-xs md:text-sm hover:bg-purple-200">
+    <i class="fa-solid fa-file-pdf mr-1"></i> <span class="hidden sm:inline">PDF</span>
 </a>
 
-<a href="<?php echo base_url('HR/roster/exportRosterExcel'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>" class="px-3 py-1.5 bg-green-100 border border-green-300 rounded-lg text-green-700 text-sm hover:bg-green-200">
-<i class="fa-solid fa-file-excel mr-1"></i> Export Excel
+<a href="<?php echo base_url('HR/roster/exportRosterExcel'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>" class="inline-flex items-center px-2 md:px-3 py-1.5 bg-green-100 border border-green-300 rounded-lg text-green-700 text-xs md:text-sm hover:bg-green-200">
+<i class="fa-solid fa-file-excel mr-1"></i> <span class="hidden sm:inline">Excel</span>
 </a>
 
 
