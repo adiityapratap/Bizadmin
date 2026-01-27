@@ -376,6 +376,9 @@ class Roster extends MY_Controller {
             ['roster_id' => $rosterId]
         );
 
+// log_message('info', 'New Roster Data: ' . json_encode($newRosterData));
+// log_message('info', 'Existing Details: ' . json_encode($existingDetails));
+
         // Create a lookup for new roster data
         $newRosterLookup = [];
         foreach ($newRosterData as $new) {
@@ -768,7 +771,7 @@ class Roster extends MY_Controller {
     $rosterDetailConditions = ['roster_id' => $rosterId,'is_deleted' => 0];
     $rosterDetails = $this->common_model->fetchRecordsDynamically('HR_roster_details', '', $rosterDetailConditions);
    
-    log_message('debug', 'Roster Details: ' . json_encode($rosterDetails));
+    // log_message('debug', 'Roster Details: ' . json_encode($rosterDetails));
 
     // Determine the week range
     $startDate = new DateTime($rosterInfo[0]['start_date']);

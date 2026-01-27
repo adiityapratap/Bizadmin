@@ -449,7 +449,7 @@ class Auth extends MY_Controller
 	public function forgot_password()
 	{
 		$this->data['title'] = $this->lang->line('forgot_password_heading');
-		
+		log_message('info', 'Forgot Password: Process started for identity from controller: ');
 		// setting validation rules by checking whether identity is username or email
 		if ($this->config->item('identity', 'ion_auth') != 'email')
 		{
