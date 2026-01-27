@@ -10,7 +10,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>::-webkit-scrollbar { display: none;}</style>
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .table-responsive table {
+                min-width: 800px;
+            }
+        }
+    </style>
     <style>
     h3, thead th{
         color:#1f2937 !important;
@@ -39,48 +53,48 @@
 
 
 <!-- Main Dashboard Content -->
-<main class="max-w-[1920px] mx-auto px-6 py-8 mt-5">
+<main class="max-w-[1920px] mx-auto px-3 md:px-6 py-4 md:py-8 mt-5">
      
     <!-- Quick Glance Cards Row -->
-    <section id="quick-glance-cards" class="grid grid-cols-4 gap-4 mb-6">
+    <section id="quick-glance-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
         
         <!-- Today's Birthdays -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition cursor-pointer">
+        <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 hover:shadow-md transition cursor-pointer">
             <div class="flex items-center justify-between mb-2">
-                <i class="fa-solid fa-cake-candles text-3xl text-purple-500"></i>
+                <i class="fa-solid fa-cake-candles text-2xl md:text-3xl text-purple-500"></i>
             </div>
-           <div class="text-3xl font-bold text-gray-800"> <?= count($birthdays_today) ?></div>
+           <div class="text-2xl md:text-3xl font-bold text-gray-800"> <?= count($birthdays_today) ?></div>
     
 
             <div class="text-xs text-gray-500 mt-1">Today's Birthdays</div>
         </div>
 
         <!-- Tasks Completed -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition cursor-pointer">
+        <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 hover:shadow-md transition cursor-pointer">
             <div class="flex items-center justify-between mb-2">
-                <i class="fa-solid fa-circle-check text-3xl text-green-500"></i>
+                <i class="fa-solid fa-circle-check text-2xl md:text-3xl text-green-500"></i>
             </div>
-            <div class="text-3xl font-bold text-gray-800"><?= $task_summary['completed_today'] ?></div>
+            <div class="text-2xl md:text-3xl font-bold text-gray-800"><?= $task_summary['completed_today'] ?></div>
             <div class="text-xs text-gray-500 mt-1">Tasks Completed</div>
         </div>
 
      
 
         <!-- Pending Timesheets -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition cursor-pointer">
+        <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 hover:shadow-md transition cursor-pointer">
             <div class="flex items-center justify-between mb-2">
-                <i class="fa-solid fa-clock text-3xl text-orange-500"></i>
+                <i class="fa-solid fa-clock text-2xl md:text-3xl text-orange-500"></i>
             </div>
-            <div class="text-3xl font-bold text-gray-800"><?= $employee_on_break_count ?> </div>
+            <div class="text-2xl md:text-3xl font-bold text-gray-800"><?= $employee_on_break_count ?> </div>
             <div class="text-xs text-gray-500 mt-1">Employee on break</div>
         </div>
 
         <!-- Pending Approvals -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition cursor-pointer border-2 border-red-500">
+        <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 hover:shadow-md transition cursor-pointer border-2 border-red-500">
             <div class="flex items-center justify-between mb-2">
-                <i class="fa-solid fa-file-circle-exclamation text-3xl text-red-500"></i>
+                <i class="fa-solid fa-file-circle-exclamation text-2xl md:text-3xl text-red-500"></i>
             </div>
-            <div class="text-3xl font-bold text-red-600"><?= count($pending_leaves) ?></div>
+            <div class="text-2xl md:text-3xl font-bold text-red-600"><?= count($pending_leaves) ?></div>
             <div class="text-xs text-gray-500 mt-1">Leaves Requests</div>
         </div>
 
@@ -91,19 +105,19 @@
     </section>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
         
         <!-- Left Column -->
-        <div id="left-column" class="col-span-3 space-y-6">
+        <div id="left-column" class="lg:col-span-3 space-y-4 md:space-y-6">
             
             <!-- Team Overview Card -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <div class="flex items-center justify-center mb-6">
-                    <div class="w-24 h-24 bg-gradient-to-br from-teal to-blue-500 rounded-full flex items-center justify-center">
-                        <i class="fa-solid fa-users text-white text-4xl"></i>
+            <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+                <div class="flex items-center justify-center mb-4 md:mb-6">
+                    <div class="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-teal to-blue-500 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-users text-white text-3xl md:text-4xl"></i>
                     </div>
                 </div>
-                <h3 class="text-lg font-bold text-gray-800 text-center mb-4">Cafe Staff Today's Status</h3>
+                <h3 class="text-base md:text-lg font-bold text-gray-800 text-center mb-4">Cafe Staff Today's Status</h3>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-gray-600">Total Members</span>
@@ -122,8 +136,8 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-    <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
+            <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+    <h3 class="text-base md:text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
 
     <div class="space-y-3">
 
@@ -158,11 +172,11 @@
         </div>
 
         <!-- Center Column -->
-        <div id="center-column" class="col-span-5 space-y-6">
+        <div id="center-column" class="lg:col-span-5 space-y-4 md:space-y-6">
             
             <!-- Team Feed -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">What's Happening</h3>
+            <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
+                <h3 class="text-base md:text-lg font-bold text-gray-800 mb-4">What's Happening</h3>
                <div class="space-y-4">
 <?php if(isset($incident_reports) && !empty($incident_reports)) {  ?>
     <?php foreach ($incident_reports as $inc): ?>
@@ -240,14 +254,14 @@
         </div>
 
         <!-- Right Column -->
-        <div id="right-column" class="col-span-4 space-y-6">
+        <div id="right-column" class="lg:col-span-4 space-y-4 md:space-y-6">
             
             <!-- Team Tasks Overview -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="bg-white rounded-xl shadow-sm p-4 md:p-6">
                
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-bold text-gray-800">Team Tasks Overview</h3>
-            <div class="text-sm text-gray-600">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
+            <h3 class="text-base md:text-lg font-bold text-gray-800">Team Tasks Overview</h3>
+            <div class="text-xs md:text-sm text-gray-600">
                 <a href="#attendance-timeline" class="font-bold text-green-600">View Today's Attendance</a>
             </div>
         </div>
@@ -272,14 +286,14 @@
     </div>
 
     <!-- Today's Team Attendance Timeline -->
-    <section id="attendance-timeline" class="mt-6 bg-white rounded-xl shadow-sm p-6 mb-6">
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-bold text-gray-800">Today's Team Attendance Timeline</h3>
-            <div class="text-sm text-gray-600">
+    <section id="attendance-timeline" class="mt-4 md:mt-6 bg-white rounded-xl shadow-sm p-4 md:p-6 mb-4 md:mb-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-2">
+            <h3 class="text-base md:text-lg font-bold text-gray-800">Today's Team Attendance Timeline</h3>
+            <div class="text-xs md:text-sm text-gray-600">
                 Total Team Hours: <span class="font-bold text-teal"><?= $total_team_hours ?>h</span>
             </div>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto table-responsive">
             <table class="w-full">
                 <thead>
                     <tr class="border-b border-gray-200">

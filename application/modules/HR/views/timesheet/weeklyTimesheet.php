@@ -400,20 +400,20 @@
                                     }
                                 ?>
                                 <div id="timesheet-group-<?php echo htmlspecialchars($employee_id); ?>" 
-                                     class="bg-white rounded-lg border border-gray-200 mb-6 overflow-hidden employee-group" 
+                                     class="bg-white rounded-lg border border-gray-200 mb-4 md:mb-6 overflow-hidden employee-group" 
                                      data-employee-id="<?php echo htmlspecialchars($employee_id); ?>" 
                                      data-employee-name="<?php echo htmlspecialchars(strtolower($employee_name)); ?>">
-                                    <div class="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200 cursor-pointer" 
+                                    <div class="flex items-center justify-between p-3 md:p-4 bg-gray-50 border-b border-gray-200 cursor-pointer" 
                                          onclick="toggleSection('timesheet-<?php echo htmlspecialchars($employee_id); ?>')">
-                                        <div class="flex items-center">
-                                            <div class="w-10 h-10 rounded-full <?php echo htmlspecialchars($avatar_color); ?> flex items-center justify-center text-white font-medium mr-3">
+                                        <div class="flex items-center flex-1 min-w-0">
+                                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full <?php echo htmlspecialchars($avatar_color); ?> flex items-center justify-center text-white font-medium mr-2 md:mr-3 flex-shrink-0">
                                                 <?php echo strtoupper(substr($employee_name, 0, 2)); ?>
                                             </div>
-                                            <div>
-                                                <h3 class="text-base font-medium text-gray-800 text-black">
+                                            <div class="min-w-0 flex-1">
+                                                <h3 class="text-sm md:text-base font-medium text-gray-800 text-black truncate">
                                                     <?php echo htmlspecialchars($employee_name . $employee_type); ?>
                                                 </h3>
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-xs md:text-sm text-gray-500 truncate">
                                                     <?php echo htmlspecialchars($timesheet_count); ?> timesheets, <?php echo htmlspecialchars($formatted_hours); ?> total
                                                 </p>
                                             </div>
