@@ -33,6 +33,54 @@
             cursor: pointer;
         }
         
+        /* Mobile Sidebar Styles */
+        #employee-sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            #employee-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            }
+            
+            #employee-sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+            
+            .mobile-overlay.show {
+                display: block;
+            }
+        }
+        
+        /* Mobile responsive grid */
+        @media (max-width: 640px) {
+            .schedule-grid-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .schedule-grid-content {
+                min-width: 800px;
+            }
+        }
+        
         /* Drag and Drop Styles */
         .employee-div {
             cursor: move;
@@ -95,6 +143,31 @@
             height: 36px;
         }
         
+        /* Hamburger Menu */
+        .hamburger-menu {
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .modal-dialog {
+                margin: 1rem;
+            }
+            
+            .modal-content {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        }
      
     </style>
     <script>
@@ -152,13 +225,21 @@
     <div id="loader-overlay">
     <div class="spinner"></div>
 </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+    
     <div class="flex h-screen overflow-hidden">
     <!-- Left Sidebar (Employee List) -->
     <div id="employee-sidebar" class="w-72 bg-white border-r border-gray-200 flex flex-col mt-3">
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg text-black font-semibold text-gray-800">Team Members</h2>
-                <span class="badge bg-primary text-white px-2 py-1 rounded-full">
+                <!-- Close button for mobile -->
+                <button class="md:hidden text-gray-600 hover:text-gray-800" id="close-sidebar">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+                <span class="badge bg-primary text-white px-2 py-1 rounded-full hidden md:inline">
                     <?php echo (isset($empLists) && is_array($empLists)) ? count($empLists) : 0; ?> members
                 </span>
             </div>
@@ -240,6 +321,12 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
             <div class="flex flex-col md:flex-row items-center justify-between gap-3">
                 <!-- Left Section -->
                 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <!-- Hamburger Menu for Mobile -->
+                    <button class="md:hidden hamburger-menu" id="toggle-sidebar">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </button>
                     <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
                         <button class="prevWeek px-2 py-1.5 text-gray-500 hover:bg-gray-100">
                             <i class="fa-solid fa-chevron-left"></i>
@@ -334,12 +421,12 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                     </div>
                 </div>
                 <!-- Right Section -->
-                <div class="flex items-center gap-2 w-full md:w-auto justify-center md:justify-end">
-                    <button onclick="window.location.href='/HR/roster'" class="px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-200">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-center md:justify-end">
+                    <button onclick="window.location.href='/HR/roster'" class="px-2 md:px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 text-xs md:text-sm hover:bg-gray-200">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> <span class="hidden sm:inline">Back</span>
                     </button>
-                    <button id="clearCopiedBtn" onclick="clearCopiedData()" class="px-3 py-1.5 bg-orange-100 border border-orange-300 rounded-lg text-orange-700 text-sm hover:bg-orange-200" style="display: none;">
-                        <i class="fa-solid fa-eraser mr-1"></i> Clear Copied
+                    <button id="clearCopiedBtn" onclick="clearCopiedData()" class="px-2 md:px-3 py-1.5 bg-orange-100 border border-orange-300 rounded-lg text-orange-700 text-xs md:text-sm hover:bg-orange-200" style="display: none;">
+                        <i class="fa-solid fa-eraser mr-1"></i> <span class="hidden sm:inline">Clear Copied</span>
                     </button>
                     <button data-bs-toggle="modal" 
                             onclick="showRosterRecreateModal(<?php echo isset($rosterId) ? htmlspecialchars($rosterId) : 0; ?>)" 
@@ -367,8 +454,10 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
         </header>
 
         <!-- Middle Body Section (Schedule Grid) -->
-        <div id="schedule-grid" class="flex-1 overflow-auto p-6">
+        <div id="schedule-grid" class="flex-1 overflow-auto p-3 md:p-6">
             <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="schedule-grid-wrapper">
+                    <div class="schedule-grid-content">
                 <!-- Table Header -->
                 <div class="grid grid-cols-8 border-b border-gray-200">
                     <div class="px-4 py-3 font-medium text-gray-500 text-sm bg-gray-50 border-r border-gray-200">Area</div>
@@ -440,6 +529,8 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                         </div>
                     <?php } ?>
                 <?php } ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -615,6 +706,19 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
     <script>
         // Global variable to store copied shift data
         var copiedShiftData = null;
+        
+        // Mobile Sidebar Toggle
+        $(document).ready(function() {
+            $('#toggle-sidebar').on('click', function() {
+                $('#employee-sidebar').addClass('show');
+                $('#mobile-overlay').addClass('show');
+            });
+            
+            $('#close-sidebar, #mobile-overlay').on('click', function() {
+                $('#employee-sidebar').removeClass('show');
+                $('#mobile-overlay').removeClass('show');
+            });
+        });
         
         document.addEventListener("DOMContentLoaded", function () {
             var addshift = new bootstrap.Modal(document.getElementById('addShift-modal'), {
@@ -1193,6 +1297,113 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                 }
             });
             
+            // Add touch event support for mobile drag and drop
+            function initTouchEvents() {
+                $('.employee-div').each(function() {
+                    var element = this;
+                    var startX, startY;
+                    var isDragging = false;
+                    var clone;
+                    
+                    // Remove existing listeners
+                    element.removeEventListener('touchstart', element._touchStartHandler);
+                    element.removeEventListener('touchmove', element._touchMoveHandler);
+                    element.removeEventListener('touchend', element._touchEndHandler);
+                    
+                    element._touchStartHandler = function(e) {
+                        var touch = e.touches[0];
+                        startX = touch.clientX;
+                        startY = touch.clientY;
+                        isDragging = false;
+                    };
+                    
+                    element._touchMoveHandler = function(e) {
+                        if (!isDragging) {
+                            var touch = e.touches[0];
+                            var diffX = Math.abs(touch.clientX - startX);
+                            var diffY = Math.abs(touch.clientY - startY);
+                            
+                            if (diffX > 10 || diffY > 10) {
+                                isDragging = true;
+                                
+                                // Create visual clone
+                                clone = $(element).clone();
+                                clone.css({
+                                    position: 'fixed',
+                                    zIndex: 9999,
+                                    opacity: 0.7,
+                                    pointerEvents: 'none',
+                                    width: $(element).width() + 'px'
+                                });
+                                $('body').append(clone);
+                                
+                                // Add dragging class
+                                $(element).addClass('dragging');
+                            }
+                        }
+                        
+                        if (isDragging && clone) {
+                            e.preventDefault();
+                            var touch = e.touches[0];
+                            clone.css({
+                                left: touch.clientX - (clone.width() / 2) + 'px',
+                                top: touch.clientY - 20 + 'px'
+                            });
+                            
+                            // Highlight drop zones
+                            $('.dragEmployeeBox').removeClass('drop-zone-hover');
+                            var elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
+                            var dropZone = $(elementAtPoint).closest('.dragEmployeeBox');
+                            if (dropZone.length) {
+                                dropZone.addClass('drop-zone-hover');
+                            }
+                        }
+                    };
+                    
+                    element._touchEndHandler = function(e) {
+                        if (isDragging && clone) {
+                            var touch = e.changedTouches[0];
+                            var elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
+                            var dropZone = $(elementAtPoint).closest('.dragEmployeeBox');
+                            
+                            if (dropZone.length) {
+                                // Trigger the drop logic
+                                var empId = $(element).find('.empId').val();
+                                var empName = $(element).find('.empName').val();
+                                var positionId = $(element).find('.position_id').val();
+                                var shiftBoxName = dropZone.data('shiftboxname');
+                                var shiftDate = dropZone.data('date');
+                                
+                                // Open the modal with pre-filled data
+                                $("#shift-start-date-tag").html(shiftDate);
+                                $("#shiftBoxName").val(shiftBoxName);
+                                $("#shift-location-tag").html(dropZone.data('preparea'));
+                                $("#empName-shift").val(empId).trigger('change');
+                                $("#empName-shift").prop('disabled', true);
+                                $(".btnUpdateShift").addClass('d-none');
+                                $(".btnAddShift").removeClass('d-none');
+                                
+                                var addshift = new bootstrap.Modal(document.getElementById('addShift-modal'));
+                                addshift.show();
+                            }
+                            
+                            // Cleanup
+                            clone.remove();
+                            $(element).removeClass('dragging');
+                            $('.dragEmployeeBox').removeClass('drop-zone-hover');
+                        }
+                        isDragging = false;
+                    };
+                    
+                    element.addEventListener('touchstart', element._touchStartHandler, {passive: true});
+                    element.addEventListener('touchmove', element._touchMoveHandler, {passive: false});
+                    element.addEventListener('touchend', element._touchEndHandler, {passive: true});
+                });
+            }
+            
+            // Initialize touch events on page load
+            initTouchEvents();
+            
             // Re-initialize draggable when employees are filtered
             $('.filterEmployeeLeftPanel').on('input', function() {
                 setTimeout(function() {
@@ -1230,6 +1441,9 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                             $('.dragEmployeeBox').removeClass('drop-zone-active');
                         }
                     });
+                    
+                    // Re-initialize touch events for filtered employees
+                    initTouchEvents();
                 }, 100);
             });
             
