@@ -101,7 +101,11 @@ if (!empty($records)) {
 		    
 		}
 		
-		public function get_allEquipForDash(){
+		public function get_allEquipForDash($site_id=''){
+		    $siteFilter = '';
+		    if($site_id != ''){
+		        $siteFilter = " AND TEMP_prepArea.site_id = ".$site_id;
+		    }
 		    $query = $this->tenantDb->query("SELECT 
     TEMP_eqipment.*, 
     TEMP_prepArea.site_id, 
@@ -117,6 +121,7 @@ WHERE
     TEMP_eqipment.is_deleted = 0
     AND TEMP_eqipment.location_id = ".$this->selected_location_id."
     AND TEMP_eqipment.status = 1
+    ".$siteFilter."
     AND (
         (TEMP_eqipment.schedule_at = 0)
         OR (
@@ -241,6 +246,87 @@ ORDER BY TEMP_eqipment.sort_order ASC;");
         $this->tenantDb->insert('TEMP_record_tempHistory', $data);     
        }
 	    
+	}
+	
+	public function batchTempHistoryUpdate($batchData){
+	    if(empty($batchData)){
+	        return 0;
+	    }
+	    
+	    // Start transaction for better performance
+	    $this->tenantDb->trans_start();
+	    
+	    $updateCount = 0;
+	    
+	    // Collect unique keys to check existing records in one query
+	    $checkConditions = array();
+	    foreach($batchData as $data){
+	        $checkConditions[] = "(equip_id = '".$this->tenantDb->escape_str($data['equip_id'])."' AND date_entered = '".$this->tenantDb->escape_str($data['date_entered'])."')";
+	    }
+	    
+	    // Get all existing records in one query
+	    $existingRecords = array();
+	    if(!empty($checkConditions)){
+	        $whereClause = implode(' OR ', $checkConditions);
+	        $query = $this->tenantDb->query("SELECT equip_id, date_entered FROM TEMP_record_tempHistory WHERE ".$whereClause);
+	        foreach($query->result_array() as $row){
+	            $key = $row['equip_id'].'_'.$row['date_entered'];
+	            $existingRecords[$key] = true;
+	        }
+	    }
+	    
+	    // Separate data into updates and inserts
+	    $updateData = array();
+	    $insertData = array();
+	    
+	    foreach($batchData as $data){
+	        $key = $data['equip_id'].'_'.$data['date_entered'];
+	        if(isset($existingRecords[$key])){
+	            $updateData[] = $data;
+	        } else {
+	            $insertData[] = $data;
+	        }
+	    }
+	    
+	    // Batch insert new records
+	    if(!empty($insertData)){
+	        $this->tenantDb->insert_batch('TEMP_record_tempHistory', $insertData);
+	        $updateCount += count($insertData);
+	    }
+	    
+	    // Batch update existing records using single query with CASE
+	    if(!empty($updateData)){
+	        $caseTempStatements = array();
+	        $whereConditions = array();
+	        
+	        foreach($updateData as $data){
+	            $equipId = $this->tenantDb->escape_str($data['equip_id']);
+	            $dateEntered = $this->tenantDb->escape_str($data['date_entered']);
+	            $temp = $this->tenantDb->escape_str($data['equip_temp']);
+	            
+	            $caseTempStatements[] = "WHEN equip_id = '".$equipId."' AND date_entered = '".$dateEntered."' THEN '".$temp."'";
+	            $whereConditions[] = "(equip_id = '".$equipId."' AND date_entered = '".$dateEntered."')";
+	        }
+	        
+	        if(!empty($caseTempStatements)){
+	            $caseTemp = "CASE ".implode(" ", $caseTempStatements)." END";
+	            $whereClause = implode(" OR ", $whereConditions);
+	            
+	            $updateQuery = "UPDATE TEMP_record_tempHistory 
+	                           SET equip_temp = ".$caseTemp.",
+	                               is_completed = 1,
+	                               equip_IsTempok = 'ok'
+	                           WHERE ".$whereClause;
+	            
+	            $this->tenantDb->query($updateQuery);
+	            $updateCount += count($updateData);
+	        }
+	    }
+	    
+	    // Complete transaction
+	    $this->tenantDb->trans_complete();
+	    
+	    return $updateCount;
 	}
     		
 	public function updateTempForTodays($equip_id='',$data,$attachmentCall=FALSE){

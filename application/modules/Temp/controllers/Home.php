@@ -155,7 +155,7 @@ error_reporting(E_ALL);
     $data['dateRange'] = $dateRange;
     $data['site_id'] = $site_id;  
     
-       $data['EquipListForDash'] = $this->temp_model->get_allEquipForDash(); 
+       $data['EquipListForDash'] = $this->temp_model->get_allEquipForDash($site_id); 
        $data['weeklyTempData'] = $this->temp_model->fetchTempViewHistoryData($fromDate,$toDate,$site_id);
     //   echo "<pre>"; print_r($data['weeklyTempData']); exit;
     
@@ -258,28 +258,50 @@ error_reporting(E_ALL);
     
     function tempHistoryUpdate(){
    
+     // Disable CodeIgniter's output class
+     $this->output->set_header('Content-Type: application/json');
+     $this->output->set_status_header(200);
+     
+     $updateCount = 0;
+     $batchData = array();
+     
      if(!empty($_POST)){
+       // Collect all data first
        foreach($_POST as $siteprepAndrecordID => $updatedTempData){
-         if($siteprepAndrecordID !='dateRange' && $siteprepAndrecordID !='site_id'){  
+         if($siteprepAndrecordID !='dateRange' && $siteprepAndrecordID !='site_id' && strpos($siteprepAndrecordID, 'csrf') === false){  
          $updatedTempDataString = explode('_', $siteprepAndrecordID);  
          $siteId = $updatedTempDataString[1] ? $updatedTempDataString[1] :'';  
          $prepId = $updatedTempDataString[2] ? $updatedTempDataString[2] : ''; 
          $equipId = $updatedTempDataString[3] ? $updatedTempDataString[3] : ''; 
          $dateToInsertUpdate = $updatedTempDataString[4] ? $updatedTempDataString[4] : ''; 
          
-         if($siteId !='' && $prepId !='' && $equipId !='' && $dateToInsertUpdate !=''){
-          $data['equip_temp'] = $updatedTempData; $data['is_completed'] = 1; $data['equip_IsTempok'] = 'ok'; $data['location_id'] = $this->selected_location_id;
-          $data['site_id'] = $siteId; $data['prep_id'] = $prepId; $data['equip_id'] = $equipId; $data['date_entered'] = $dateToInsertUpdate;
-          $this->temp_model->tempHistoryUpdate($data);    
+         if($siteId !='' && $prepId !='' && $equipId !='' && $dateToInsertUpdate !='' && $updatedTempData !=''){
+          $batchData[] = array(
+            'equip_temp' => $updatedTempData,
+            'is_completed' => 1,
+            'equip_IsTempok' => 'ok',
+            'location_id' => $this->selected_location_id,
+            'site_id' => $siteId,
+            'prep_id' => $prepId,
+            'equip_id' => $equipId,
+            'date_entered' => $dateToInsertUpdate
+          );
          }
          
          }
        }  
+       
+       // Batch update all at once
+       if(!empty($batchData)){
+         $updateCount = $this->temp_model->batchTempHistoryUpdate($batchData);
+       }
      }
 
-     $dateRange = $_POST['dateRange']; $siteId = $_POST['site_id'];
-     $encodedDateRange = urlencode($dateRange);
-    redirect('/Temp/home/historyData/'.$encodedDateRange.'/'.$siteId);    
+     // Use CodeIgniter's output method
+     $response = array('status' => 'success', 'message' => 'Updated '.$updateCount.' records successfully');
+     $this->output
+         ->set_content_type('application/json')
+         ->set_output(json_encode($response));
    } 
    
     public function save_signature()
