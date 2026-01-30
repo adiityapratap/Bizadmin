@@ -190,6 +190,22 @@
                 </tr>
             <?php } ?>
         <?php } ?>
+        
+        <!-- Add empty row for new entries at the end -->
+        <tr class="emptyRow parentRow" data-date-entered="<?php echo $dateToFind; ?>">
+            <td><input type="text" name="productName" value="" class="form-control productName"><input type="hidden" class="foodType" value="1"></td>
+            <td><input type="time" name="entered_time" value="" class="form-control entered_time"></td>
+            <td><input type="text" name="currentTemp" value="" class="form-control currentTemp"></td>
+            <td></td>
+            <td><input type="text" name="enteredBy" value="" class="form-control enteredBy"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="addNewRow(this)">+</button>
+                <button class="btn btn-sm btn-success" onclick="completeThisRow(this,<?php echo $prep_area->id; ?>,<?php echo $AllSites['id'] ?>,'<?php echo $dateToFind ?>')">Save</button>
+            </td>
+        </tr>
     </tbody>
 <?php }  ?>
     <?php  } ?>
@@ -364,15 +380,26 @@ function completeThisRow(obj,prepId,siteId,date_entered){
   }
   let foodName = $(obj).parents(".parentRow").find(".productName").val()
   let food_temp = $(obj).parents(".parentRow").find(".currentTemp").val();
-  let foodType = $(obj).parents(".parentRow").find(".foodType").val()
+  
+  // Try to find foodType - might be in same row or in sibling hidden input
+  let foodTypeElement = $(obj).parents(".parentRow").find(".foodType");
+  if(foodTypeElement.length === 0) {
+    // Check if there's a hidden input after this row
+    foodTypeElement = $(obj).parents(".parentRow").siblings("input.foodType");
+  }
+  let foodType = foodTypeElement.val() || '1'; // Default to 1 (Hot Food)
  
   let enteredBy = $(obj).parents(".parentRow").find(".enteredBy").val()
   let food_IsTempok = 'ok';
  
-  // 1 = hot food 2 = cold food 
-
+  // Validate required fields
+  if(!foodName || !food_temp || !enteredBy) {
+    alert('Please fill in all required fields: Food Name, Temperature, and Entered By');
+    return;
+  }
   
   $(obj).html('Saving...');
+  $(obj).prop('disabled', true);
   
    let data = [
         {
@@ -400,18 +427,33 @@ function completeThisRow(obj,prepId,siteId,date_entered){
             success: function (response) {
               console.log('Response:', response);
               if(response.status === 'success') {
+                // Clear the input fields for next entry
+                $(obj).parents(".parentRow").find(".productName").val('');
+                $(obj).parents(".parentRow").find(".currentTemp").val('');
+                $(obj).parents(".parentRow").find(".enteredBy").val('');
+                $(obj).parents(".parentRow").find(".entered_time").val('');
+                
+                // Show success message
                 $(obj).html('✓ Saved');
-                $(obj).removeClass('btn-secondary').addClass('btn-success');
-                $(obj).prop('disabled', true);
+                $(obj).removeClass('btn-success').addClass('btn-success');
+                
+                // Re-enable button after 1 second and reset text
+                setTimeout(function() {
+                  $(obj).html('Save');
+                  $(obj).prop('disabled', false);
+                }, 1000);
+                
               } else {
-                $(obj).html('Error');
+                $(obj).html('Save');
+                $(obj).prop('disabled', false);
                 alert('Error saving data');
               }
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', error);
                 console.error('Response:', xhr.responseText);
-                $(obj).html('Error');
+                $(obj).html('Save');
+                $(obj).prop('disabled', false);
                 alert('Error saving data: ' + error);
             }
         });
