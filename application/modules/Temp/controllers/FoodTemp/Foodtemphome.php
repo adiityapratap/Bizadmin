@@ -114,8 +114,11 @@ class Foodtemphome extends MY_Controller {
     
     // echo "<pre>"; print_r($tempData); exit;
    
-    $this->foodtemp_model->recordFoodTempForTodays($tempData); 
+    $result = $this->foodtemp_model->recordFoodTempForTodays($tempData); 
     $this->session->unset_userdata('tempAttachment');
+    
+    // Return JSON response
+    echo json_encode(['status' => 'success', 'message' => 'Data saved successfully']);
           
     }
     public function updateExceededTemp(){
@@ -246,10 +249,16 @@ class Foodtemphome extends MY_Controller {
     }
     
     $tempData['location_id'] = $this->selected_location_id;
-    $tempData['date_entered'] = date("Y-m-d");
+    // Keep original date_entered if provided, otherwise use today
+    if(!isset($tempData['date_entered']) || empty($tempData['date_entered'])){
+        $tempData['date_entered'] = date("Y-m-d");
+    }
     $tempData['is_completed'] = 1;
  
-    $this->foodtemp_model->updateExceededTemp($tempData['id'],$tempData);  
+    $result = $this->foodtemp_model->updateExceededTemp($tempData['id'],$tempData);
+    
+    // Return JSON response
+    echo json_encode(['status' => 'success', 'message' => 'Data updated successfully']);
     }
    public function save_signature()
    {

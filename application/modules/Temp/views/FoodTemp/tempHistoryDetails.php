@@ -152,7 +152,7 @@
         </th>
         <?php foreach ($weeklyTempData as $foodTempData) { ?>
             <?php if ($foodTempData['prep_id'] == $prep_area->id && $foodTempData['site_id'] == $AllSites['id'] && $foodTempData['date_entered'] == $dateToFind) { ?>
-                <tr class="parentRow">
+                <tr class="parentRow" data-date-entered="<?php echo $foodTempData['date_entered']; ?>">
                     <td>
                         <input type="text" name="foodName[]" value="<?php echo htmlspecialchars($foodTempData['foodName'] ?? ''); ?>" class="form-control productName">
                     </td>
@@ -184,7 +184,6 @@
                     
                      <td>
                 <button class="btn btn-sm btn-primary" onclick="addNewRow(this)">+</button>
-                <button class="btn btn-sm btn-secondary" onclick="completeThisRow(this,<?php echo $prep_area->id; ?>,<?php echo $AllSites['id'] ?>)">Save new row</button>
                 <button class="btn btn-sm btn-success" onclick="updateThisRow(this,<?php echo $foodTempData['id']; ?>)">Update</button>
                 
             </td>
@@ -311,22 +310,33 @@
 
                             <script>
                             
-                            function addNewRow(button) {
-        const row = button.closest('tr');
-        const newRow = row.cloneNode(true);
+function getCurrentTime() {
+    let now = new Date();
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    return hours + ':' + minutes;
+}
 
-        // Clear input fields in the new row
-        newRow.querySelectorAll('input').forEach(input => input.value = '');
+function addNewRow(button) {
+    const row = button.closest('tr');
+    const newRow = row.cloneNode(true);
 
-        // Append the new row after the current one
-        row.parentNode.appendChild(newRow);
-    }
+    // Clear input fields in the new row
+    newRow.querySelectorAll('input').forEach(input => input.value = '');
+    
+    // Clear select fields in the new row
+    newRow.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
 
-    function saveRow(button) {
-        // Logic to save the data via AJAX or form submission
-        alert('Save functionality not implemented');
-    }
-                           $(document).ready(function() {
+    // Append the new row after the current one
+    row.parentNode.appendChild(newRow);
+}
+
+function saveRow(button) {
+    // Logic to save the data via AJAX or form submission
+    alert('Save functionality not implemented');
+}
+
+$(document).ready(function() {
     
     $('.custom-toggle').on('click', function() {
       
@@ -381,15 +391,26 @@ function completeThisRow(obj,prepId,siteId,date_entered){
             type: 'POST',
             url: '/Temp/FoodTemp/Foodtemphome/saveTempDashboardData',
             data: formData,
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-              $(obj).html('Saved');
+              console.log('Response:', response);
+              if(response.status === 'success') {
+                $(obj).html('✓ Saved');
+                $(obj).removeClass('btn-secondary').addClass('btn-success');
+                $(obj).prop('disabled', true);
+              } else {
+                $(obj).html('Error');
+                alert('Error saving data');
+              }
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                console.error('AJAX Error:', error);
+                console.error('Response:', xhr.responseText);
+                $(obj).html('Error');
+                alert('Error saving data: ' + error);
             }
-        }); 
-  
-  console.log("currentTime",currentTime);
+        });
  } 
  
  function updateThisRow(obj,rowid){
@@ -399,6 +420,7 @@ function completeThisRow(obj,prepId,siteId,date_entered){
   let food_temp = $(obj).parents(".parentRow").find(".currentTemp").val();
   let foodType = $(obj).parents(".parentRow").find(".foodType").val()
   let enteredBy = $(obj).parents(".parentRow").find(".enteredBy").val()
+  let date_entered = $(obj).parents(".parentRow").attr("data-date-entered")
   let food_IsTempok = 'ok';
   // 1 = hot food 2 = cold food 
 
@@ -414,6 +436,7 @@ function completeThisRow(obj,prepId,siteId,date_entered){
         entered_time : entered_time,
         food_temp: food_temp,
         entered_by: enteredBy,
+        date_entered: date_entered,
         
     },
 ];
@@ -424,15 +447,25 @@ function completeThisRow(obj,prepId,siteId,date_entered){
             type: 'POST',
             url: '/Temp/FoodTemp/Foodtemphome/tempHistoryUpdatePastrecords',
             data: formData,
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-              $(obj).html('Saved');
+              console.log('Response:', response);
+              if(response.status === 'success') {
+                $(obj).html('✓ Updated');
+                $(obj).removeClass('btn-success').addClass('btn-success');
+              } else {
+                $(obj).html('Error');
+                alert('Error updating data');
+              }
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                console.error('AJAX Error:', error);
+                console.error('Response:', xhr.responseText);
+                $(obj).html('Error');
+                alert('Error updating data: ' + error);
             }
         }); 
-  
-  console.log("currentTime",currentTime);
  } 
 
  

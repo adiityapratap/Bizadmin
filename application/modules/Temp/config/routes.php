@@ -67,6 +67,7 @@ $route['index'] = 'Home/index';
   $route['Temp/configureFoodTempsubmit']= 'Config/configureAddUpdateFoodTemp';
    $route['Temp/configureChillingTempsubmit']= 'Config/configureAddUpdateChillingTemp';
   $route['Temp/home/tempHistoryFormUpdate'] = 'Home/tempHistoryUpdate';
+  $route['Temp/home/equipTempHistoryUpdate'] = 'Home/tempHistoryUpdate';
   $route['Temp/home/historyData/(:any)/(:any)'] = 'Home/historyData/$1/$2';
   
   

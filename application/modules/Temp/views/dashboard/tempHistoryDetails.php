@@ -13,6 +13,15 @@
 
 </style>
 
+<!--preloader-->
+<div id="preloader" style="display:none;">
+    <div id="status">
+        <div class="spinner-border text-primary avatar-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid mb-5" style="margin-top: 130px !important;">
    <div class="row">
        
@@ -35,10 +44,11 @@
                                                   <a href="/Temp/home/tempHistory" class="btn bg-orange waves-effect btn-label waves-light">
                                                       <i class="ri-reply-fill label-icon align-middle fs-16 me-2">
                                                   </i><span>Back</span></a>  
-                                                <a href="#" class="btn btn-success waves-effect btn-label waves-light mx-2" onclick="updateTempHistoryForm()">
-                                                      <i class="ri-save-fill label-icon align-middle fs-16 me-2">
-                                                      
-                                                  </i><span>Update</span></a>   
+                                                <button type="button" class="btn btn-success waves-effect btn-label waves-light mx-2" onclick="updateTempHistoryForm()">
+                                                      <i class="ri-save-fill label-icon align-middle fs-16 me-2"></i>
+                                                      <span id="updateBtnText">Update</span>
+                                                      <span class="spinner-border spinner-border-sm d-none" id="updateBtnLoader" role="status" aria-hidden="true"></span>
+                                                  </button>   
                                                     
                                 </div><!-- end card header -->
                                 
@@ -231,7 +241,7 @@
                                         
                                         
      <!------------------------------------------------TABLE FOR TEMP VIEW --------------------------------------------------------------------------- -->
-                                        <form id="tempHistoryForm" action="/Temp/home/tempHistoryFormUpdate" method="post">
+                                        <form id="tempHistoryForm" action="/Temp/home/tempHistoryUpdate" method="post">
                                             <input type="hidden" name="dateRange" value="<?php echo $dateRange ?>">
                                              <input type="hidden" name="site_id" value="<?php echo $site_id ?>">
                                         <table class="table table-borderless table-hover table-nowrap align-middle mb-0 table-bordered tempViewT">
@@ -310,8 +320,81 @@ function showAttachment(equipID){
    $("#attachmentEquipModal_"+equipID).modal('show');
    
 }
+
 function updateTempHistoryForm(){
-    $("#tempHistoryForm").submit();
+    // Show preloader
+    $('#preloader').show();
+    
+    // Show button loader
+    $('#updateBtnText').addClass('d-none');
+    $('#updateBtnLoader').removeClass('d-none');
+    
+    // Get form data
+    var formData = $("#tempHistoryForm").serialize();
+    
+    // Submit via AJAX with modified settings
+    $.ajax({
+        type: 'POST',
+        url: '/Temp/home/equipTempHistoryUpdate',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        processData: true,
+        statusCode: {
+            303: function(xhr) {
+                // Handle 303 redirect - try to parse the response anyway
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    $('#preloader').hide();
+                    $('#updateBtnText').removeClass('d-none');
+                    $('#updateBtnLoader').addClass('d-none');
+                    alert(response.message);
+                } catch(e) {
+                    console.error('Could not parse 303 response');
+                }
+            }
+        },
+        success: function(response) {
+            // Hide preloader
+            $('#preloader').hide();
+            
+            // Reset button
+            $('#updateBtnText').removeClass('d-none');
+            $('#updateBtnLoader').addClass('d-none');
+            
+            if(response.status === 'success') {
+                // Show success message
+                alert(response.message);
+            } else {
+                alert('Error: ' + (response.message || 'Update failed'));
+            }
+        },
+        error: function(xhr, status, error) {
+            // Hide preloader
+            $('#preloader').hide();
+            
+            // Reset button
+            $('#updateBtnText').removeClass('d-none');
+            $('#updateBtnLoader').addClass('d-none');
+            
+            console.error('AJAX Error:', error);
+            console.error('Status:', xhr.status);
+            console.error('Response:', xhr.responseText);
+            
+            // Try to parse response as JSON even on error
+            try {
+                var jsonResponse = JSON.parse(xhr.responseText);
+                if(jsonResponse.status === 'success') {
+                    alert(jsonResponse.message);
+                    return;
+                }
+            } catch(e) {
+                // Not JSON
+            }
+            
+            alert('Error updating temperatures. Status: ' + xhr.status);
+        }
+    });
 }
                            
 //                           // JavaScript to make the table header fixed while scrolling
