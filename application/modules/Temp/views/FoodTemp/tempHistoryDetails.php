@@ -226,7 +226,7 @@
         <tr class="emptyRow parentRow">
             <td><input type="text" name="productName" value="" class="form-control productName"></td>
             <td><select class="form-select foodType" name="foodType" ><option value="1">Hot Food </option>  <option value="2">Cold Food </option>   </select>   </td> 
-             <td><input type="time" name="entered_time" value="" class="form-control"></td>
+             <td><input type="time" name="entered_time" value="" class="form-control entered_time"></td>
             <td><input type="text" name="currentTemp" value="" class="form-control currentTemp"></td>
             <td><input type="text" name="enteredBy" value="" class="form-control enteredBy"></td>
             <td>
@@ -357,7 +357,11 @@ function updateTempHistoryForm(){
 
 
 function completeThisRow(obj,prepId,siteId,date_entered){
-  let currentTime = getCurrentTime();     
+  let entered_time = $(obj).parents(".parentRow").find(".entered_time").val();
+  // If no time entered, use current time
+  if(!entered_time) {
+    entered_time = getCurrentTime();
+  }
   let foodName = $(obj).parents(".parentRow").find(".productName").val()
   let food_temp = $(obj).parents(".parentRow").find(".currentTemp").val();
   let foodType = $(obj).parents(".parentRow").find(".foodType").val()
@@ -375,7 +379,7 @@ function completeThisRow(obj,prepId,siteId,date_entered){
         foodName: foodName,
         foodType: foodType,
         food_IsTempok: food_IsTempok,
-        entered_time : currentTime,
+        entered_time : entered_time,
         site_id: siteId,
         prep_id: prepId,
         food_temp: food_temp,
