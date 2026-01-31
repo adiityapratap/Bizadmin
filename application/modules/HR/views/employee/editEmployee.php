@@ -230,8 +230,8 @@
                                     </form>
                                 </div>
 
-                                <div class="tab-pane fade mx-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                                    <button type="button" class="btn btn-sm shadow-none show" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <div class="tab-pane fade mx-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+    <button type="button" class="btn btn-sm shadow-none show" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <span class="d-flex align-items-center">
             <img class="rounded-circle header-profile-user" src="/theme-assets/images/users/avatar-1.jpg" alt="Header Avatar">
             <span class="text-start ms-xl-2">
@@ -1320,6 +1320,103 @@
                                     </div>
                                 </div><!--  end col -->
 
+                                <!-- Unavailability Tab -->
+                                <div class="tab-pane fade" id="v-pills-unavailability" role="tabpanel" aria-labelledby="v-pills-unavailability-tab">
+                                    <?php
+                                    $savedWeekly = [];
+                                    if (!empty($availability) && isset($availability[0]['weekly_json'])) {
+                                        $savedWeekly = json_decode($availability[0]['weekly_json'], true);
+                                    }
+                                    $sameHours = (isset($availability[0]) && isset($availability[0]['same_hours'])) ? $availability[0]['same_hours'] : 0;
+                                    
+                                    $days = [
+                                        "mon" => "Monday",
+                                        "tue" => "Tuesday",
+                                        "wed" => "Wednesday",
+                                        "thu" => "Thursday",
+                                        "fri" => "Friday",
+                                        "sat" => "Saturday",
+                                        "sun" => "Sunday",
+                                    ];
+                                    ?>
+                                    
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="mb-4 text-black fw-bold">My Availability</h5>
+                                            
+                                            <form id="availabilityForm">
+                                                <input type="hidden" name="emp_id" value="<?= $employee['emp_id'] ?? '' ?>">
+
+                                                <!-- SAME HOURS SWITCH -->
+                                                <div class="form-check form-switch mb-4">
+                                                    <input class="form-check-input" type="checkbox" id="sameHours" name="same_hours"
+                                                           <?= $sameHours ? "checked" : "" ?>>
+                                                    <label class="form-check-label fw-semibold">Same hours for all days</label>
+                                                </div>
+
+                                                <!-- SAME HOURS BLOCK -->
+                                                <div id="sameHoursBlock" class="<?= $sameHours ? '' : 'd-none' ?> mb-4">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Start Time</label>
+                                                            <input type="text" class="form-control timepicker"
+                                                                   id="same_start" name="same_start"
+                                                                   value="<?= $sameHours ? ($savedWeekly['mon']['start'] ?? '') : '' ?>">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">End Time</label>
+                                                            <input type="text" class="form-control timepicker"
+                                                                   id="same_end" name="same_end"
+                                                                   value="<?= $sameHours ? ($savedWeekly['mon']['end'] ?? '') : '' ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- DAY WISE TABLE -->
+                                                <div id="daysBlock" class="<?= $sameHours ? 'd-none' : '' ?>">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered align-middle">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>Day</th>
+                                                                    <th width="200">Start Time</th>
+                                                                    <th width="200">End Time</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php foreach ($days as $key => $label): ?>
+                                                                <tr>
+                                                                    <td class="fw-semibold"><?= $label ?></td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control timepicker"
+                                                                            name="weekly[<?= $key ?>][start]"
+                                                                            value="<?= $savedWeekly[$key]['start'] ?? '' ?>">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control timepicker"
+                                                                            name="weekly[<?= $key ?>][end]"
+                                                                            value="<?= $savedWeekly[$key]['end'] ?? '' ?>">
+                                                                    </td>
+                                                                </tr>
+                                                                <?php endforeach; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SAVE BUTTON -->
+                                                <div class="mt-4">
+                                                    <button type="submit" id="saveAvailabilityBtn" class="btn btn-primary">
+                                                        <i class="fas fa-save me-1"></i>
+                                                        <span class="btn-text">Save Availability</span>
+                                                        <span class="spinner-border spinner-border-sm d-none ms-1" id="availabilityLoader"></span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1380,8 +1477,10 @@
                             </div>
                         </div>
                     </div>
+              
+               
                 </div>
-                <?php $this->load->view('general/unavailabilityCanvas'); ?>
+               
                 <script>
 
 
@@ -1999,8 +2098,8 @@
                             }
 
                             // Button loader
-                            $("#saveBtn").prop("disabled", true);
-                            $("#btnLoader").removeClass("d-none");
+                            $("#saveAvailabilityBtn").prop("disabled", true);
+                            $("#availabilityLoader").removeClass("d-none");
                             $(".btn-text").text("Saving...");
 
                             $.ajax({
@@ -2009,15 +2108,19 @@
                                 data: $(this).serialize(),
                                 dataType: "json",
                                 success: function(res) {
-                                    $("#saveBtn").prop("disabled", false);
-                                    $("#btnLoader").addClass("d-none");
+                                    $("#saveAvailabilityBtn").prop("disabled", false);
+                                    $("#availabilityLoader").addClass("d-none");
                                     $(".btn-text").text("Save Availability");
 
-                                    alert(res.message);
+                                    if (res.status === "success") {
+                                        alert("Availability updated successfully");
+                                    } else {
+                                        alert(res.message || "Error updating availability");
+                                    }
                                 },
                                 error: function() {
-                                    $("#saveBtn").prop("disabled", false);
-                                    $("#btnLoader").addClass("d-none");
+                                    $("#saveAvailabilityBtn").prop("disabled", false);
+                                    $("#availabilityLoader").addClass("d-none");
                                     $(".btn-text").text("Save Availability");
                                     alert("Something went wrong.");
                                 }

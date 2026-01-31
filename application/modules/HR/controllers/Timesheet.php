@@ -245,6 +245,207 @@ public function exportTimesheetExcel($start_date, $end_date)
     exit;
 }
 
+// Export timesheet in TX format (TXT file with CSV format)
+public function exportTimesheetTX($start_date, $end_date)
+{
+    ini_set('memory_limit', '512M');
+    
+    // Get all dates in the range
+    $start = new DateTime($start_date);
+    $end = new DateTime($end_date);
+    $interval = new DateInterval('P1D');
+    $dateRange = new DatePeriod($start, $interval, $end->modify('+1 day'));
+    
+    $allDates = [];
+    foreach ($dateRange as $date) {
+        $allDates[] = $date->format('Y-m-d');
+    }
+    
+    // Fetch all employees who have timesheets in this range (both approved and non-approved)
+    $this->tenantDb->distinct()
+        ->select('e.emp_id, e.first_name, e.last_name, e.employee_type, pos.position_name')
+        ->from('HR_timesheet_details td')
+        ->join('HR_employee e', 'td.employee_id = e.emp_id', 'inner')
+        ->join('HR_emp_position pos', 'td.position_id = pos.position_id', 'left')
+        ->where('td.roster_date >=', $start_date)
+        ->where('td.roster_date <=', $end_date)
+        ->where('td.location_id', $this->location_id)
+        ->where('td.is_deleted', 0)
+        ->order_by('e.first_name', 'ASC')
+        ->order_by('e.last_name', 'ASC');
+    
+    $employees = $this->tenantDb->get()->result_array();
+    
+    if (empty($employees)) {
+        show_error('No timesheet data found');
+        return;
+    }
+    
+    // Fetch all timesheets (approved only)
+    $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id, true);
+    
+    // Organize timesheets by employee and date
+    $timesheetsByEmpDate = [];
+    foreach ($timesheets as $ts) {
+        if ($ts['approval_status'] === 'approved') {
+            $empId = $ts['employee_id'];
+            $date = $ts['roster_date'];
+            $timesheetsByEmpDate[$empId][$date] = $ts;
+        }
+    }
+    
+    // Process each employee for all dates
+    $output_rows = [];
+    
+    foreach ($employees as $employee) {
+        $empId = $employee['emp_id'];
+        $firstName = $employee['first_name'];
+        $lastName = $employee['last_name'];
+        $position = $employee['position_name'] ?? '';
+        
+        // Determine weekend category based on employee position
+        $weekendCategory = 'Intro Weekend';
+        if (stripos($position, '16') !== false) {
+            $weekendCategory = '16 Yrs Intro Weekend';
+        } elseif (stripos($position, '19') !== false) {
+            $weekendCategory = '19 Yrs Intro Weekend';
+        } elseif (stripos($position, 'Level 2') !== false || stripos($position, 'level 2') !== false) {
+            $weekendCategory = 'Level 2 Weekends';
+        }
+        
+        // Process each date
+        foreach ($allDates as $dateStr) {
+            $formattedDate = date('d/m/Y', strtotime($dateStr));
+            $dayOfWeek = date('N', strtotime($dateStr)); // 1=Mon, 7=Sun
+            $isWeekend = ($dayOfWeek >= 6);
+            
+            // Check if employee worked this day
+            if (isset($timesheetsByEmpDate[$empId][$dateStr])) {
+                $ts = $timesheetsByEmpDate[$empId][$dateStr];
+                
+                // Calculate worked hours
+                $clockIn = strtotime($ts['clock_in_time']);
+                $clockOut = strtotime($ts['clock_out_time']);
+                
+                if ($clockIn && $clockOut) {
+                    $workedSeconds = $clockOut - $clockIn;
+                    
+                    // Get break duration - convert TIME format to minutes
+                    $breakMinutes = 0;
+                    if (!empty($ts['total_break_duration'])) {
+                        $breakParts = explode(':', $ts['total_break_duration']);
+                        $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                    }
+                    
+                    $breakSeconds = $breakMinutes * 60;
+                    $netSeconds = max(0, $workedSeconds - $breakSeconds);
+                    $decimalHours = $netSeconds / 3600;
+                    
+                    // Check for early start (before 7 AM)
+                    $clockInHour = (int)date('H', $clockIn);
+                    $earlyStartHours = 0;
+                    $regularHours = $decimalHours;
+                    
+                    if ($clockInHour < 7 && !$isWeekend) {
+                        $sevenAM = strtotime(date('Y-m-d 07:00:00', $clockIn));
+                        if ($clockOut > $sevenAM) {
+                            $earlyStartSeconds = $sevenAM - $clockIn;
+                            $earlyStartHours = $earlyStartSeconds / 3600;
+                            $regularHours = ($netSeconds - $earlyStartSeconds) / 3600;
+                        } else {
+                            $earlyStartHours = $decimalHours;
+                            $regularHours = 0;
+                        }
+                    }
+                    
+                    // Add early start row if applicable
+                    if ($earlyStartHours > 0) {
+                        $output_rows[] = [
+                            $formattedDate,
+                            $firstName,
+                            $lastName,
+                            'Early Start',
+                            number_format($earlyStartHours, 2, '.', '')
+                        ];
+                    }
+                    
+                    // Add base/weekend hours row
+                    $category = $isWeekend ? $weekendCategory : 'Base Hourly';
+                    $output_rows[] = [
+                        $formattedDate,
+                        $firstName,
+                        $lastName,
+                        $category,
+                        number_format($regularHours, 2, '.', '')
+                    ];
+                } else {
+                    // No valid clock times - show 0 hours
+                    $category = $isWeekend ? $weekendCategory : 'Base Hourly';
+                    $output_rows[] = [
+                        $formattedDate,
+                        $firstName,
+                        $lastName,
+                        $category,
+                        '0'
+                    ];
+                }
+            } else {
+                // Employee didn't work this day - show 0 hours
+                $category = $isWeekend ? $weekendCategory : 'Base Hourly';
+                $output_rows[] = [
+                    $formattedDate,
+                    $firstName,
+                    $lastName,
+                    $category,
+                    '0'
+                ];
+            }
+        }
+        
+        // Add uniform allowance rows for all dates
+        foreach ($allDates as $dateStr) {
+            $formattedDate = date('d/m/Y', strtotime($dateStr));
+            
+            // Check if employee worked this day
+            $uniformAllowance = '0.00';
+            if (isset($timesheetsByEmpDate[$empId][$dateStr])) {
+                $ts = $timesheetsByEmpDate[$empId][$dateStr];
+                if (!empty($ts['clock_in_time']) && !empty($ts['clock_out_time'])) {
+                    $uniformAllowance = '1.00';
+                }
+            }
+            
+            $output_rows[] = [
+                $formattedDate,
+                $firstName,
+                $lastName,
+                'Uniform Allowance',
+                $uniformAllowance
+            ];
+        }
+    }
+    
+    // Generate TXT file with CSV format
+    $filename = "Approved_timesheet_data.txt";
+    
+    header('Content-Type: text/plain; charset=utf-8');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    header('Cache-Control: max-age=0');
+    
+    $output = fopen('php://output', 'w');
+    
+    // Write header
+    fputcsv($output, ['Date', 'First Name', 'Last Name', 'Payroll Category', 'Units']);
+    
+    // Write data rows
+    foreach ($output_rows as $row) {
+        fputcsv($output, $row);
+    }
+    
+    fclose($output);
+    exit;
+}
+
 // public function exportTimesheetExcel($start_date, $end_date)
 // {
 //     ini_set('display_errors', 1);

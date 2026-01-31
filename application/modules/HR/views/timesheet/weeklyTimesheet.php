@@ -276,6 +276,10 @@
                                         </a>
                                     </div>
 
+<a href="<?php echo base_url('HR/timesheet/exportTimesheetTX/' . $start_date . '/' . $end_date); ?>" class="px-3 py-1.5 bg-blue-100 border border-blue-300 rounded-lg text-blue-700 text-sm hover:bg-blue-700">
+<i class="fa-solid fa-download mr-1"></i> Download TX
+</a>
+
 
                                 </div>
                             </div>
