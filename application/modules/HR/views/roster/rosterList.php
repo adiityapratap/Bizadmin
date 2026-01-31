@@ -81,17 +81,20 @@ echo $from . ' to ' . $to;
                                                             <!--</div>-->
                                                             <!--</td>-->
 
-      <?php if(!isset($roleId) || $roleId != 4) { ?>
+      
      <td>
      <div class="d-flex gap-2">
-   
+         <a href="/HR/rosterView/<?php echo  $roster['roster_id']; ?>" class="btn btn-success btn-sm"> <i class="ri-eye-2-line align-bottom me-1"></i>View</a>
+   <?php if(!isset($roleId) || $roleId != 4) { ?>
     <button class="btn btn-orange btn-sm" data-bs-toggle="modal" onclick="showRosterRecreateModal(<?php echo $roster['roster_id'] ?>)"><i class=" ri-creative-commons-sa-fill align-bottom me-1"></i> Recreate</button>
-     <a href="/HR/rosterView/<?php echo  $roster['roster_id']; ?>" class="btn btn-success btn-sm"> <i class="ri-eye-2-line align-bottom me-1"></i>View</a>
+     
     <a class="btn btn-danger btn-sm remove-item-btn"  data-rel-id="<?php echo  $roster['roster_id']; ?>"><i class="ri-delete-bin-5-fill align-bottom me-1"></i> Delete</a>
+      <?php }  ?>
+   
     </div>
      </td>
 
-     <?php }  ?>
+  
                                                         </tr>
                                                         <?php } ?>
                                                           <?php } ?>
