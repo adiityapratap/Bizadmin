@@ -737,6 +737,11 @@ public function approve_single_timesheet() {
         $timesheetId = $this->input->post('timesheet_id');
         $employeeId = $this->input->post('employee_id');
         $action = $this->input->post('action');
+        
+        // Get location data if provided
+        $latitude = $this->input->post('latitude');
+        $longitude = $this->input->post('longitude');
+        $address = $this->input->post('address');
 
         if (!$employeeId || !$action) {
             echo json_encode(['status' => 'error', 'message' => 'Invalid input']);
@@ -770,6 +775,14 @@ public function approve_single_timesheet() {
                 'updated_at' => date('Y-m-d H:i:s'),
                 'location_id' => $this->location_id
             ];
+            
+            // Add location data for clock in
+            if ($latitude && $longitude) {
+                $timesheetData['clock_in_latitude'] = $latitude;
+                $timesheetData['clock_in_longitude'] = $longitude;
+                $timesheetData['clock_in_address'] = $address;
+            }
+            
             try {
                 $timesheetId = $this->common_model->commonRecordCreate('HR_timesheet_details', $timesheetData);
             } catch (Exception $e) {
@@ -790,6 +803,14 @@ public function approve_single_timesheet() {
             }
             $roundedClockIn = $this->roundClockTime(date('Y-m-d H:i:s'));
             $updateData['clock_in_time'] = $roundedClockIn;
+            
+            // Add location data for clock in
+            if ($latitude && $longitude) {
+                $updateData['clock_in_latitude'] = $latitude;
+                $updateData['clock_in_longitude'] = $longitude;
+                $updateData['clock_in_address'] = $address;
+            }
+            
             $responseData['clock_in_time'] = date('h:i A', strtotime($roundedClockIn));
             try {
                 $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, $updateData);
@@ -808,6 +829,14 @@ public function approve_single_timesheet() {
             $clockOutTime = $this->roundClockTime(date('Y-m-d H:i:s'));
            
 $updateData['clock_out_time'] = $clockOutTime;
+
+// Add location data for clock out
+if ($latitude && $longitude) {
+    $updateData['clock_out_latitude'] = $latitude;
+    $updateData['clock_out_longitude'] = $longitude;
+    $updateData['clock_out_address'] = $address;
+}
+
 $responseData['clock_out_time'] = date('h:i A', strtotime($clockOutTime));
 
 // Fetch the full timesheet row (for clock_in_time)

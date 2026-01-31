@@ -11,7 +11,7 @@ class Home extends MY_Controller {
 		$this->load->model('dashboard_model');
 		$this->load->model('general_model');
 		  $this->load->model('employee_model');
-	   $this->location_id = $this->session->userdata('location_id') ?? 0;
+	    $this->location_id = $this->session->userdata('location_id') ? $this->session->userdata('location_id') : ($this->session->userdata('User_location_ids') ? $this->session->userdata('User_location_ids')[0] : null);
 	    $user_id = $this->ion_auth->user()->row()->id;
         $empData = $this->common_model->fetchRecordsDynamically('HR_employee', ['emp_id','first_name','last_name'], ['userId'=>$user_id]);
         $this->empId = (isset($empData[0]['emp_id']) ? $empData[0]['emp_id'] : ''); // incase of superadmin  empId will be blank because we do not store superadmin info in employee table
@@ -114,6 +114,15 @@ public function index($system_id = '')
             ->getEmployeeTimesheets($empId) ?? [];
         $data['attendance'] = $this->attendanceTimeline($empId) ?? [];
         $data['empId'] = $empId;
+        
+        // Fetch leave types for leave request form
+        $leaveTypeConditions = ['status' => 1, 'is_deleted' => 0];
+        $data['leaveTypes'] = $this->common_model->fetchRecordsDynamically(
+            'HR_leaves', 
+            ['id', 'leaveTypeName', 'entitlements'], 
+            $leaveTypeConditions,
+            'leaveTypeName ASC'
+        ) ?? [];
     }
 
     // ---------- Manager Dashboard ----------
@@ -462,6 +471,83 @@ public function index($system_id = '')
         // $this->load->view('general/header');
         $this->load->view('TimesheetClockIn/clockin', $data);
         $this->load->view('general/footer');
+    }
+    
+    public function getTimesheetDetails()
+    {
+        // Validate inputs
+        $week_start = $this->input->post('week_start');
+        $week_end = $this->input->post('week_end');
+        $emp_id = $this->input->post('emp_id');
+        
+        if (empty($week_start) || empty($week_end) || empty($emp_id)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required parameters'
+            ]);
+            return;
+        }
+        
+        // Fetch detailed timesheet data
+       
+        $timesheetDetails = $this->timesheet_model->getDetailedTimesheetByDateRange($emp_id, $week_start, $week_end, $this->location_id);
+        
+        if (empty($timesheetDetails)) {
+            echo json_encode([
+                'success' => true,
+                'data' => [],
+                'message' => 'No timesheet records found for this period'
+            ]);
+            return;
+        }
+        
+        // Format the data for display
+        $formattedData = [];
+        foreach ($timesheetDetails as $detail) {
+            $clockIn = !empty($detail['clock_in_time']) ? date('h:i A', strtotime($detail['clock_in_time'])) : '--:--';
+            $clockOut = !empty($detail['clock_out_time']) ? date('h:i A', strtotime($detail['clock_out_time'])) : '--:--';
+            $date = date('M d, Y', strtotime($detail['roster_date']));
+            
+            // Calculate total hours
+            $totalSeconds = (int)$detail['total_seconds'];
+            $hours = floor($totalSeconds / 3600);
+            $minutes = floor(($totalSeconds % 3600) / 60);
+            $totalHours = sprintf('%dh %02dm', $hours, $minutes);
+            
+            // Get location/address
+            $location = !empty($detail['full_address']) ? $detail['full_address'] : 'N/A';
+            
+            // Get break info
+            $breakInfo = '';
+            if (!empty($detail['break_start']) && !empty($detail['break_end'])) {
+                $breakStart = date('h:i A', strtotime($detail['break_start']));
+                $breakEnd = date('h:i A', strtotime($detail['break_end']));
+                $breakDuration = !empty($detail['break_duration']) ? round($detail['break_duration'] / 60) . ' min' : '';
+                $breakInfo = "{$breakStart} - {$breakEnd} ({$breakDuration})";
+            } else {
+                $breakInfo = 'No break';
+            }
+            
+            // Status badge
+            $status = !empty($detail['clock_out_time']) ? 'Completed' : 'In Progress';
+            $statusClass = !empty($detail['clock_out_time']) ? 'success' : 'warning';
+            
+            $formattedData[] = [
+                'date' => $date,
+                'clock_in' => $clockIn,
+                'clock_out' => $clockOut,
+                'total_hours' => $totalHours,
+                'location' => $location,
+                'break_info' => $breakInfo,
+                'status' => $status,
+                'status_class' => $statusClass
+            ];
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'data' => $formattedData
+        ]);
     }
     
    
