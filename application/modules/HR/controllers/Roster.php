@@ -49,7 +49,23 @@ class Roster extends MY_Controller {
     ];
 
     // ---------- Employees ----------
-    $data['empLists'] = $this->employee_model->employeeList('', '', true) ?? [];
+    // Get current user's employee ID and role
+    $user_id = $this->ion_auth->user()->row()->id;
+    $empData = $this->common_model->fetchRecordsDynamically('HR_employee', ['emp_id'], ['userId'=>$user_id]);
+    $currentEmpId = (isset($empData[0]['emp_id']) ? $empData[0]['emp_id'] : '');
+    $data['roleId'] = $this->roleId;
+    $data['currentEmpId'] = $currentEmpId;
+    
+    // For employee role (4), only show their own data
+    if($this->roleId == 4 && !empty($currentEmpId)){
+        $data['empLists'] = $this->employee_model->employeeList('','',true) ?? [];
+        // Filter to only current employee
+        $data['empLists'] = array_filter($data['empLists'], function($emp) use ($currentEmpId) {
+            return isset($emp['emp_id']) && $emp['emp_id'] == $currentEmpId;
+        });
+    } else {
+        $data['empLists'] = $this->employee_model->employeeList('', '', true) ?? [];
+    }
    
 
     // ---------- Positions ----------
@@ -231,6 +247,7 @@ class Roster extends MY_Controller {
         $this->session->set_userdata('previous_url', current_url());
      $conditions = array('location_id' => $this->location_id, 'is_deleted' => '0','status'=> 1);
      $data['rosterList'] = $this->common_model->fetchRecordsDynamically('HR_roster','',$conditions);
+     $data['roleId'] = $this->roleId;
       $this->load->view('general/header');
 	  $this->load->view('roster/rosterList',$data);
 	  $this->load->view('general/footer');
@@ -645,15 +662,39 @@ class Roster extends MY_Controller {
   $data['rosterId'] = $roster_id;
   $data['weekRange'] = $this->input->get('weekRange') ?? '';
   $data['rosterStartDate'] = $this->input->get('rosterStartDate') ?? '';
-  $data['empLists'] =  $this->employee_model->employeeList('','',true);
+  
+  // Get current user's employee ID and role
+  $user_id = $this->ion_auth->user()->row()->id;
+  $empData = $this->common_model->fetchRecordsDynamically('HR_employee', ['emp_id'], ['userId'=>$user_id]);
+  $currentEmpId = (isset($empData[0]['emp_id']) ? $empData[0]['emp_id'] : '');
+  $data['roleId'] = $this->roleId;
+  $data['currentEmpId'] = $currentEmpId;
+  
+  // For employee role (4), only show their own data
+  if($this->roleId == 4 && !empty($currentEmpId)){
+      $data['empLists'] = $this->employee_model->employeeList('','',true);
+      // Filter to only current employee
+      $data['empLists'] = array_filter($data['empLists'], function($emp) use ($currentEmpId) {
+          return isset($emp['emp_id']) && $emp['emp_id'] == $currentEmpId;
+      });
+  } else {
+      $data['empLists'] =  $this->employee_model->employeeList('','',true);
+  }
+  
   $data['positionLists'] = $this->common_model->fetchRecordsDynamically('HR_emp_position','', ['is_deleted' => 0]);
   $data['prepAreas'] = $this->common_model->fetchRecordsDynamically('HR_prepArea','', ['is_deleted' => 0]);
 
   // Fetch roster info
   
   $data['rosterInfo'] = $this->common_model->fetchRecordsDynamically('HR_roster','', ['roster_id' => $roster_id]);
+  
   // Fetch roster details and format for localStorage
-  $rosterDetails = $this->common_model->fetchRecordsDynamically('HR_roster_details','', ['roster_id' => $roster_id,'is_deleted' => 0]);
+  // For employee role, only fetch their own shifts
+  $rosterConditions = ['roster_id' => $roster_id,'is_deleted' => 0];
+  if($this->roleId == 4 && !empty($currentEmpId)){
+      $rosterConditions['employee_id'] = $currentEmpId;
+  }
+  $rosterDetails = $this->common_model->fetchRecordsDynamically('HR_roster_details','', $rosterConditions);
  
   $allDayRosterData = [];
   foreach ($rosterDetails as $detail) {

@@ -423,9 +423,21 @@ $response = [
         }
         $posted_data = $this->input->post();
         
+        // Handle password update separately for Ion Auth
+        $password = $this->input->post('password');
+        if (!empty($password)) {
+            // Get the userId from employee record
+            $employee = $this->common_model->fetchRecordsDynamically('HR_employee', ['userId'], ['emp_id' => $empId]);
+            if (!empty($employee) && isset($employee[0]['userId'])) {
+                $userId = $employee[0]['userId'];
+                // Update password using Ion Auth
+                $this->ion_auth->update($userId, ['password' => $password]);
+            }
+        }
+        
         // NOTE :  please add new index in below array for fiels added to employee form to execulde , if its name not matching with hr_employee table column
         
-        $excludedValues = array('rate','Saturday_rate','Sunday_rate','holiday_rate','uniform_allowance','early_start','late_night','position_id','position_unique_id','positionIdToRemove','payroll_type_id','created_at');
+        $excludedValues = array('rate','Saturday_rate','Sunday_rate','holiday_rate','uniform_allowance','early_start','late_night','position_id','position_unique_id','positionIdToRemove','payroll_type_id','created_at','password');
         foreach($posted_data as $key=> $value){
         ($value !='' && !in_array($key,$excludedValues) ? $data_user[$key] = $value : '');   
         }

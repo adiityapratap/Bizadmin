@@ -597,6 +597,53 @@ public function getEmployeeTimesheets($empId)
         ->result_array();
 }
 
+/**
+ * Get detailed timesheet records for an employee within a date range
+ * Including clock in/out times, locations, break durations, and calculated hours
+ * 
+ * @param int $emp_id Employee ID
+ * @param string $start_date Start date (Y-m-d)
+ * @param string $end_date End date (Y-m-d)
+ * @param int $location_id Location ID
+ * @return array Array of timesheet records
+ */
+public function getDetailedTimesheetByDateRange($emp_id, $start_date, $end_date, $location_id) {
+    $this->tenantDb->select([
+        'HR_timesheet_details.timesheet_id',
+        'HR_timesheet_details.roster_date',
+        'HR_timesheet_details.clock_in_time',
+        'HR_timesheet_details.clock_out_time',
+        'HR_timesheet_details.clock_in_latitude',
+        'HR_timesheet_details.clock_in_longitude',
+        'HR_timesheet_details.clock_in_address',
+        'HR_timesheet_details.clock_out_latitude',
+        'HR_timesheet_details.clock_out_longitude',
+        'HR_timesheet_details.clock_out_address',
+        'HR_timesheet_details.actual_break_duration',
+        'HR_timesheet_details.approval_status',
+        'HR_prepArea.prep_name',
+        'HR_emp_position.position_name',
+        'TIMESTAMPDIFF(SECOND, HR_timesheet_details.clock_in_time, HR_timesheet_details.clock_out_time) as total_seconds',
+        'SUM(HR_timesheet_breaks.break_duration) as total_break_minutes'
+    ])
+    ->from('HR_timesheet_details')
+    ->join('HR_prepArea', 'HR_timesheet_details.prep_area_id = HR_prepArea.id', 'left')
+    ->join('HR_emp_position', 'HR_timesheet_details.position_id = HR_emp_position.position_id', 'left')
+    ->join('HR_timesheet_breaks', 'HR_timesheet_details.timesheet_id = HR_timesheet_breaks.timesheet_id AND HR_timesheet_breaks.is_deleted = 0', 'left')
+    ->where([
+        'HR_timesheet_details.employee_id' => $emp_id,
+        'HR_timesheet_details.location_id' => $location_id,
+        'HR_timesheet_details.is_deleted' => 0
+    ])
+    ->where('HR_timesheet_details.roster_date >=', $start_date)
+    ->where('HR_timesheet_details.roster_date <=', $end_date)
+    ->group_by('HR_timesheet_details.timesheet_id')
+    ->order_by('HR_timesheet_details.roster_date', 'ASC');
+
+    $query = $this->tenantDb->get();
+    return $query->result_array();
+}
+
 
 	
 }

@@ -1926,7 +1926,7 @@ if ($query->num_rows() > 0) {
 
 		$this->trigger_events('extra_where');
 		$this->tenantDb->update($this->tables['users'], $data, ['id' => $id]);
-		if($menuUpdate==false){
+		if($menuUpdate==false && isset($data['location_ids'])){
 			$this->updateUserLocations($id,$data);    
 		}
 	
@@ -1960,6 +1960,9 @@ if ($query->num_rows() > 0) {
     public function updateUserLocations($userId,$data) {
    
      // Retrieve the selected location IDs from the form submission
+      if(!isset($data['location_ids']) || empty($data['location_ids'])){
+          return;
+      }
       $selectedLocationIds = unserialize($data['location_ids']);
  
     // Retrieve the user's existing location associations from the database

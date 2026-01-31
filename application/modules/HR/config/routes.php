@@ -175,3 +175,6 @@ $route['HR/addTimesheetWithoutRoster'] = 'Timesheet/timesheetWithoutRoster'; // 
 
 $route['HR/leaveDashbaord'] = 'Leaves/leaveDashbaord';
 
+//timesheet details
+$route['HR/Home/getTimesheetDetails'] = 'Home/getTimesheetDetails';
+

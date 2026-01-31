@@ -231,6 +231,7 @@
     
     <div class="flex h-screen overflow-hidden">
     <!-- Left Sidebar (Employee List) -->
+    <?php if(!isset($roleId) || $roleId != 4) { ?>
     <div id="employee-sidebar" class="w-72 bg-white border-r border-gray-200 flex flex-col mt-3">
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center justify-between mb-4">
@@ -313,6 +314,7 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
             </ul>
         </div>
     </div>
+    <?php } ?>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden mt-3">
@@ -425,8 +427,9 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                     <button onclick="window.location.href='/HR/roster'" class="px-2 md:px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 text-xs md:text-sm hover:bg-gray-200">
                         <i class="fa-solid fa-arrow-left mr-1"></i> <span class="hidden sm:inline">Back</span>
                     </button>
-                    <button id="clearCopiedBtn" onclick="clearCopiedData()" class="px-2 md:px-3 py-1.5 bg-orange-100 border border-orange-300 rounded-lg text-orange-700 text-xs md:text-sm hover:bg-orange-200" style="display: none;">
-                        <i class="fa-solid fa-eraser mr-1"></i> <span class="hidden sm:inline">Clear Copied</span>
+                    <?php if(!isset($roleId) || $roleId != 4) { ?>
+                    <button id="clearCopiedBtn" onclick="clearCopiedData()" class="px-3 py-1.5 bg-orange-100 border border-orange-300 rounded-lg text-orange-700 text-sm hover:bg-orange-200" style="display: none;">
+                        <i class="fa-solid fa-eraser mr-1"></i> Clear Copied
                     </button>
                     <button data-bs-toggle="modal" 
                             onclick="showRosterRecreateModal(<?php echo isset($rosterId) ? htmlspecialchars($rosterId) : 0; ?>)" 
@@ -439,6 +442,7 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                     <button onclick="publishRoster('publish')" class="px-2 md:px-3 py-1.5 bg-primary text-white rounded-lg text-xs md:text-sm hover:bg-primary/90">
                         <i class="fa-solid fa-paper-plane mr-1"></i> <span class="hidden sm:inline">Publish</span>
                     </button>
+                    
                      <a href="<?php echo base_url('HR/roster/exportRosterPDF'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>"
    class="inline-flex items-center px-2 md:px-3 py-1.5 bg-purple-100 border border-purple-300 rounded-lg text-purple-700 text-xs md:text-sm hover:bg-purple-200">
     <i class="fa-solid fa-file-pdf mr-1"></i> <span class="hidden sm:inline">PDF</span>
@@ -448,7 +452,7 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
 <i class="fa-solid fa-file-excel mr-1"></i> <span class="hidden sm:inline">Excel</span>
 </a>
 
-
+<?php } ?>
                 </div>
             </div>
         </header>
@@ -1256,6 +1260,10 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
         
         // Drag and Drop Functionality
         $(document).ready(function() {
+            <?php if(isset($roleId) && $roleId == 4) { ?>
+            // Disable drag and drop for employee role
+            return;
+            <?php } ?>
             // Make employee divs draggable
             $(".employee-div").draggable({
                 helper: function() {

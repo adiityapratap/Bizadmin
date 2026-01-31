@@ -20,7 +20,7 @@
                                       
                                       <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 text-black">Rosters</h4>
-    
+    <?php if(!isset($roleId) || $roleId != 4) { ?>
                                     <div class="page-title-right">
                                         <div class="d-flex justify-content-sm-end">
                                          
@@ -30,7 +30,7 @@
                                             </div>
                                         </div>
                                     </div>
-    
+    <?php }  ?>
                                       </div>
                                       </div>
 
@@ -80,19 +80,25 @@ echo $from . ' to ' . $to;
                                                             <!--<input class="form-check-input toggle-demo" type="checkbox" role="switch" id="<?php echo  $roster['roster_id']; ?>" <?php if(isset($roster['status']) && $roster['status']  == '1'){ echo 'checked'; }?>>-->
                                                             <!--</div>-->
                                                             <!--</td>-->
-                                                            <td>
-                                                             <div class="d-flex gap-2">
+
+      <?php if(!isset($roleId) || $roleId != 4) { ?>
+     <td>
+     <div class="d-flex gap-2">
    
     <button class="btn btn-orange btn-sm" data-bs-toggle="modal" onclick="showRosterRecreateModal(<?php echo $roster['roster_id'] ?>)"><i class=" ri-creative-commons-sa-fill align-bottom me-1"></i> Recreate</button>
-                                                                    <a href="/HR/rosterView/<?php echo  $roster['roster_id']; ?>" class="btn btn-success btn-sm"> <i class="ri-eye-2-line align-bottom me-1"></i>View</a>
-                                                                   <a class="btn btn-danger btn-sm remove-item-btn"  data-rel-id="<?php echo  $roster['roster_id']; ?>"><i class="ri-delete-bin-5-fill align-bottom me-1"></i> Delete</a>
-                                                                </div>
-                                                            </td>
+     <a href="/HR/rosterView/<?php echo  $roster['roster_id']; ?>" class="btn btn-success btn-sm"> <i class="ri-eye-2-line align-bottom me-1"></i>View</a>
+    <a class="btn btn-danger btn-sm remove-item-btn"  data-rel-id="<?php echo  $roster['roster_id']; ?>"><i class="ri-delete-bin-5-fill align-bottom me-1"></i> Delete</a>
+    </div>
+     </td>
+
+     <?php }  ?>
                                                         </tr>
                                                         <?php } ?>
                                                           <?php } ?>
                                                     </tbody>
                                                 </table>
+
+
                                                 <div class="noresult" style="display: none">
                                                     <div class="text-center">
                                                         <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
@@ -117,7 +123,10 @@ echo $from . ' to ' . $to;
                 </div>
         </div>
         
-<div class="modal fade" id="recreateRosterModal" tabindex="-1" aria-labelledby="recreateRoster" style="display: none;" aria-hidden="true">
+
+
+
+        <div class="modal fade" id="recreateRosterModal" tabindex="-1" aria-labelledby="recreateRoster" style="display: none;" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -150,6 +159,7 @@ echo $from . ' to ' . $to;
         window.onload = function() {
     const keysToRemove = Object.keys(localStorage).filter(key => key.startsWith('emp_'));
     keysToRemove.forEach(key => localStorage.removeItem(key));
+
 };
 $(document).ready(function(){
     // Automatically close flash messages after 5 seconds

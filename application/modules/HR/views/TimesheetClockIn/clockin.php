@@ -348,10 +348,65 @@ function performClockAction(timesheetId, employeeId, button, action) {
     const originalContent = button.html();
     button.html('<i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading...').prop('disabled', true);
 
+    // Capture geolocation for clock in and clock out actions
+    if (action === 'clock_in' || action === 'clock_out') {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    
+                    // Reverse geocode to get address
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const address = data.display_name || 'Address not available';
+                            sendClockActionRequest(timesheetId, employeeId, action, button, originalContent, latitude, longitude, address);
+                        })
+                        .catch(error => {
+                            console.error('Error getting address:', error);
+                            sendClockActionRequest(timesheetId, employeeId, action, button, originalContent, latitude, longitude, 'Address not available');
+                        });
+                },
+                function(error) {
+                    console.error('Geolocation error:', error);
+                    alert('Unable to get your location. Please enable location services.');
+                    button.html(originalContent).prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser.');
+            button.html(originalContent).prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
+        }
+    } else {
+        // For break actions, no location needed
+        sendClockActionRequest(timesheetId, employeeId, action, button, originalContent);
+    }
+}
+
+function sendClockActionRequest(timesheetId, employeeId, action, button, originalContent, latitude = null, longitude = null, address = null) {
+    const requestData = { 
+        timesheet_id: timesheetId, 
+        employee_id: employeeId, 
+        action: action 
+    };
+    
+    // Add location data if available
+    if (latitude !== null && longitude !== null) {
+        requestData.latitude = latitude;
+        requestData.longitude = longitude;
+        requestData.address = address;
+    }
+
     $.ajax({
         url: '/HR/timesheet/clock_action',
         method: 'POST',
-        data: { timesheet_id: timesheetId, employee_id: employeeId, action: action },
+        data: requestData,
         dataType: 'json',
         success: function(response) {
             if (response.status === 'success') {
