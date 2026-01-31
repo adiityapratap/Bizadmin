@@ -1,5 +1,4 @@
 <!-- EMPLOYEE SIDE PANEL -->
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 <?php
 $savedWeekly = [];
 
@@ -22,8 +21,9 @@ $days = [
 ];
 ?>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="unavailabilityOffcanvas" aria-labelledby="unavailabilityOffcanvasLabel">
     <div class="offcanvas-header border-bottom">
-        <h5 class="mb-0 text-black">My Availability</h5>
+        <h5 class="mb-0 text-black" id="unavailabilityOffcanvasLabel">My Availability</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
     </div>
 
@@ -31,7 +31,7 @@ $days = [
 
         <form id="offcanvasAvailabilityForm">
 
-            <input type="hidden" name="emp_id" value="<?= $empId ?>">
+            <input type="hidden" name="emp_id" value="<?= $employee['emp_id'] ?? '' ?>">
 
             <!-- SAME HOURS SWITCH -->
             <div class="form-check form-switch mb-3">
@@ -99,7 +99,9 @@ $days = [
         </form>
 
     </div>
+
 </div>
+
 <script>
 $(function () {
 

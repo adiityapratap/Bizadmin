@@ -427,21 +427,18 @@ function completeThisRow(obj,prepId,siteId,date_entered){
             success: function (response) {
               console.log('Response:', response);
               if(response.status === 'success') {
-                // Clear the input fields for next entry
-                $(obj).parents(".parentRow").find(".productName").val('');
-                $(obj).parents(".parentRow").find(".currentTemp").val('');
-                $(obj).parents(".parentRow").find(".enteredBy").val('');
-                $(obj).parents(".parentRow").find(".entered_time").val('');
+                // Don't clear the fields - keep them visible so user can see what was saved
+                // Disable all inputs in this row to show it's saved
+                $(obj).parents(".parentRow").find("input").prop('readonly', true);
+                $(obj).parents(".parentRow").find("select").prop('disabled', true);
                 
-                // Show success message
+                // Change button to indicate saved status
                 $(obj).html('✓ Saved');
-                $(obj).removeClass('btn-success').addClass('btn-success');
+                $(obj).removeClass('btn-success').addClass('btn-info');
+                $(obj).prop('disabled', true);
                 
-                // Re-enable button after 1 second and reset text
-                setTimeout(function() {
-                  $(obj).html('Save');
-                  $(obj).prop('disabled', false);
-                }, 1000);
+                // Hide the + button since this row is now saved
+                $(obj).siblings('.btn-primary').hide();
                 
               } else {
                 $(obj).html('Save');
