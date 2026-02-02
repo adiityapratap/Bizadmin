@@ -292,42 +292,64 @@ public function exportTimesheetTX($start_date, $end_date)
     // Check accounting software format
     if ($accounting_software === 'reckon') {
         // RECKON FORMAT: employee name, date, total hours in decimals (hours worked - total break)
+        // Fetch all timesheets (approved only)
         $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id, true);
+        
+        // Organize timesheets by employee and date
+        $timesheetsByEmpDate = [];
+        foreach ($timesheets as $ts) {
+            if ($ts['approval_status'] === 'approved') {
+                $empId = $ts['employee_id'];
+                $date = $ts['roster_date'];
+                $timesheetsByEmpDate[$empId][$date] = $ts;
+            }
+        }
         
         $output_rows = [];
         
-        foreach ($timesheets as $ts) {
-            if ($ts['approval_status'] === 'approved') {
-                $clockIn = strtotime($ts['clock_in_time']);
-                $clockOut = strtotime($ts['clock_out_time']);
-                
-                if ($clockIn && $clockOut) {
-                    $workedSeconds = $clockOut - $clockIn;
+        // Process each employee for all dates (grouped by employee)
+        foreach ($employees as $employee) {
+            $empId = $employee['emp_id'];
+            $employeeName = trim($employee['first_name'] . ' ' . $employee['last_name']);
+            
+            // Process each date for this employee
+            foreach ($allDates as $dateStr) {
+                // Only add row if employee worked this day
+                if (isset($timesheetsByEmpDate[$empId][$dateStr])) {
+                    $ts = $timesheetsByEmpDate[$empId][$dateStr];
                     
-                    // Get break duration - convert TIME format to minutes
-                    $breakMinutes = 0;
-                    if (!empty($ts['total_break_duration'])) {
-                        $breakParts = explode(':', $ts['total_break_duration']);
-                        $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                    $clockIn = strtotime($ts['clock_in_time']);
+                    $clockOut = strtotime($ts['clock_out_time']);
+                    
+                    if ($clockIn && $clockOut) {
+                        // Calculate worked seconds
+                        $workedSeconds = $clockOut - $clockIn;
+                        
+                        // Get break duration - convert TIME format to minutes then seconds
+                        $breakMinutes = 0;
+                        if (!empty($ts['total_break_duration'])) {
+                            $breakParts = explode(':', $ts['total_break_duration']);
+                            $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                        }
+                        
+                        $breakSeconds = $breakMinutes * 60;
+                        $netSeconds = max(0, $workedSeconds - $breakSeconds);
+                        $decimalHours = round($netSeconds / 3600, 2);
+                        
+                        $formattedDate = date('d/m/Y', strtotime($dateStr));
+                        
+                        $output_rows[] = [
+                            $employeeName,
+                            $formattedDate,
+                            number_format($decimalHours, 2, '.', '')
+                        ];
                     }
-                    
-                    $breakSeconds = $breakMinutes * 60;
-                    $netSeconds = max(0, $workedSeconds - $breakSeconds);
-                    $decimalHours = round($netSeconds / 3600, 2);
-                    
-                    $formattedDate = date('d/m/Y', strtotime($ts['roster_date']));
-                    
-                    $output_rows[] = [
-                        $ts['employee_name'],
-                        $formattedDate,
-                        number_format($decimalHours, 2, '.', '')
-                    ];
                 }
             }
         }
         
         // Generate TXT file with Reckon format
-        $filename = "Reckon_timesheet_data.txt";
+        $filename = "Reckon_timesheet_{$start_date}_to_{$end_date}.txt";
         
         header('Content-Type: text/plain; charset=utf-8');
         header("Content-Disposition: attachment; filename=\"$filename\"");
@@ -361,7 +383,7 @@ public function exportTimesheetTX($start_date, $end_date)
         }
     }
     
-    // Process each employee for all dates
+    // Process each employee for all dates (grouped by employee)
     $output_rows = [];
     
     foreach ($employees as $employee) {
@@ -380,7 +402,7 @@ public function exportTimesheetTX($start_date, $end_date)
             $weekendCategory = 'Level 2 Weekends';
         }
         
-        // Process each date
+        // Process each date for this employee
         foreach ($allDates as $dateStr) {
             $formattedDate = date('d/m/Y', strtotime($dateStr));
             $dayOfWeek = date('N', strtotime($dateStr)); // 1=Mon, 7=Sun
@@ -397,7 +419,7 @@ public function exportTimesheetTX($start_date, $end_date)
                 if ($clockIn && $clockOut) {
                     $workedSeconds = $clockOut - $clockIn;
                     
-                    // Get break duration - convert TIME format to minutes
+                    // Get break duration - convert TIME format to minutes then seconds
                     $breakMinutes = 0;
                     if (!empty($ts['total_break_duration'])) {
                         $breakParts = explode(':', $ts['total_break_duration']);
@@ -436,64 +458,33 @@ public function exportTimesheetTX($start_date, $end_date)
                         ];
                     }
                     
-                    // Add base/weekend hours row
-                    $category = $isWeekend ? $weekendCategory : 'Base Hourly';
+                    // Add base/weekend hours row (only if regularHours > 0 or no early start)
+                    if ($regularHours > 0 || $earlyStartHours == 0) {
+                        $category = $isWeekend ? $weekendCategory : 'Base Hourly';
+                        $output_rows[] = [
+                            $formattedDate,
+                            $firstName,
+                            $lastName,
+                            $category,
+                            number_format($regularHours, 2, '.', '')
+                        ];
+                    }
+                    
+                    // Add uniform allowance for worked days
                     $output_rows[] = [
                         $formattedDate,
                         $firstName,
                         $lastName,
-                        $category,
-                        number_format($regularHours, 2, '.', '')
-                    ];
-                } else {
-                    // No valid clock times - show 0 hours
-                    $category = $isWeekend ? $weekendCategory : 'Base Hourly';
-                    $output_rows[] = [
-                        $formattedDate,
-                        $firstName,
-                        $lastName,
-                        $category,
-                        '0'
+                        'Uniform Allowance',
+                        '1.00'
                     ];
                 }
-            } else {
-                // Employee didn't work this day - show 0 hours
-                $category = $isWeekend ? $weekendCategory : 'Base Hourly';
-                $output_rows[] = [
-                    $formattedDate,
-                    $firstName,
-                    $lastName,
-                    $category,
-                    '0'
-                ];
             }
-        }
-        
-        // Add uniform allowance rows for all dates
-        foreach ($allDates as $dateStr) {
-            $formattedDate = date('d/m/Y', strtotime($dateStr));
-            
-            // Check if employee worked this day
-            $uniformAllowance = '0.00';
-            if (isset($timesheetsByEmpDate[$empId][$dateStr])) {
-                $ts = $timesheetsByEmpDate[$empId][$dateStr];
-                if (!empty($ts['clock_in_time']) && !empty($ts['clock_out_time'])) {
-                    $uniformAllowance = '1.00';
-                }
-            }
-            
-            $output_rows[] = [
-                $formattedDate,
-                $firstName,
-                $lastName,
-                'Uniform Allowance',
-                $uniformAllowance
-            ];
         }
     }
     
     // Generate TXT file with CSV format
-    $filename = "Approved_timesheet_data.txt";
+    $filename = "MYOB_timesheet_{$start_date}_to_{$end_date}.txt";
     
     header('Content-Type: text/plain; charset=utf-8');
     header("Content-Disposition: attachment; filename=\"$filename\"");
