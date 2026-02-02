@@ -44,7 +44,8 @@ if(isset($superConfig[0]['data']) && $superConfig[0]['data'] !='') {
     $data['superConfigData'] = [
         'super_percentage' => '12',
         'enable_tier_payroll' => '0',
-        'payroll_tax_rate' => '5.45'
+        'payroll_tax_rate' => '5.45',
+        'accounting_software' => 'myob'
     ];
 }     
        
@@ -296,12 +297,17 @@ public function saveSuperannuationSettings() {
         $super_percentage = $this->input->post('super_percentage');
         $enable_tier_payroll = $this->input->post('enable_tier_payroll') ? '1' : '0';
         $payroll_tax_rate = $this->input->post('payroll_tax_rate');
+        $accounting_software = $this->input->post('accounting_software');
         
         // Prepare data to save
         $data_to_save = [
             'super_percentage' => $super_percentage,
             'enable_tier_payroll' => $enable_tier_payroll,
             'payroll_tax_rate' => $payroll_tax_rate,
+            'accounting_software' => $accounting_software,
+            'public_holidays' => $this->input->post('public_holidays'),
+            'holiday_state' => $this->input->post('holiday_state'),
+            'holiday_year' => $this->input->post('holiday_year'),
             'updated_date' => date('Y-m-d H:i:s')
         ];
         

@@ -49,7 +49,7 @@ class Timesheet extends MY_Controller {
         }
         
         
-        $data['timesheets'] = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $conditions);
+        $data['timesheets'] = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $conditions, 'id DESC');
         // echo "<pre>"; print_r($data['timesheets']); exit;
         
         $this->load->view('general/header');
@@ -250,6 +250,14 @@ public function exportTimesheetTX($start_date, $end_date)
 {
     ini_set('memory_limit', '512M');
     
+    // Get accounting software setting
+    $superConfig = $this->common_model->fetchRecordsDynamically('HR_configuration', ['data'], ['location' => $this->location_id, 'configureFor' => 'superannuation']);
+    $accounting_software = 'myob'; // default
+    if(isset($superConfig[0]['data']) && $superConfig[0]['data'] !='') {
+        $superConfigData = json_decode($superConfig[0]['data'], true);
+        $accounting_software = isset($superConfigData['accounting_software']) ? $superConfigData['accounting_software'] : 'myob';
+    }
+    
     // Get all dates in the range
     $start = new DateTime($start_date);
     $end = new DateTime($end_date);
@@ -281,6 +289,65 @@ public function exportTimesheetTX($start_date, $end_date)
         return;
     }
     
+    // Check accounting software format
+    if ($accounting_software === 'reckon') {
+        // RECKON FORMAT: employee name, date, total hours in decimals (hours worked - total break)
+        $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id, true);
+        
+        $output_rows = [];
+        
+        foreach ($timesheets as $ts) {
+            if ($ts['approval_status'] === 'approved') {
+                $clockIn = strtotime($ts['clock_in_time']);
+                $clockOut = strtotime($ts['clock_out_time']);
+                
+                if ($clockIn && $clockOut) {
+                    $workedSeconds = $clockOut - $clockIn;
+                    
+                    // Get break duration - convert TIME format to minutes
+                    $breakMinutes = 0;
+                    if (!empty($ts['total_break_duration'])) {
+                        $breakParts = explode(':', $ts['total_break_duration']);
+                        $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                    }
+                    
+                    $breakSeconds = $breakMinutes * 60;
+                    $netSeconds = max(0, $workedSeconds - $breakSeconds);
+                    $decimalHours = round($netSeconds / 3600, 2);
+                    
+                    $formattedDate = date('d/m/Y', strtotime($ts['roster_date']));
+                    
+                    $output_rows[] = [
+                        $ts['employee_name'],
+                        $formattedDate,
+                        number_format($decimalHours, 2, '.', '')
+                    ];
+                }
+            }
+        }
+        
+        // Generate TXT file with Reckon format
+        $filename = "Reckon_timesheet_data.txt";
+        
+        header('Content-Type: text/plain; charset=utf-8');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Cache-Control: max-age=0');
+        
+        $output = fopen('php://output', 'w');
+        
+        // Write header
+        fputcsv($output, ['Employee Name', 'Date', 'Total Hours']);
+        
+        // Write data rows
+        foreach ($output_rows as $row) {
+            fputcsv($output, $row);
+        }
+        
+        fclose($output);
+        exit;
+    }
+    
+    // MYOB FORMAT (Original format)
     // Fetch all timesheets (approved only)
     $timesheets = $this->timesheet_model->get_timesheets_by_date_range($start_date, $end_date, $this->location_id, true);
     

@@ -412,6 +412,20 @@
                     <small class="text-muted">Standard payroll tax rate for your state/territory.</small>
                 </div>
 
+                <!-- Accounting Software Selection -->
+                <div class="mb-4">
+                    <label for="accounting_software" class="form-label fw-semibold">Choose Accounting Software</label>
+                    <select name="accounting_software" 
+                            id="accounting_software" 
+                            class="form-select" 
+                            required>
+                        <option value="myob" <?= isset($superConfigData['accounting_software']) && $superConfigData['accounting_software'] == 'myob' ? 'selected' : '' ?>>MYOB</option>
+                        <option value="reckon" <?= isset($superConfigData['accounting_software']) && $superConfigData['accounting_software'] == 'reckon' ? 'selected' : '' ?>>Reckon</option>
+                        <option value="xero" <?= isset($superConfigData['accounting_software']) && $superConfigData['accounting_software'] == 'xero' ? 'selected' : '' ?>>Xero</option>
+                    </select>
+                    <small class="text-muted">Select the accounting software to format timesheet exports accordingly.</small>
+                </div>
+
                
             </div>
             
