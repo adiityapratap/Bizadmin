@@ -387,11 +387,11 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                             <option value="2">Week by Team Member</option>
                         </select>
                     </div>
-                    <div class="relative flex-1 md:flex-none">
+                    <!-- <div class="relative flex-1 md:flex-none">
                         <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
                                class="w-full px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm" 
                                value="<?php echo (isset($rosterInfo[0]['rosterName']) && !empty($rosterInfo[0]['rosterName'])) ? htmlspecialchars($rosterInfo[0]['rosterName']) : ''; ?>">
-                    </div>
+                    </div> -->
                     
                     <div id="datePickerModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" style="display: none;" onclick="closeDatePickerOnOutsideClick(event)">
                         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" onclick="event.stopPropagation()">
@@ -439,15 +439,12 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                     <button onclick="publishRoster('publish')" class="px-2 md:px-3 py-1.5 bg-primary text-white rounded-lg text-xs md:text-sm hover:bg-primary/90">
                         <i class="fa-solid fa-paper-plane mr-1"></i> <span class="hidden sm:inline">Publish</span>
                     </button>
-                    
-                     <a href="<?php echo base_url('HR/roster/exportRosterPDF'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>"
-   class="inline-flex items-center px-2 md:px-3 py-1.5 bg-purple-100 border border-purple-300 rounded-lg text-purple-700 text-xs md:text-sm hover:bg-purple-200">
-    <i class="fa-solid fa-file-pdf mr-1"></i> <span class="hidden sm:inline">PDF</span>
-</a>
-
-<a href="<?php echo base_url('HR/roster/exportRosterExcel'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>" class="inline-flex items-center px-2 md:px-3 py-1.5 bg-green-100 border border-green-300 rounded-lg text-green-700 text-xs md:text-sm hover:bg-green-200">
-<i class="fa-solid fa-file-excel mr-1"></i> <span class="hidden sm:inline">Excel</span>
-</a>
+                    <a href="<?php echo base_url('HR/roster/exportRosterPDF'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>" class="inline-flex items-center px-2 md:px-3 py-1.5 bg-purple-100 border border-purple-300 rounded-lg text-purple-700 text-xs md:text-sm hover:bg-purple-200">
+                        <i class="fa-solid fa-file-pdf mr-1"></i> <span class="hidden sm:inline">PDF</span>
+                    </a>
+                    <a href="<?php echo base_url('HR/roster/exportRosterExcel'); ?>?roster_id=<?php echo isset($rosterId) ? (int)$rosterId : 0; ?>" class="inline-flex items-center px-2 md:px-3 py-1.5 bg-green-100 border border-green-300 rounded-lg text-green-700 text-xs md:text-sm hover:bg-green-200">
+                        <i class="fa-solid fa-file-excel mr-1"></i> <span class="hidden sm:inline">Excel</span>
+                    </a>
 
 <?php } ?>
                 </div>

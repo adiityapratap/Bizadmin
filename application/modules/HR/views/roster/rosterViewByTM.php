@@ -63,9 +63,9 @@
                             <i class="fa-solid fa-arrow-left mr-2"></i>Back
                         </a>
                         
-                        <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
+                        <!-- <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
                                class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm w-48"
-                               value="<?php echo isset($rosterInfo[0]['rosterName']) ? htmlspecialchars($rosterInfo[0]['rosterName']) : ''; ?>">
+                               value="<?php echo isset($rosterInfo[0]['rosterName']) ? htmlspecialchars($rosterInfo[0]['rosterName']) : ''; ?>"> -->
                         
                         <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
                             <button class="prevWeek px-2 py-1.5 text-gray-500 hover:bg-gray-200 rounded">
@@ -109,7 +109,7 @@
                         </div>
                     <?php } else { ?>
                         <div class="overflow-auto">
-                            <table class="w-full border-collapse" id="rosterTable">
+                            <table class="w-full border-collapse mb-5" id="rosterTable">
                                 <thead>
                                     <tr class="bg-gray-50 border-b border-gray-200">
                                         <th class="text-left px-4 py-3 text-sm font-semibold text-gray-700 sticky left-0 bg-gray-50 z-10" style="min-width: 180px;">
