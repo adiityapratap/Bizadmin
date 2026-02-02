@@ -424,6 +424,15 @@ public function index($system_id = '')
         $generalConfigData = json_decode($toggleConfig[0]['data'], true);
         $data['generalConfigData']['feature_toggle'] = isset($generalConfigData['value']) ? $generalConfigData['value'] : '0';
         }
+        
+        // Fetch location capture toggle setting
+        $conditionsLocationCapture = array('location' => $this->location_id, 'configureFor' => 'location_capture_toggle');
+        $toggleConfigLocationCapture = $this->common_model->fetchRecordsDynamically('HR_configuration', ['data'], $conditionsLocationCapture);
+        
+        if(isset($toggleConfigLocationCapture[0]['data']) && $toggleConfigLocationCapture[0]['data'] !='') {
+        $generalConfigDataLocationCapture = json_decode($toggleConfigLocationCapture[0]['data'], true);
+        $data['generalConfigData']['location_capture_toggle'] = isset($generalConfigDataLocationCapture['value']) ? $generalConfigDataLocationCapture['value'] : '0';
+        }
        
        
         // Configure SMTP settings

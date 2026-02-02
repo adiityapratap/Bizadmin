@@ -23,6 +23,7 @@ class Config extends MY_Controller {
        $conditionsMail = array('location' => $this->location_id, 'configureFor' => 'emails');
        $conditionsGeneralConfig = array('location' => $this->location_id, 'configureFor' => 'feature_toggle');
        $conditionsGeneralConfigTimesheetWORoster = array('location' => $this->location_id, 'configureFor' => 'timesheetWORoster_toggle');
+       $conditionsLocationCapture = array('location' => $this->location_id, 'configureFor' => 'location_capture_toggle');
        $conditionsSuperConfig = array('location' => $this->location_id, 'configureFor' => 'superannuation');
         
        $fields = ['data','metaData'];
@@ -59,6 +60,13 @@ if(isset($superConfig[0]['data']) && $superConfig[0]['data'] !='') {
         if(isset($toggleConfigTWOR[0]['data']) && $toggleConfigTWOR[0]['data'] !='') {
             $generalConfigDataTWOR = json_decode($toggleConfigTWOR[0]['data'], true);
             $data['generalConfigData']['timesheetWORoster_toggle'] = isset($generalConfigDataTWOR['value']) ? $generalConfigDataTWOR['value'] : '0';
+            
+        }
+        
+        $toggleConfigLocationCapture = $this->common_model->fetchRecordsDynamically('HR_configuration', ['data'], $conditionsLocationCapture);
+        if(isset($toggleConfigLocationCapture[0]['data']) && $toggleConfigLocationCapture[0]['data'] !='') {
+            $generalConfigDataLocationCapture = json_decode($toggleConfigLocationCapture[0]['data'], true);
+            $data['generalConfigData']['location_capture_toggle'] = isset($generalConfigDataLocationCapture['value']) ? $generalConfigDataLocationCapture['value'] : '0';
             
         }
         

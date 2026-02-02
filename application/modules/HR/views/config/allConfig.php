@@ -336,6 +336,20 @@
 </div>    
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>Enable location capture for timesheet clock in/out</br>
+                                                <small>If disabled employee location will not be captured during clock in/out actions</small>
+                                                </td>
+                                                <td>
+                                               <div class="form-check form-switch mb-3" dir="ltr">
+    <input type="checkbox" 
+           class="form-check-input config-toggle" 
+           id="customSwitchsizesm" 
+           data-config-key="location_capture_toggle" 
+           <?php echo (isset($generalConfigData['location_capture_toggle']) && $generalConfigData['location_capture_toggle'] === '1') ? 'checked' : ''; ?>>
+</div>    
+                                                </td>
+                                            </tr>
                                            
                                             </tbody>
                                             </table>

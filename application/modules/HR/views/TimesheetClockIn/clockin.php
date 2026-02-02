@@ -348,8 +348,11 @@ function performClockAction(timesheetId, employeeId, button, action) {
     const originalContent = button.html();
     button.html('<i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading...').prop('disabled', true);
 
-    // Capture geolocation for clock in and clock out actions
-    if (action === 'clock_in' || action === 'clock_out') {
+    // Check if location capture is enabled
+    const isLocationCaptureEnabled = <?php echo json_encode((isset($generalConfigData) && isset($generalConfigData['location_capture_toggle']) && $generalConfigData['location_capture_toggle'] === '1') ? true : false); ?>;
+
+    // Capture geolocation for clock in and clock out actions only if enabled
+    if ((action === 'clock_in' || action === 'clock_out') && isLocationCaptureEnabled) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
@@ -384,7 +387,7 @@ function performClockAction(timesheetId, employeeId, button, action) {
             button.html(originalContent).prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
         }
     } else {
-        // For break actions, no location needed
+        // For break actions or when location capture is disabled, no location needed
         sendClockActionRequest(timesheetId, employeeId, action, button, originalContent);
     }
 }
