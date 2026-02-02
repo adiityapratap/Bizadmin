@@ -381,15 +381,12 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
-                    <!-- Commented out for now
                     <div class="relative">
                         <select class="weekAreaAndTeam px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm">
                             <option selected value="1">Week by Area</option>
                             <option value="2">Week by Team Member</option>
-                            <option value="3">Day by Team Member</option>
                         </select>
                     </div>
-                    -->
                     <div class="relative flex-1 md:flex-none">
                         <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
                                class="w-full px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm" 
@@ -1221,12 +1218,10 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
             }
             rosterId = parseInt(rosterId);
 
-            if ($(this).val() == '3') {
-                window.location.href = '/HR/rosterViewByTM/' + rosterId;
-            } else if ($(this).val() == '2') {
-                window.location.href = '/HR/rosterViewWTM/' + rosterId;
+            if ($(this).val() == '2') {
+                window.location.href = '/HR/roster/rosterViewWTM/' + rosterId;
             } else {
-                window.location.href = '/HR/rosterView/' + rosterId;
+                window.location.href = '/HR/roster/rosterView/' + rosterId;
             }
         });
 

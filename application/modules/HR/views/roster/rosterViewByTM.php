@@ -1,105 +1,173 @@
 <!-- rosterViewWTM.php -->
-<div class="main-content">
-    <div class="page-content" style="margin-top: 20px;">
-        <div class="container-fluid">
-            <div class="row mb-4 mt-2 gap-3">
-                <div class="col-md-2 col-sm-2 col-lg-1">
-                    <a class="btn btn-orange btn-icon waves-effect waves-light shadow-none w-100" onclick="goBack()">
-                        <i class="mdi mdi-reply align-bottom me-1"></i> Back
-                    </a>
-                </div>
-                <div class="col-md-3 col-lg-2 col-sm-4">
-                    <input type="text" name="rosterName" class="form-control" id="rosterName" placeholder="Roster Name" value="<?php echo isset($rosterInfo[0]['rosterName']) ? $rosterInfo[0]['rosterName'] : ''; ?>">
-                </div>
-                <div class="col-md-4 col-sm-8 col-lg-3 d-flex gap-2">
-                    <button type="button" class="btn btn-soft-primary btn-icon waves-effect waves-light shadow-none prevWeek">
-                        <i class="ri-arrow-left-s-line fw-bold"></i>
-                    </button>
-                    <button type="button" class="btn btn-soft-primary waves-effect waves-light shadow-none fw-bold currentWeek">
-                        <?php
-                        $startFormatted = date('jS M', strtotime($rosterInfo[0]['start_date']));
-                        $endFormatted = date('jS M', strtotime($rosterInfo[0]['end_date']));
-                        echo "$startFormatted - $endFormatted";
-                        ?>
-                    </button>
-                    <button type="button" class="btn btn-soft-primary btn-icon waves-effect waves-light shadow-none nextWeek">
-                        <i class="ri-arrow-right-s-line fw-bold"></i>
-                    </button>
-                </div>
-                <div class="col-md-4 col-sm-5 col-lg-2">
-                    <select class="form-select bg-primary-subtle fw-bold weekAreaAndTeam" style="color:#4b38b3">
-                        <option value="1">Week by Area</option>
-                        <option value="2" selected>Week by Team Member</option>
-                        <option value="3">Day by Team Member</option>
-                    </select>
-                </div>
-                <div class="col-md-2 col-lg-1">
-                    <button data-bs-toggle="modal" onclick="showRosterRecreateModal(<?php echo $rosterId; ?>)" class="btn btn-warning">
-                        <i class="ri-file-copy-fill fw-bold"></i> Recreate
-                    </button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card h-100 shadow-none">
-                        <div class="card-body table-responsive">
-                            <?php if (empty($rosterViewWTM)) { ?>
-                                <div class="alert alert-info text-center">
-                                    No roster details found for this week.
-                                </div>
-                            <?php } else { ?>
-                                <table class="table table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Team Member</th>
-                                            <th>Prep Area</th>
-                                            <?php foreach ($days as $day) { ?>
-                                                <th><?php echo ucfirst($day['day']) . ' ' . date('d-m', strtotime($day['date'])); ?></th>
-                                            <?php } ?>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($rosterViewWTM as $empId => $empData) { ?>
-                                            <tr>
-                                                <td><?php echo $empData['emp_name']; ?></td>
-                                                <td><?php echo $empData['prep_name']; ?></td>
-                                                <?php foreach ($days as $day) { ?>
-                                                    <?php $dayKey = $day['day']; ?>
-                                                    <td>
-                                                        <?php if (!empty($empData[$dayKey]['start_time'])) { ?>
-                                                            <div class="border-1 bg-success-subtle rounded-2 p-2">
-                                                                <b class="fs-12"><?php echo $empData['emp_name']; ?></b><br>
-                                                                <span class="fs-12">
-                                                                    <i class="bx bx-stopwatch text-success fs-16"></i>
-                                                                    <?php echo $empData[$dayKey]['start_time'] . ' - ' . $empData[$dayKey]['end_time']; ?>
-                                                                </span>
-                                                                <?php if (!empty($empData[$dayKey]['break_time'])) { ?>
-                                                                    <br>
-                                                                    <span class="pt-1 fs-12">
-                                                                        <i class="bx bx-coffee text-danger fs-16"></i>
-                                                                        Break: <?php echo $empData[$dayKey]['break_time']; ?>
-                                                                    </span>
-                                                                <?php } ?>
-                                                            </div>
-                                                        <?php } ?>
-                                                    </td>
-                                                <?php } ?>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            <?php } ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        .shift-time-cell {
+            font-size: 12px;
+            padding: 8px;
+        }
+        .time-display {
+            display: block;
+            margin-bottom: 4px;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        html, body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        [data-layout-mode=light] thead th {
+    color: #172153;
+}
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "orange-primary": "#ff631a",
+                        "green-primary": "#22b353",
+                        "sky-primary": "#1e88e5",
+                        "shift-green": "#e8f5e9",
+                        "shift-border": "#a5d6a7"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden mt-5">
+            <!-- Header -->
+            <header class="bg-white border-b border-gray-200 py-3 px-4 md:px-6">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-2 md:gap-3">
+                        <a onclick="goBack()" class="inline-flex items-center px-3 py-1.5 bg-orange-primary text-white rounded-lg text-sm hover:bg-orange-600 cursor-pointer">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Back
+                        </a>
+                        
+                        <input type="text" name="rosterName" id="rosterName" placeholder="Roster Name" 
+                               class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm w-48"
+                               value="<?php echo isset($rosterInfo[0]['rosterName']) ? htmlspecialchars($rosterInfo[0]['rosterName']) : ''; ?>">
+                        
+                        <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                            <button class="prevWeek px-2 py-1.5 text-gray-500 hover:bg-gray-200 rounded">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <span class="currentWeek px-3 py-1.5 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <?php
+                                $startFormatted = date('jS M', strtotime($rosterInfo[0]['start_date']));
+                                $endFormatted = date('jS M', strtotime($rosterInfo[0]['end_date']));
+                                echo "$startFormatted - $endFormatted";
+                                ?>
+                            </span>
+                            <button class="nextWeek px-2 py-1.5 text-gray-500 hover:bg-gray-200 rounded">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="relative">
+                            <select class="weekAreaAndTeam px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm cursor-pointer">
+                                <option value="1">Week by Area</option>
+                                <option value="2" selected>Week by Team Member</option>
+                            </select>
                         </div>
                     </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="employeeSearch" 
+                               class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm w-48 md:w-64" 
+                               placeholder="🔍 Search employees...">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto p-3 md:p-6">
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                    <?php if (empty($rosterViewWTM)) { ?>
+                        <div class="p-8 text-center text-gray-500">
+                            <i class="fa-solid fa-calendar-xmark text-4xl mb-3"></i>
+                            <p class="text-lg">No roster details found for this week.</p>
+                        </div>
+                    <?php } else { ?>
+                        <div class="overflow-auto">
+                            <table class="w-full border-collapse" id="rosterTable">
+                                <thead>
+                                    <tr class="bg-gray-50 border-b border-gray-200">
+                                        <th class="text-left px-4 py-3 text-sm font-semibold text-gray-700 sticky left-0 bg-gray-50 z-10" style="min-width: 180px;">
+                                            Employee Name
+                                        </th>
+                                        <?php foreach ($days as $day) { ?>
+                                            <th class="text-left px-4 py-3 text-sm font-semibold text-gray-700" style="min-width: 140px;">
+                                                <div><?php echo ucfirst($day['day']); ?></div>
+                                                <div class="text-xs font-normal text-gray-500"><?php echo date('d M', strtotime($day['date'])); ?></div>
+                                            </th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($rosterViewWTM as $empId => $empData) { ?>
+                                        <tr class="employee-row border-b border-gray-100 hover:bg-gray-50" 
+                                            data-employee-name="<?php echo strtolower($empData['emp_name']); ?>">
+                                            <td class="px-4 py-3 sticky left-0 bg-white z-10">
+                                                <div class="font-semibold text-gray-800"><?php echo htmlspecialchars($empData['emp_name']); ?></div>
+                                                <div class="text-xs text-gray-500 mt-1">
+                                                    <i class="fa-solid fa-location-dot"></i> <?php echo htmlspecialchars($empData['prep_name']); ?>
+                                                </div>
+                                            </td>
+                                            <?php foreach ($days as $day) { ?>
+                                                <?php $dayKey = $day['day']; ?>
+                                                <td class="px-4 py-3">
+                                                    <?php if (!empty($empData[$dayKey]['start_time'])) { ?>
+                                                        <div class="space-y-1">
+                                                            <div class="flex items-center text-xs text-gray-700">
+                                                                <i class="fa-regular fa-clock text-green-600 mr-1"></i>
+                                                                <span class="font-medium"><?php echo $empData[$dayKey]['start_time']; ?></span>
+                                                            </div>
+                                                            <div class="flex items-center text-xs text-gray-700">
+                                                                <i class="fa-regular fa-clock text-green-600 mr-1"></i>
+                                                                <span class="font-medium"><?php echo $empData[$dayKey]['end_time']; ?></span>
+                                                            </div>
+                                                            <?php if (!empty($empData[$dayKey]['break_duration'])) { ?>
+                                                                <div class="flex items-center text-xs text-gray-500">
+                                                                    <i class="fa-solid fa-coffee mr-1"></i>
+                                                                    <span><?php echo $empData[$dayKey]['break_duration']; ?> min</span>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    <?php } else { ?>
+                                                        <span class="text-gray-400 text-sm">-</span>
+                                                    <?php } ?>
+                                                </td>
+                                            <?php } ?>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Include the recreate roster modal -->
-<?php $this->load->view('roster/recreateRosterModal'); ?>
 
 <script>
 function goBack() {
@@ -138,32 +206,43 @@ function updateNextWeekText() {
     updateCurrentWeekText(true);
 }
 
-$('.prevWeek').click(function() {
-    updatePrevWeekText();
+$(document).ready(function() {
+    $('.prevWeek').click(function() {
+        updatePrevWeekText();
+    });
+
+    $('.nextWeek').click(function() {
+        updateNextWeekText();
+    });
+
+    // Employee search functionality
+    $('#employeeSearch').on('keyup', function() {
+        var searchValue = $(this).val().toLowerCase();
+        
+        $('.employee-row').each(function() {
+            var employeeName = $(this).data('employee-name');
+            if (employeeName.indexOf(searchValue) > -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $(".weekAreaAndTeam").on('change', function() {
+        let rosterId = '<?php echo $rosterId; ?>';
+        if (!rosterId || rosterId.trim() === '' || isNaN(parseInt(rosterId))) {
+            rosterId = 0;
+        }
+        rosterId = parseInt(rosterId);
+
+        if ($(this).val() == '1') {
+            window.location.href = '/HR/roster/rosterView/' + rosterId;
+        } else {
+            window.location.href = '/HR/roster/rosterViewWTM/' + rosterId;
+        }
+    });
 });
-
-$('.nextWeek').click(function() {
-    updateNextWeekText();
-});
-
-$(".weekAreaAndTeam").on('change', function() {
-    let rosterId = '<?php echo $rosterId; ?>';
-    if (!rosterId || rosterId.trim() === '' || isNaN(parseInt(rosterId))) {
-        rosterId = 0;
-    }
-    rosterId = parseInt(rosterId);
-
-    if ($(this).val() == '1') {
-        window.location.href = '/HR/rosterView/' + rosterId;
-    } else if ($(this).val() == '3') {
-        window.location.href = '/HR/rosterViewByTM/' + rosterId;
-    } else {
-        window.location.href = '/HR/rosterViewWTM/' + rosterId;
-    }
-});
-
-function showRosterRecreateModal(roster_id) {
-    $(".recreate_roster_id").val(roster_id);
-    $("#recreateRosterModal").modal("show");
-}
 </script>
+</body>
+</html>
