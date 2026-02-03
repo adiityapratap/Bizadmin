@@ -274,16 +274,24 @@ class Roster extends MY_Controller {
             'start_date' => $rosterWeek['start_date']
         ];
 
-        // Check if a roster already exists for this week and location
-        $cols = ['roster_id'];
-        $existingRosterOfThisWeek = $this->common_model->fetchRecordsDynamically('HR_roster', $cols, $conditions);
+        // VALIDATION 1: Check for week conflicts (improved - check entire week overlap)
+        $this->tenantDb->where('location_id', $this->location_id);
+        $this->tenantDb->where('is_deleted', 0);
+        $this->tenantDb->group_start();
+        // Check if new roster overlaps with any existing roster
+        $this->tenantDb->where('start_date <=', $rosterWeek['end_date']);
+        $this->tenantDb->where('end_date >=', $rosterWeek['start_date']);
+        $this->tenantDb->group_end();
+        $existingRosterOfThisWeek = $this->tenantDb->get('HR_roster')->result_array();
         
-        $validateConditionTS = [
-        'date_from' => $rosterWeek['start_date'],
-        'location_id' => $this->location_id,
-        'is_deleted' => 0
-    ];
-        $existingTimesheetOfThisWeek = $this->common_model->fetchRecordsDynamically('HR_timesheet', '', $validateConditionTS);
+        // Check timesheet conflicts
+        $this->tenantDb->where('location_id', $this->location_id);
+        $this->tenantDb->where('is_deleted', 0);
+        $this->tenantDb->group_start();
+        $this->tenantDb->where('date_from <=', $rosterWeek['end_date']);
+        $this->tenantDb->where('date_to >=', $rosterWeek['start_date']);
+        $this->tenantDb->group_end();
+        $existingTimesheetOfThisWeek = $this->tenantDb->get('HR_timesheet')->result_array();
         $updateRecord = false;
         $rosterData = [
             'start_date' => $rosterWeek['start_date'],
@@ -305,19 +313,37 @@ class Roster extends MY_Controller {
 
         $this->tenantDb->trans_start();
         if (!empty($existingRosterOfThisWeek)) {
+            // Check if it's exact same week (update case) or overlapping weeks (error)
+            $exactMatch = false;
+            foreach ($existingRosterOfThisWeek as $existing) {
+                if ($existing['start_date'] === $rosterWeek['start_date'] && 
+                    $existing['end_date'] === $rosterWeek['end_date']) {
+                    $exactMatch = true;
+                    $rosterId = $existing['roster_id'];
+                    break;
+                }
+            }
+            
+            if (!$exactMatch) {
+                echo json_encode(['status' => 'error', 'message' => 'This week overlaps with an existing roster. Please choose a different week.']);
+                return;
+            }
+            
+            // Update existing roster case
             $updateRecord = true;
-            $rosterId = $existingRosterOfThisWeek[0]['roster_id'];
             $this->common_model->commonRecordUpdate('HR_roster', 'roster_id', $rosterId, $rosterData);
-            // change the timesheet stats to published as well
+            // Change the timesheet status to published as well
             $timesheetUpdateData['is_published'] = $rosterData['is_published'];
             $this->common_model->commonRecordUpdate('HR_timesheet', 'roster_id', $rosterId, $timesheetUpdateData);
-           $parentTimesheetId =  $existingTimesheetOfThisWeek[0]['id'];
+            $parentTimesheetId = $existingTimesheetOfThisWeek[0]['id'];
           
         } else if(!empty($existingTimesheetOfThisWeek)){
+            // for timesheet created  without roster case
            // timesheet already exist for thhis week so we cannot create another roster/timehseet for this week for this location
            echo json_encode(['status' => 'error', 'message' => 'Roster/Timesheet already exist for this week.']);
             return;
         }else{
+            // create fresh new  roster/timesheet case
            $rosterData['created_at'] = date('Y-m-d H:i:s');
             $rosterId = $this->common_model->commonRecordCreate('HR_roster', $rosterData);
               //make entry in timesheet teble so we can show on listing page , added on 25-11-2025 after making updating timesheet table names 
@@ -325,8 +351,10 @@ class Roster extends MY_Controller {
             $parentTimesheetId = $this->common_model->commonRecordCreate('HR_timesheet', $timesheetData);  
         }
 
-        // Prepare roster details
+        // Prepare roster details with validation
         $rosterData = [];
+        $employeeScheduleCheck = []; // Track employee schedules to prevent duplicates/overlaps
+        
         foreach ($empDatas as $key => $value) {
             if (!preg_match('/^emp_\d+_\d+_\d+$/', $key)) continue;
             $shiftData = json_decode($value, true);
@@ -340,13 +368,61 @@ class Roster extends MY_Controller {
             if (!$rosterDate) continue;
             $formattedRosterDate = $rosterDate->format('Y-m-d');
 
+            // VALIDATION 2: Validate shift times
             $shiftStartTime = !empty($shiftData['empShiftStartTime']) ? $this->convertTo24HourFormat($shiftData['empShiftStartTime']) : null;
             $shiftEndTime = !empty($shiftData['empShiftEndTime']) ? $this->convertTo24HourFormat($shiftData['empShiftEndTime']) : null;
             $breakStartTime = !empty($shiftData['empBreakTime']) ? $this->convertTo24HourFormat($shiftData['empBreakTime']) : null;
+            
+            // Validate that end time is after start time
+            if ($shiftStartTime && $shiftEndTime && strtotime($shiftEndTime) <= strtotime($shiftStartTime)) {
+                echo json_encode(['status' => 'error', 'message' => 'Shift end time must be after start time for employee ID: ' . $shiftData['employeeId']]);
+                return;
+            }
+            
+            // Validate break time is within shift hours
+            if ($breakStartTime && $shiftStartTime && $shiftEndTime) {
+                if (strtotime($breakStartTime) < strtotime($shiftStartTime) || strtotime($breakStartTime) > strtotime($shiftEndTime)) {
+                    echo json_encode(['status' => 'error', 'message' => 'Break time must be within shift hours for employee ID: ' . $shiftData['employeeId']]);
+                    return;
+                }
+            }
+            
+            $employeeId = $shiftData['employeeId'];
+            
+            // VALIDATION 3: Check for duplicate employee on same date/prep area
+            $checkKey = $employeeId . '_' . $formattedRosterDate . '_' . $prepAreaId;
+            if (isset($employeeScheduleCheck[$checkKey])) {
+                echo json_encode(['status' => 'error', 'message' => 'Employee cannot be scheduled twice in the same prep area on the same date. Please check employee ID: ' . $employeeId]);
+                return;
+            }
+            
+            // VALIDATION 4: Check for time overlaps for same employee on same date
+            $empDateKey = $employeeId . '_' . $formattedRosterDate;
+            if (isset($employeeScheduleCheck[$empDateKey]) && $shiftStartTime && $shiftEndTime) {
+                foreach ($employeeScheduleCheck[$empDateKey] as $existingShift) {
+                    // Check if times overlap
+                    if (!(strtotime($shiftEndTime) <= strtotime($existingShift['start']) || 
+                          strtotime($shiftStartTime) >= strtotime($existingShift['end']))) {
+                        echo json_encode(['status' => 'error', 'message' => 'Employee has overlapping shifts on ' . $formattedRosterDate . '. Employee ID: ' . $employeeId]);
+                        return;
+                    }
+                }
+            }
+            
+            // Track this schedule
+            $employeeScheduleCheck[$checkKey] = true;
+            if (!isset($employeeScheduleCheck[$empDateKey])) {
+                $employeeScheduleCheck[$empDateKey] = [];
+            }
+            $employeeScheduleCheck[$empDateKey][] = [
+                'start' => $shiftStartTime,
+                'end' => $shiftEndTime,
+                'prep_area' => $prepAreaId
+            ];
 
             $rosterData[] = [
                 'roster_id' => $rosterId,
-                'employee_id' => $shiftData['employeeId'],
+                'employee_id' => $employeeId,
                 'position_id' => $shiftData['position_id'] ?: null,
                 'prep_area_id' => $prepAreaId,
                 'roster_date' => $formattedRosterDate,
@@ -386,6 +462,40 @@ class Roster extends MY_Controller {
     
 // used when we create/edit a roster we have to accordingly make changes in timesheet table
     public function synchronizeRosterDetails($rosterId, $newRosterData) {
+        // CRITICAL: Validate input to prevent accidental deletion of all records
+        if (empty($rosterId) || !is_numeric($rosterId)) {
+            log_message('error', 'synchronizeRosterDetails: Invalid roster_id - ' . $rosterId);
+            return ['status' => 'error', 'message' => 'Invalid roster ID'];
+        }
+        
+        // SECURITY: Verify roster belongs to current location
+        $rosterCheck = $this->common_model->fetchRecordsDynamically('HR_roster', ['roster_id'], [
+            'roster_id' => $rosterId,
+            'location_id' => $this->location_id,
+            'is_deleted' => 0
+        ]);
+        
+        if (empty($rosterCheck)) {
+            log_message('error', 'SECURITY VIOLATION: Attempt to modify roster from different location. Roster ID: ' . $rosterId . ', Location ID: ' . $this->location_id);
+            return ['status' => 'error', 'message' => 'Unauthorized roster access'];
+        }
+        
+        // CRITICAL: If newRosterData is empty, DON'T delete everything - this is likely a bug
+        if (empty($newRosterData) || !is_array($newRosterData)) {
+            log_message('error', 'synchronizeRosterDetails: Empty roster data for roster_id ' . $rosterId . ' - SKIPPING to prevent data loss!');
+            return ['status' => 'warning', 'message' => 'No roster data to synchronize'];
+        }
+        
+        // Validate data structure
+        foreach ($newRosterData as $data) {
+            if (!isset($data['employee_id']) || !isset($data['roster_date']) || empty($data['employee_id'])) {
+                log_message('error', 'synchronizeRosterDetails: Invalid data structure - missing employee_id or roster_date for roster_id ' . $rosterId);
+                return ['status' => 'error', 'message' => 'Invalid roster data structure'];
+            }
+        }
+        
+        log_message('error', 'synchronizeRosterDetails: Processing ' . count($newRosterData) . ' entries for roster_id ' . $rosterId);
+        
         // Fetch all existing roster details (including soft-deleted)
         $existingDetails = $this->common_model->fetchRecordsDynamically(
             'HR_roster_details',
@@ -393,30 +503,35 @@ class Roster extends MY_Controller {
             ['roster_id' => $rosterId]
         );
 
-// log_message('info', 'New Roster Data: ' . json_encode($newRosterData));
-// log_message('info', 'Existing Details: ' . json_encode($existingDetails));
+        log_message('error', 'synchronizeRosterDetails: Found ' . count($existingDetails) . ' existing entries');
 
         // Create a lookup for new roster data
         $newRosterLookup = [];
+
         foreach ($newRosterData as $new) {
             $key = $new['employee_id'] . '|' . $new['roster_date'];
             $newRosterLookup[$key] = $new;
         }
 
         // Mark existing records as deleted if not in new data
+        $deletedCount = 0;
         foreach ($existingDetails as $existing) {
             $key = $existing['employee_id'] . '|' . $existing['roster_date'];
             if (!isset($newRosterLookup[$key])) {
                 if ($existing['is_deleted'] == 0) {
+                    log_message('error', 'synchronizeRosterDetails: Marking as deleted - Emp: ' . $existing['employee_id'] . ', Date: ' . $existing['roster_date']);
                     $this->common_model->commonRecordUpdate(
                         'HR_roster_details',
                         'id',
                         $existing['id'],
                         ['is_deleted' => 1, 'updated_at' => date('Y-m-d H:i:s')]
                     );
+                    $deletedCount++;
                 }
             }
         }
+        
+        log_message('error', 'synchronizeRosterDetails: Marked ' . $deletedCount . ' entries as deleted');
 
         // Insert or update new roster details
         $recordsToInsert = [];
@@ -452,8 +567,27 @@ class Roster extends MY_Controller {
     
 // used when we create/edit a roster we have to accordingly make changes in timesheet table
     public function synchronizeTimesheetFromRoster($rosterId,$parentTimesheetId='') {
-       
+        log_message('error', 'synchronizeTimesheetFromRoster: Starting for roster_id ' . $rosterId);
+        
+        // Validate roster_id
         if (empty($rosterId) || !is_numeric($rosterId)) {
+            log_message('error', 'Invalid roster_id provided to synchronizeTimesheetFromRoster');
+            return ['status' => 'error', 'message' => 'Invalid roster ID'];
+        }
+        
+        // SECURITY: Verify roster belongs to current location
+        $rosterCheck = $this->common_model->fetchRecordsDynamically('HR_roster', ['roster_id', 'location_id'], [
+            'roster_id' => $rosterId,
+            'location_id' => $this->location_id,
+            'is_deleted' => 0
+        ]);
+        
+        if (empty($rosterCheck)) {
+            log_message('error', 'SECURITY VIOLATION: Attempt to access roster from different location. Roster ID: ' . $rosterId . ', Location ID: ' . $this->location_id);
+            return ['status' => 'error', 'message' => 'Unauthorized roster access'];
+        }
+        if (empty($rosterId) || !is_numeric($rosterId)) {
+            log_message('error', 'synchronizeTimesheetFromRoster: Invalid roster_id - ' . $rosterId);
             return ['status' => 'error', 'message' => 'Invalid roster ID'];
         }
 
@@ -464,9 +598,13 @@ class Roster extends MY_Controller {
             ['roster_id' => $rosterId, 'is_deleted' => 0]
         );
 
+        // CRITICAL: If no roster details found, DON'T delete all timesheets
         if (empty($rosterDetails)) {
-            return ['status' => 'error', 'message' => 'No roster details found'];
+            log_message('error', 'synchronizeTimesheetFromRoster: No roster details for roster_id ' . $rosterId . ' - SKIPPING to prevent timesheet deletion!');
+            return ['status' => 'warning', 'message' => 'No roster details found - timesheets preserved'];
         }
+        
+        log_message('error', 'synchronizeTimesheetFromRoster: Processing ' . count($rosterDetails) . ' roster entries for roster_id ' . $rosterId);
 
         // Fetch all existing timesheet entries (including soft-deleted)
         $existingTimesheets = $this->common_model->fetchRecordsDynamically(
@@ -1016,7 +1154,7 @@ class Roster extends MY_Controller {
         return;
     }
 
-    // Fetch the roster details
+    // Fetch the roster details for the OLD roster only
     $conditionsRoster = [
         'roster_id' => $rosterId,
         'is_deleted' => 0
@@ -1024,11 +1162,25 @@ class Roster extends MY_Controller {
     
     $roster_details = $this->common_model->fetchRecordsDynamically('HR_roster_details', '', $conditionsRoster);
     
+    // Additional validation: ensure we ONLY get records from the source roster
+    $filteredDetails = [];
+    foreach ($roster_details as $detail) {
+        // Verify the roster_id matches what we requested
+        if ($detail['roster_id'] == $rosterId) {
+            $filteredDetails[] = $detail;
+        } else {
+            log_message('error', 'Found roster detail with wrong roster_id: ' . $detail['roster_id'] . ' (expected: ' . $rosterId . ')');
+        }
+    }
+    $roster_details = $filteredDetails;
+    
     if (empty($roster_details)) {
         $this->session->set_flashdata('error_message', 'No roster details found for the specified roster.');
         redirect($this->session->userdata('previous_url'));
         return;
     }
+    
+    log_message('error', 'Fetched ' . count($roster_details) . ' roster details for roster_id: ' . $rosterId);
 
     // Create a new roster
     $new_roster_data = [
@@ -1065,34 +1217,83 @@ class Roster extends MY_Controller {
     // Adjust roster details for the new date range
     $originalStartDate = new DateTime($roster[0]['start_date']);
     $newStartDate = new DateTime($nextMonday);
+    
+    // Critical: Calculate the difference between old and new start dates
+    $dateDifference = $originalStartDate->diff($newStartDate);
+    $daysToAdd = (int)$dateDifference->days;
+    $isNegative = $dateDifference->invert == 1; // Check if we're going backwards
 
+    // Debug logging
+    log_message('error', '=== ROSTER RECREATION START ===');
+    log_message('error', 'Old Roster ID: ' . $rosterId . ' | New Roster ID: ' . $newRosterId);
+    log_message('error', 'Old date range: ' . $roster[0]['start_date'] . ' to ' . $roster[0]['end_date']);
+    log_message('error', 'New date range: ' . $nextMonday . ' to ' . $nextSunday);
+    log_message('error', 'Days to shift: ' . ($isNegative ? '-' : '+') . $daysToAdd);
+    log_message('error', 'Total roster details to copy: ' . count($roster_details));
+
+    // Prepare all records for bulk insert (more efficient and atomic)
+    $recordsToInsert = [];
+    
     foreach ($roster_details as $detail) {
-        // Calculate the day offset from the original roster's start date
+        // CRITICAL FIX: Create new DateTime from old roster_date and shift by the calculated difference
         $originalRosterDate = new DateTime($detail['roster_date']);
-        $dayOffset = (int)$originalStartDate->diff($originalRosterDate)->days;
+        
+        // Clone to avoid reference issues
+        $newRosterDate = clone $originalRosterDate;
+        
+        // Shift the date forward by the number of days between old and new roster start dates
+        if ($isNegative) {
+            $newRosterDate->sub(new DateInterval('P' . $daysToAdd . 'D'));
+        } else {
+            $newRosterDate->add(new DateInterval('P' . $daysToAdd . 'D'));
+        }
+        
+        $newDateFormatted = $newRosterDate->format('Y-m-d');
+        
+        // VALIDATION: Ensure the new date falls within the target week
+        if ($newDateFormatted < $nextMonday || $newDateFormatted > $nextSunday) {
+            log_message('error', 'SKIPPING - Date out of range! Emp: ' . $detail['employee_id'] . 
+                        ', Old Date: ' . $detail['roster_date'] . 
+                        ', Calculated New Date: ' . $newDateFormatted . 
+                        ' (Expected: ' . $nextMonday . ' to ' . $nextSunday . ')');
+            continue; // Skip this entry
+        }
 
-        // Apply the offset to the new start date
-        $newRosterDate = clone $newStartDate;
-        $newRosterDate->modify("+{$dayOffset} days");
-
-        // Prepare the new roster detail
+        // Prepare the new roster detail with ALL required fields
         $new_detail = [
             'roster_id' => $newRosterId,
             'employee_id' => $detail['employee_id'],
-            'position_id' => $detail['position_id'],
-            'prep_area_id' => $detail['prep_area_id'],
-            'roster_date' => $newRosterDate->format('Y-m-d'),
-            'shift_start_time' => $detail['shift_start_time'],
-            'shift_end_time' => $detail['shift_end_time'],
-            'break_start_time' => $detail['break_start_time'],
-            'break_type' => $detail['break_type'],
-            'break_duration' => $detail['break_duration'],
-            'task_description' => $detail['task_description']
+            'position_id' => $detail['position_id'] ?? null,
+            'prep_area_id' => $detail['prep_area_id'] ?? null,
+            'roster_date' => $newDateFormatted,
+            'shift_start_time' => $detail['shift_start_time'] ?? null,
+            'shift_end_time' => $detail['shift_end_time'] ?? null,
+            'break_start_time' => $detail['break_start_time'] ?? null,
+            'break_type' => $detail['break_type'] ?? null,
+            'break_duration' => $detail['break_duration'] ?? 0,
+            'task_description' => $detail['task_description'] ?? '',
+            'is_deleted' => 0,
+            'created_at' => date('Y-m-d H:i:s')
         ];
 
-        // Insert the new roster detail
-        $this->common_model->commonRecordCreate('HR_roster_details', $new_detail);
+        // Debug log
+        log_message('error', 'Prepared entry - Emp: ' . $detail['employee_id'] . 
+                    ' | Old Date: ' . $detail['roster_date'] . 
+                    ' → New Date: ' . $newDateFormatted);
+
+        $recordsToInsert[] = $new_detail;
     }
+    
+    // Insert all records in one batch (atomic operation)
+    if (!empty($recordsToInsert)) {
+        log_message('error', 'Inserting ' . count($recordsToInsert) . ' roster details in bulk...');
+        $this->common_model->commonBulkRecordCreate('HR_roster_details', $recordsToInsert);
+        log_message('error', '✓ Successfully inserted ' . count($recordsToInsert) . ' roster details');
+    } else {
+        log_message('error', '✗ No valid roster details to insert!');
+    }
+    
+    log_message('error', '=== ROSTER RECREATION END ===');
 
     // Synchronize timesheet from roster
     $this->synchronizeTimesheetFromRoster($newRosterId, $parentTimesheetId);
