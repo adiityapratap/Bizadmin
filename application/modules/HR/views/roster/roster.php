@@ -1645,6 +1645,36 @@ $avatarText = $showTier ? 'T' . htmlspecialchars($empList['tier']) : (!empty($em
         
         document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("loader-overlay").style.display = "none";
+        
+        // Restrict startDatePicker to Mondays only
+        const startDatePicker = document.getElementById('startDatePicker');
+        if (startDatePicker) {
+            startDatePicker.addEventListener('input', function(e) {
+                const selectedDate = new Date(this.value);
+                const dayOfWeek = selectedDate.getDay();
+                
+                // Check if selected day is Monday (1)
+                if (dayOfWeek !== 1) {
+                    alert('Please select a Monday for the start date.');
+                    this.value = '';
+                }
+            });
+        }
+        
+        // Restrict endDatePicker to Sundays only
+        const endDatePicker = document.getElementById('endDatePicker');
+        if (endDatePicker) {
+            endDatePicker.addEventListener('input', function(e) {
+                const selectedDate = new Date(this.value);
+                const dayOfWeek = selectedDate.getDay();
+                
+                // Check if selected day is Sunday (0)
+                if (dayOfWeek !== 0) {
+                    alert('Please select a Sunday for the end date.');
+                    this.value = '';
+                }
+            });
+        }
     });
     
    
