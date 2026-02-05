@@ -380,7 +380,26 @@
                                         }
                                     }
                                     
-                                    $total_break = is_array($employee_ts) ? array_sum(array_column($employee_ts, 'total_break_duration')) : 0;
+                                    // Calculate total break with auto-break logic applied per timesheet entry
+                                    $total_break = 0;
+                                    foreach ($employee_ts as $ts) {
+                                        $ts_break = isset($ts['total_break_duration']) ? (int)$ts['total_break_duration'] : 0;
+                                        
+                                        // Apply auto-break logic if break is 0
+                                        if ($ts_break == 0 && isset($ts['total_hours']) && !empty($ts['total_hours'])) {
+                                            list($h, $m, $s) = explode(':', $ts['total_hours']);
+                                            $day_seconds = ((int)$h * 3600) + ((int)$m * 60) + (int)$s;
+                                            $day_hours = $day_seconds / 3600;
+                                            
+                                            if ($day_hours >= 10) {
+                                                $ts_break = 60;
+                                            } elseif ($day_hours >= 5) {
+                                                $ts_break = 30;
+                                            }
+                                        }
+                                        
+                                        $total_break += $ts_break;
+                                    }
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
@@ -490,19 +509,7 @@
                                                             </span>
                                                         </div>
 
-                                                        <div class="flex items-center text-sm text-gray-600">
-                                                            <i class="fa-solid fa-coffee mr-1.5"></i>
-                                                            <span>
-                                                                <?php 
-                                                                $break_duration = isset($timesheet['total_break_duration']) ? (int)$timesheet['total_break_duration'] : 0;
-                                                                echo $break_duration > 0 
-                                                                    ? htmlspecialchars($break_duration) . ' Mins' 
-                                                                    : '00 min'; 
-                                                                ?>
-                                                            </span>
-                                                        </div>
-                                                        
-                                                        <!--calculate employee hrs for each day-->
+                                                        <!--calculate employee hrs for each day FIRST to determine auto-break-->
                                                         
                                                         <?php 
                                           $total_hours_for_each_day = 0; 
@@ -513,9 +520,36 @@
                                             $m = is_numeric($minutes) ? (int)$minutes : 0;
                                             $s = is_numeric($seconds) ? (int)$seconds : 0;
                                             $total_hours_for_each_day += ($h * 3600) + ($m * 60) + $s;
+                                        }
                                         
+                                        // Calculate break duration with automatic break logic
+                                        $break_duration = isset($timesheet['total_break_duration']) ? (int)$timesheet['total_break_duration'] : 0;
+                                        
+                                        // Auto-add break if not already recorded
+                                        if ($break_duration == 0 && $total_hours_for_each_day > 0) {
+                                            $hours_worked = $total_hours_for_each_day / 3600;
+                                            if ($hours_worked >= 10) {
+                                                $break_duration = 60; // 60 mins for 10+ hours
+                                            } elseif ($hours_worked >= 5) {
+                                                $break_duration = 30; // 30 mins for 5-10 hours
+                                            }
+                                        }
+                                        ?>
+                                        
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class="fa-solid fa-coffee mr-1.5"></i>
+                                            <span>
+                                                <?php 
+                                                echo $break_duration > 0 
+                                                    ? htmlspecialchars($break_duration) . ' Mins' 
+                                                    : '00 min'; 
+                                                ?>
+                                            </span>
+                                        </div>
+                                        
+                                        <?php 
                                          if ($total_hours_for_each_day) {
-                                        $break_minutes = $timesheet['total_break_duration'] ?? 0;
+                                        $break_minutes = $break_duration;
                                         $net_seconds = $total_hours_for_each_day - ($break_minutes * 60);
                                         $hours = floor($net_seconds / 3600);
                                         $minutes = floor(($net_seconds % 3600) / 60);
