@@ -554,12 +554,9 @@
                                         $hours = floor($net_seconds / 3600);
                                         $minutes = floor(($net_seconds % 3600) / 60);
                                         $formatted_hours_for_each_day = "{$hours} hrs {$minutes} min";
-                                    } 
-                                        }else {
+                                    } else {
                                         $formatted_hours_for_each_day = "0 hrs 0 min";
                                     }
-                                    
-                                    
                                                          ?>
                                                         
                                                         <div class="flex items-center text-sm text-gray-600">
