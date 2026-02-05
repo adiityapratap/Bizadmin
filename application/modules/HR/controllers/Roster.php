@@ -373,16 +373,21 @@ class Roster extends MY_Controller {
             $shiftEndTime = !empty($shiftData['empShiftEndTime']) ? $this->convertTo24HourFormat($shiftData['empShiftEndTime']) : null;
             $breakStartTime = !empty($shiftData['empBreakTime']) ? $this->convertTo24HourFormat($shiftData['empBreakTime']) : null;
             
+            // Get employee name and day name for better error messages
+            $employeeName = !empty($shiftData['selectedEmpName']) ? $shiftData['selectedEmpName'] : 'Employee ID: ' . $shiftData['employeeId'];
+            $dayName = $rosterDate->format('l'); // Gets day name like "Monday", "Tuesday", etc.
+            $dateFormatted = $rosterDate->format('d M Y'); // Gets formatted date like "05 Feb 2026"
+            
             // Validate that end time is after start time
             if ($shiftStartTime && $shiftEndTime && strtotime($shiftEndTime) <= strtotime($shiftStartTime)) {
-                echo json_encode(['status' => 'error', 'message' => 'Shift end time must be after start time for employee ID: ' . $shiftData['employeeId']]);
+                echo json_encode(['status' => 'error', 'message' => 'Shift end time must be after start time for ' . $employeeName . ' on ' . $dayName . ' (' . $dateFormatted . ')']);
                 return;
             }
             
             // Validate break time is within shift hours
             if ($breakStartTime && $shiftStartTime && $shiftEndTime) {
                 if (strtotime($breakStartTime) < strtotime($shiftStartTime) || strtotime($breakStartTime) > strtotime($shiftEndTime)) {
-                    echo json_encode(['status' => 'error', 'message' => 'Break time must be within shift hours for employee ID: ' . $shiftData['employeeId']]);
+                    echo json_encode(['status' => 'error', 'message' => 'Break time must be within shift hours for ' . $employeeName . ' on ' . $dayName . ' (' . $dateFormatted . ')']);
                     return;
                 }
             }
@@ -392,7 +397,7 @@ class Roster extends MY_Controller {
             // VALIDATION 3: Check for duplicate employee on same date/prep area
             $checkKey = $employeeId . '_' . $formattedRosterDate . '_' . $prepAreaId;
             if (isset($employeeScheduleCheck[$checkKey])) {
-                echo json_encode(['status' => 'error', 'message' => 'Employee cannot be scheduled twice in the same prep area on the same date. Please check employee ID: ' . $employeeId]);
+                echo json_encode(['status' => 'error', 'message' => $employeeName . ' cannot be scheduled twice in the same prep area on ' . $dayName . ' (' . $dateFormatted . ')']);
                 return;
             }
             
@@ -403,7 +408,7 @@ class Roster extends MY_Controller {
                     // Check if times overlap
                     if (!(strtotime($shiftEndTime) <= strtotime($existingShift['start']) || 
                           strtotime($shiftStartTime) >= strtotime($existingShift['end']))) {
-                        echo json_encode(['status' => 'error', 'message' => 'Employee has overlapping shifts on ' . $formattedRosterDate . '. Employee ID: ' . $employeeId]);
+                        echo json_encode(['status' => 'error', 'message' => $employeeName . ' has overlapping shifts on ' . $dayName . ' (' . $dateFormatted . ')']);
                         return;
                     }
                 }
