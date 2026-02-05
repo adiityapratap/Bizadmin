@@ -199,9 +199,20 @@ public function exportTimesheetExcel($start_date, $end_date)
 
         // Total worked seconds
         $workedSeconds = $clockOut - $clockIn;
+        $totalHoursWorked = $workedSeconds / 3600;
 
         // Break in minutes → seconds
         $breakMinutes = (int) ($ts['total_break_duration'] ?? 0);
+        
+        // Apply automatic break logic if no break recorded
+        if ($breakMinutes == 0) {
+            if ($totalHoursWorked >= 10) {
+                $breakMinutes = 60; // 60 mins for 10+ hours
+            } elseif ($totalHoursWorked >= 5) {
+                $breakMinutes = 30; // 30 mins for 5-10 hours
+            }
+        }
+        
         $breakHours   = round($breakMinutes / 60, 2);
 
         $workedSeconds -= ($breakMinutes * 60);
@@ -324,12 +335,22 @@ public function exportTimesheetTX($start_date, $end_date)
                     if ($clockIn && $clockOut) {
                         // Calculate worked seconds
                         $workedSeconds = $clockOut - $clockIn;
+                        $totalHoursWorked = $workedSeconds / 3600;
                         
                         // Get break duration - convert TIME format to minutes then seconds
                         $breakMinutes = 0;
                         if (!empty($ts['total_break_duration'])) {
                             $breakParts = explode(':', $ts['total_break_duration']);
                             $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                        }
+                        
+                        // Apply automatic break logic if no break recorded
+                        if ($breakMinutes == 0) {
+                            if ($totalHoursWorked >= 10) {
+                                $breakMinutes = 60; // 60 mins for 10+ hours
+                            } elseif ($totalHoursWorked >= 5) {
+                                $breakMinutes = 30; // 30 mins for 5-10 hours
+                            }
                         }
                         
                         $breakSeconds = $breakMinutes * 60;
@@ -418,12 +439,22 @@ public function exportTimesheetTX($start_date, $end_date)
                 
                 if ($clockIn && $clockOut) {
                     $workedSeconds = $clockOut - $clockIn;
+                    $totalHoursWorked = $workedSeconds / 3600;
                     
                     // Get break duration - convert TIME format to minutes then seconds
                     $breakMinutes = 0;
                     if (!empty($ts['total_break_duration'])) {
                         $breakParts = explode(':', $ts['total_break_duration']);
                         $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
+                    }
+                    
+                    // Apply automatic break logic if no break recorded
+                    if ($breakMinutes == 0) {
+                        if ($totalHoursWorked >= 10) {
+                            $breakMinutes = 60; // 60 mins for 10+ hours
+                        } elseif ($totalHoursWorked >= 5) {
+                            $breakMinutes = 30; // 30 mins for 5-10 hours
+                        }
                     }
                     
                     $breakSeconds = $breakMinutes * 60;
