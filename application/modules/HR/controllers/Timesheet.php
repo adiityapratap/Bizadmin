@@ -906,7 +906,7 @@ if ($clockInTime) {
     $workedHours = $workedSeconds / 3600;
 
     // Get total break duration for this timesheet
-    $existingBreakMinutes = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId);
+    $existingBreakMinutes = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId,$employeeId);
 
     if ($workedHours > 10 && $existingBreakMinutes < 60) {
         $addBreak = 60 - $existingBreakMinutes;
@@ -920,9 +920,9 @@ if ($clockInTime) {
     if ($addBreak > 0) {
         $autoBreakStart = date('Y-m-d H:i:s', strtotime($clockOutTime) - ($addBreak * 60));
         $autoBreakEnd   = $clockOutTime;
-
         $this->common_model->commonRecordCreate('HR_timesheet_breaks', [
             'timesheet_id'     => $timesheetId,
+            'employee_id'     => $employeeId,
             'break_start_time' => $autoBreakStart,
             'break_end_time'   => $autoBreakEnd,
             'break_duration'   => $addBreak,
@@ -953,7 +953,7 @@ if ($clockInTime) {
                 exit;
             }
             // Check if there's an open break
-            $latestBreak = $this->timesheet_model->getLatestBreak($timesheetId);
+            $latestBreak = $this->timesheet_model->getLatestBreak($timesheetId, $employeeId);
             if ($latestBreak && !$latestBreak['break_end_time']) {
                 echo json_encode(['status' => 'error', 'message' => 'A break is already in progress']);
                 exit;
@@ -961,6 +961,7 @@ if ($clockInTime) {
             // Create new break record
             $breakData = [
                 'timesheet_id' => $timesheetId,
+                'employee_id' => $employeeId,
                 'break_start_time' => date('Y-m-d H:i:s'),
                 'break_end_time' => null,
                 'break_duration' => 0,
@@ -977,7 +978,7 @@ if ($clockInTime) {
                 exit;
             }
         } elseif ($action === 'break_end') {
-            $latestBreak = $this->timesheet_model->getLatestBreak($timesheetId);
+            $latestBreak = $this->timesheet_model->getLatestBreak($timesheetId, $employeeId);
             if (!$latestBreak || $latestBreak['break_end_time']) {
                 echo json_encode(['status' => 'error', 'message' => 'No active break found']);
                 exit;
@@ -992,7 +993,7 @@ if ($clockInTime) {
             try {
                 $this->common_model->commonRecordUpdate('HR_timesheet_breaks', 'break_id', $latestBreak['break_id'], $breakUpdateData);
                 // Update actual_break_duration in HR_timesheet
-                $totalBreakDuration = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId);
+                $totalBreakDuration = $this->timesheet_model->getBreakDurationForTimesheet($timesheetId, $employeeId);
                 $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheetId, ['actual_break_duration' => $totalBreakDuration]);
                 $responseData['break_duration'] = $totalBreakDuration;
                 $responseData['break_end_time'] = date('h:i A');

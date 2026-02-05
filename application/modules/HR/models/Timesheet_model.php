@@ -59,7 +59,7 @@ class Timesheet_model extends CI_Model{
             ->join('HR_employee e', 'HR_timesheet_details.employee_id = e.emp_id', 'inner')
             ->join('HR_prepArea p', 'HR_timesheet_details.prep_area_id = p.id', 'left')
             ->join('HR_emp_position pos', 'HR_timesheet_details.position_id = pos.position_id', 'left')
-            ->join('HR_timesheet_breaks b', 'HR_timesheet_details.timesheet_id = b.timesheet_id AND b.is_deleted = 0', 'left')
+            ->join('HR_timesheet_breaks b', 'HR_timesheet_details.timesheet_id = b.timesheet_id AND HR_timesheet_details.employee_id = b.employee_id AND b.is_deleted = 0', 'left')
             ->where([
                 'HR_timesheet_details.roster_date' => $date,
                 'HR_timesheet_details.is_deleted' => 0,
@@ -75,21 +75,21 @@ class Timesheet_model extends CI_Model{
         return $query->result_array();
     }
 
-    public function getBreakDurationForTimesheet($timesheet_id)
+    public function getBreakDurationForTimesheet($timesheet_id, $employeeId)
     {
         $this->tenantDb->select('SUM(break_duration) as total_break_duration')
             ->from('HR_timesheet_breaks')
-            ->where(['timesheet_id' => $timesheet_id, 'is_deleted' => 0]);
+            ->where(['timesheet_id' => $timesheet_id,'employee_id'     => $employeeId, 'is_deleted' => 0]);
         $query = $this->tenantDb->get();
         $result = $query->row_array();
         return $result['total_break_duration'] ?? 0;
     }
 
-    public function getLatestBreak($timesheet_id)
+    public function getLatestBreak($timesheet_id, $employeeId)
     {
         $this->tenantDb->select('break_id, break_start_time, break_end_time')
             ->from('HR_timesheet_breaks')
-            ->where(['timesheet_id' => $timesheet_id, 'is_deleted' => 0])
+            ->where(['timesheet_id' => $timesheet_id,'employee_id' => $employeeId, 'is_deleted' => 0])
             ->order_by('break_start_time', 'DESC')
             ->limit(1);
         $query = $this->tenantDb->get();
@@ -125,7 +125,7 @@ class Timesheet_model extends CI_Model{
             ->join('HR_employee e', 'HR_timesheet_details.employee_id = e.emp_id', 'inner')
             ->join('HR_prepArea p', 'HR_timesheet_details.prep_area_id = p.id', 'inner')
             ->join('HR_emp_position pos', 'HR_timesheet_details.position_id = pos.position_id', 'left')
-            ->join('HR_timesheet_breaks b', 'HR_timesheet_details.timesheet_id = b.timesheet_id AND b.is_deleted = 0', 'left')
+            ->join('HR_timesheet_breaks b', 'HR_timesheet_details.timesheet_id = b.timesheet_id and HR_timesheet_details.employee_id = b.employee_id AND b.is_deleted = 0', 'left')
             ->join('HR_roster_details r', 'HR_timesheet_details.employee_id = r.employee_id AND HR_timesheet_details.roster_date = r.roster_date', 'left')
             ->where('HR_timesheet_details.roster_date >=', $start_date)
             ->where('HR_timesheet_details.roster_date <=', $end_date)
@@ -629,7 +629,7 @@ public function getDetailedTimesheetByDateRange($emp_id, $start_date, $end_date,
     ->from('HR_timesheet_details')
     ->join('HR_prepArea', 'HR_timesheet_details.prep_area_id = HR_prepArea.id', 'left')
     ->join('HR_emp_position', 'HR_timesheet_details.position_id = HR_emp_position.position_id', 'left')
-    ->join('HR_timesheet_breaks', 'HR_timesheet_details.timesheet_id = HR_timesheet_breaks.timesheet_id AND HR_timesheet_breaks.is_deleted = 0', 'left')
+    ->join('HR_timesheet_breaks', 'HR_timesheet_details.timesheet_id = HR_timesheet_breaks.timesheet_id AND HR_timesheet_details.employee_id = HR_timesheet_breaks.employee_id AND HR_timesheet_breaks.is_deleted = 0', 'left')
     ->where([
         'HR_timesheet_details.employee_id' => $emp_id,
         'HR_timesheet_details.location_id' => $location_id,
