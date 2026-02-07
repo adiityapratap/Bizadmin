@@ -437,11 +437,14 @@
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
                                         $hours = floor($net_seconds / 3600);
-                        $minutes = round(($net_seconds % 3600) / 60);
-                        if ($minutes == 60) {
-                            $hours++;
-                            $minutes = 0;
-                        }
+                                        $minutes = round(($net_seconds % 3600) / 60);
+                                        if ($minutes == 60) {
+                                            $hours++;
+                                            $minutes = 0;
+                                        }
+                                        $formatted_hours = "{$hours} hrs {$minutes} min";
+                                    } else {
+                                        $formatted_hours = "0 hrs 0 min";
                                     }
                                     
                                     $timesheet_count = count($employee_ts);
