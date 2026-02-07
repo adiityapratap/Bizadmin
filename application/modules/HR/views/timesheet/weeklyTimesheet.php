@@ -198,14 +198,10 @@
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
-                                        // Add 30 seconds for proper rounding before converting to minutes
-                                        $rounded_seconds = $net_seconds + 30;
-                                        $hours = floor($rounded_seconds / 3600);
-                                        $minutes = floor(($rounded_seconds % 3600) / 60);
-                                        if ($minutes >= 60) {
-                                            $hours++;
-                                            $minutes = 0;
-                                        }
+                                        // Convert to total minutes and round
+                                        $total_minutes = round($net_seconds / 60);
+                                        $hours = floor($total_minutes / 60);
+                                        $minutes = $total_minutes % 60;
                                         $formatted_hours = "{$hours} hrs {$minutes} min";
                                     } else {
                                         $formatted_hours = "0 hrs 0 min";
@@ -333,15 +329,10 @@
                                 }
                             }
 
-                            // Add 30 seconds for proper rounding before converting to minutes
-                            $rounded_total_seconds = $total_seconds + 30;
-                            $hours = floor($rounded_total_seconds / 3600);
-                            $minutes = floor(($rounded_total_seconds % 3600) / 60);
-                            // Handle case where minutes >= 60
-                            if ($minutes >= 60) {
-                                $hours++;
-                                $minutes = 0;
-                            }
+                            // Convert to total minutes and round
+                            $total_minutes = round($total_seconds / 60);
+                            $hours = floor($total_minutes / 60);
+                            $minutes = $total_minutes % 60;
                             $total_hours_formatted = "{$hours} hrs {$minutes} min";
                             ?>
 
@@ -440,14 +431,10 @@
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
-                                        // Add 30 seconds for proper rounding before converting to minutes
-                                        $rounded_seconds = $net_seconds + 30;
-                                        $hours = floor($rounded_seconds / 3600);
-                                        $minutes = floor(($rounded_seconds % 3600) / 60);
-                                        if ($minutes >= 60) {
-                                            $hours++;
-                                            $minutes = 0;
-                                        }
+                                        // Convert to total minutes and round
+                                        $total_minutes = round($net_seconds / 60);
+                                        $hours = floor($total_minutes / 60);
+                                        $minutes = $total_minutes % 60;
                                         $formatted_hours = "{$hours} hrs {$minutes} min";
                                     } else {
                                         $formatted_hours = "0 hrs 0 min";
@@ -594,15 +581,10 @@
                                          if ($total_hours_for_each_day) {
                                         $break_minutes = $break_duration;
                                         $net_seconds = $total_hours_for_each_day - ($break_minutes * 60);
-                                        // Add 30 seconds for proper rounding before converting to minutes
-                                        $rounded_seconds = $net_seconds + 30;
-                                        $hours = floor($rounded_seconds / 3600);
-                                        $minutes = floor(($rounded_seconds % 3600) / 60);
-                                        // Handle case where minutes >= 60
-                                        if ($minutes >= 60) {
-                                            $hours++;
-                                            $minutes = 0;
-                                        }
+                                        // Convert to total minutes and round
+                                        $total_minutes = round($net_seconds / 60);
+                                        $hours = floor($total_minutes / 60);
+                                        $minutes = $total_minutes % 60;
                                         $formatted_hours_for_each_day = "{$hours} hrs {$minutes} min";
                                     } else {
                                         $formatted_hours_for_each_day = "0 hrs 0 min";
