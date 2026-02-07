@@ -198,9 +198,11 @@
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
-                                        $hours = floor($net_seconds / 3600);
-                                        $minutes = round(($net_seconds % 3600) / 60);
-                                        if ($minutes == 60) {
+                                        // Add 30 seconds for proper rounding before converting to minutes
+                                        $rounded_seconds = $net_seconds + 30;
+                                        $hours = floor($rounded_seconds / 3600);
+                                        $minutes = floor(($rounded_seconds % 3600) / 60);
+                                        if ($minutes >= 60) {
                                             $hours++;
                                             $minutes = 0;
                                         }
@@ -331,10 +333,12 @@
                                 }
                             }
 
-                            $hours = floor($total_seconds / 3600);
-                            $minutes = round(($total_seconds % 3600) / 60);
-                            // Handle case where rounding minutes gives 60
-                            if ($minutes == 60) {
+                            // Add 30 seconds for proper rounding before converting to minutes
+                            $rounded_total_seconds = $total_seconds + 30;
+                            $hours = floor($rounded_total_seconds / 3600);
+                            $minutes = floor(($rounded_total_seconds % 3600) / 60);
+                            // Handle case where minutes >= 60
+                            if ($minutes >= 60) {
                                 $hours++;
                                 $minutes = 0;
                             }
@@ -436,9 +440,11 @@
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
-                                        $hours = floor($net_seconds / 3600);
-                                        $minutes = round(($net_seconds % 3600) / 60);
-                                        if ($minutes == 60) {
+                                        // Add 30 seconds for proper rounding before converting to minutes
+                                        $rounded_seconds = $net_seconds + 30;
+                                        $hours = floor($rounded_seconds / 3600);
+                                        $minutes = floor(($rounded_seconds % 3600) / 60);
+                                        if ($minutes >= 60) {
                                             $hours++;
                                             $minutes = 0;
                                         }
@@ -588,10 +594,12 @@
                                          if ($total_hours_for_each_day) {
                                         $break_minutes = $break_duration;
                                         $net_seconds = $total_hours_for_each_day - ($break_minutes * 60);
-                                        $hours = floor($net_seconds / 3600);
-                                        $minutes = round(($net_seconds % 3600) / 60);
-                                        // Handle case where rounding minutes gives 60
-                                        if ($minutes == 60) {
+                                        // Add 30 seconds for proper rounding before converting to minutes
+                                        $rounded_seconds = $net_seconds + 30;
+                                        $hours = floor($rounded_seconds / 3600);
+                                        $minutes = floor(($rounded_seconds % 3600) / 60);
+                                        // Handle case where minutes >= 60
+                                        if ($minutes >= 60) {
                                             $hours++;
                                             $minutes = 0;
                                         }
