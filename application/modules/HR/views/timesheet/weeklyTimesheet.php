@@ -199,7 +199,11 @@
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
                                         $hours = floor($net_seconds / 3600);
-                                        $minutes = floor(($net_seconds % 3600) / 60);
+                                        $minutes = round(($net_seconds % 3600) / 60);
+                                        if ($minutes == 60) {
+                                            $hours++;
+                                            $minutes = 0;
+                                        }
                                         $formatted_hours = "{$hours} hrs {$minutes} min";
                                     } else {
                                         $formatted_hours = "0 hrs 0 min";
@@ -328,7 +332,12 @@
                             }
 
                             $hours = floor($total_seconds / 3600);
-                            $minutes = floor(($total_seconds % 3600) / 60);
+                            $minutes = round(($total_seconds % 3600) / 60);
+                            // Handle case where rounding minutes gives 60
+                            if ($minutes == 60) {
+                                $hours++;
+                                $minutes = 0;
+                            }
                             $total_hours_formatted = "{$hours} hrs {$minutes} min";
                             ?>
 
@@ -428,10 +437,11 @@
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
                                         $hours = floor($net_seconds / 3600);
-                                        $minutes = floor(($net_seconds % 3600) / 60);
-                                        $formatted_hours = "{$hours} hrs {$minutes} min";
-                                    } else {
-                                        $formatted_hours = "0 hrs 0 min";
+                        $minutes = round(($net_seconds % 3600) / 60);
+                        if ($minutes == 60) {
+                            $hours++;
+                            $minutes = 0;
+                        }
                                     }
                                     
                                     $timesheet_count = count($employee_ts);
@@ -576,7 +586,12 @@
                                         $break_minutes = $break_duration;
                                         $net_seconds = $total_hours_for_each_day - ($break_minutes * 60);
                                         $hours = floor($net_seconds / 3600);
-                                        $minutes = floor(($net_seconds % 3600) / 60);
+                                        $minutes = round(($net_seconds % 3600) / 60);
+                                        // Handle case where rounding minutes gives 60
+                                        if ($minutes == 60) {
+                                            $hours++;
+                                            $minutes = 0;
+                                        }
                                         $formatted_hours_for_each_day = "{$hours} hrs {$minutes} min";
                                     } else {
                                         $formatted_hours_for_each_day = "0 hrs 0 min";
