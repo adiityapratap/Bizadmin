@@ -175,7 +175,26 @@
                                         }
                                     }
                                     
-                                    $total_break = is_array($employee_ts) ? array_sum(array_column($employee_ts, 'total_break_duration')) : 0;
+                                    // Calculate total break with auto-break logic applied per timesheet entry
+                                    $total_break = 0;
+                                    foreach ($employee_ts as $ts) {
+                                        $ts_break = isset($ts['total_break_duration']) ? (int)$ts['total_break_duration'] : 0;
+                                        
+                                        // Apply auto-break logic if break is 0
+                                        if ($ts_break == 0 && isset($ts['total_hours']) && !empty($ts['total_hours'])) {
+                                            list($h, $m, $s) = explode(':', $ts['total_hours']);
+                                            $day_seconds = ((int)$h * 3600) + ((int)$m * 60) + (int)$s;
+                                            $day_hours = $day_seconds / 3600;
+                                            
+                                            if ($day_hours >= 10) {
+                                                $ts_break = 60;
+                                            } elseif ($day_hours >= 5) {
+                                                $ts_break = 30;
+                                            }
+                                        }
+                                        
+                                        $total_break += $ts_break;
+                                    }
                                     
                                     if ($total_hours > 0) {
                                         $net_seconds = $total_hours - ($total_break * 60);
@@ -364,6 +383,11 @@
                                 <?php
                                 $color_index = 0;
                                 foreach ($employee_timesheets as $employee_id => $employee_ts) {
+                                    // Sort timesheets by roster_date (Monday to Sunday)
+                                    usort($employee_ts, function($a, $b) {
+                                        return strtotime($a['roster_date']) - strtotime($b['roster_date']);
+                                    });
+                                    
                                     $employee_name = isset($employee_ts[0]['employee_name']) ? $employee_ts[0]['employee_name'] : 'Unknown';
                                     $employee_type = (isset($employee_ts[0]['employee_type']) && !empty($employee_ts[0]['employee_type'])) 
                                         ? " ({$employee_ts[0]['employee_type']})" 
