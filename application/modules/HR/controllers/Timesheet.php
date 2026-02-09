@@ -204,11 +204,18 @@ public function exportTimesheetExcel($start_date, $end_date)
         // Break in minutes → seconds
         $breakMinutes = (int) ($ts['total_break_duration'] ?? 0);
         
-        // Apply automatic break logic if no break recorded
-        if ($breakMinutes == 0) {
-            if ($totalHoursWorked >= 10) {
+        // Check for manual break override first
+        $manualOverride = isset($ts['manual_break_override']) && $ts['manual_break_override'] == 1;
+        $manualBreakMinutes = isset($ts['manual_break_minutes']) ? (int)$ts['manual_break_minutes'] : null;
+        
+        if ($manualOverride && $manualBreakMinutes !== null) {
+            // Use manual break override
+            $breakMinutes = $manualBreakMinutes;
+        } elseif ($breakMinutes == 0) {
+            // Apply automatic break logic if no break recorded and no manual override
+            if ($totalHoursWorked > 10) {
                 $breakMinutes = 60; // 60 mins for 10+ hours
-            } elseif ($totalHoursWorked >= 5) {
+            } elseif ($totalHoursWorked > 5) {
                 $breakMinutes = 30; // 30 mins for 5-10 hours
             }
         }
@@ -344,11 +351,18 @@ public function exportTimesheetTX($start_date, $end_date)
                             $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
                         }
                         
-                        // Apply automatic break logic if no break recorded
-                        if ($breakMinutes == 0) {
-                            if ($totalHoursWorked >= 10) {
+                        // Check for manual break override first
+                        $manualOverride = isset($ts['manual_break_override']) && $ts['manual_break_override'] == 1;
+                        $manualBreakMinutes = isset($ts['manual_break_minutes']) ? (int)$ts['manual_break_minutes'] : null;
+                        
+                        if ($manualOverride && $manualBreakMinutes !== null) {
+                            // Use manual break override
+                            $breakMinutes = $manualBreakMinutes;
+                        } elseif ($breakMinutes == 0) {
+                            // Apply automatic break logic if no break recorded and no manual override
+                            if ($totalHoursWorked > 10) {
                                 $breakMinutes = 60; // 60 mins for 10+ hours
-                            } elseif ($totalHoursWorked >= 5) {
+                            } elseif ($totalHoursWorked > 5) {
                                 $breakMinutes = 30; // 30 mins for 5-10 hours
                             }
                         }
@@ -448,11 +462,18 @@ public function exportTimesheetTX($start_date, $end_date)
                         $breakMinutes = ((int)$breakParts[0] * 60) + (int)$breakParts[1];
                     }
                     
-                    // Apply automatic break logic if no break recorded
-                    if ($breakMinutes == 0) {
-                        if ($totalHoursWorked >= 10) {
+                    // Check for manual break override first
+                    $manualOverride = isset($ts['manual_break_override']) && $ts['manual_break_override'] == 1;
+                    $manualBreakMinutes = isset($ts['manual_break_minutes']) ? (int)$ts['manual_break_minutes'] : null;
+                    
+                    if ($manualOverride && $manualBreakMinutes !== null) {
+                        // Use manual break override
+                        $breakMinutes = $manualBreakMinutes;
+                    } elseif ($breakMinutes == 0) {
+                        // Apply automatic break logic if no break recorded and no manual override
+                        if ($totalHoursWorked > 10) {
                             $breakMinutes = 60; // 60 mins for 10+ hours
-                        } elseif ($totalHoursWorked >= 5) {
+                        } elseif ($totalHoursWorked > 5) {
                             $breakMinutes = 30; // 30 mins for 5-10 hours
                         }
                     }

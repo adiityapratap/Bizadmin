@@ -722,6 +722,18 @@
         </div>
     </div>
 
+    <!-- Break Update Loader -->
+    <div id="breakUpdateLoader" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 shadow-2xl flex flex-col items-center">
+            <svg class="animate-spin h-16 w-16 text-blue-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-lg font-medium text-gray-700">Updating break override...</p>
+            <p class="text-sm text-gray-500 mt-2">Please wait while we refresh the timesheet</p>
+        </div>
+    </div>
+
     <style>
         .editable-time-input {
             border: 2px solid #3b82f6;
@@ -1036,7 +1048,13 @@
             const timesheetId = $(selectElement).data('timesheet-id');
             const breakMinutes = $(selectElement).val();
             const $select = $(selectElement);
-            const originalValue = $select.val();
+            const originalValue = $select.data('original-value') || $select.val();
+            
+            // Store original value for rollback on error
+            $select.data('original-value', originalValue);
+            
+            // Show full-screen loader immediately
+            $('#breakUpdateLoader').removeClass('hidden');
             
             // Disable dropdown while processing
             $select.prop('disabled', true).addClass('opacity-50');
@@ -1051,32 +1069,27 @@
                 dataType: 'json',
                 success: function(result) {
                     if (result.status === 'success') {
-                        showToast('Break override updated successfully', 'success');
-                        
-                        // Update the current override attribute
-                        if (breakMinutes === '') {
-                            $select.data('current-override', '0');
-                        } else {
-                            $select.data('current-override', '1');
-                        }
-                        
-                        // Reload page to update break display
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
+                        // Keep loader visible and reload page
+                        // The loader will stay visible until the new page loads
+                        location.reload();
                     } else {
+                        // Hide loader on error
+                        $('#breakUpdateLoader').addClass('hidden');
                         alert(result.message || 'Error updating break override');
                         $select.val(originalValue);
+                        $select.prop('disabled', false).removeClass('opacity-50');
                     }
                 },
                 error: function(xhr, status, error) {
+                    // Hide loader on error
+                    $('#breakUpdateLoader').addClass('hidden');
                     console.error('Error:', error);
                     alert('Error updating break override. Please try again.');
                     $select.val(originalValue);
-                },
-                complete: function() {
                     $select.prop('disabled', false).removeClass('opacity-50');
                 }
+                // Note: No complete callback - we want the loader to stay visible during reload
+            });
             });
         }
 
