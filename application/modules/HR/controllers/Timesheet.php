@@ -742,6 +742,107 @@ public function approve_single_timesheet() {
         echo json_encode(['status' => 'error', 'message' => 'Failed to approve timesheet']);
     }
 }
+
+/**
+ * Set manual break override for a timesheet entry
+ * Called via AJAX by managers to override automatic break calculation
+ */
+public function set_manual_break_override() {
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+    
+    $rolesToAccess = ['Manager', 'Admin'];
+    
+    if (!in_array($this->roleName, $rolesToAccess)) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+        return;
+    }
+    
+    $timesheet_id = $this->input->post('timesheet_id');
+    $break_minutes = $this->input->post('break_minutes');
+    
+    if (empty($timesheet_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Timesheet ID is required']);
+        return;
+    }
+    
+    // If break_minutes is empty string, remove manual override (set to automatic)
+    if ($break_minutes === '' || $break_minutes === null) {
+        $updateData = [
+            'manual_break_override' => 0,
+            'manual_break_minutes' => null
+        ];
+    } else {
+        // Set manual override with specified break duration
+        $updateData = [
+            'manual_break_override' => 1,
+            'manual_break_minutes' => (int)$break_minutes
+        ];
+    }
+    
+    try {
+        $result = $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheet_id, $updateData);
+        
+        if ($result) {
+            echo json_encode([
+                'status' => 'success', 
+                'message' => 'Break override updated successfully',
+                'break_minutes' => $break_minutes === '' ? 'auto' : (int)$break_minutes
+            ]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update break override']);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+    }
+}
+
+/**
+ * Save manager comment for a timesheet entry
+ * Called via AJAX by managers to add notes/comments
+ */
+public function save_manager_comment() {
+    if (!$this->input->is_ajax_request()) {
+        show_404();
+    }
+    
+    $rolesToAccess = ['Manager', 'Admin'];
+    
+    if (!in_array($this->roleName, $rolesToAccess)) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
+        return;
+    }
+    
+    $timesheet_id = $this->input->post('timesheet_id');
+    $comment = $this->input->post('comment');
+    
+    if (empty($timesheet_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Timesheet ID is required']);
+        return;
+    }
+    
+    // Allow empty comment to clear existing comment
+    $updateData = [
+        'manager_comment' => trim($comment)
+    ];
+    
+    try {
+        $result = $this->common_model->commonRecordUpdate('HR_timesheet_details', 'timesheet_id', $timesheet_id, $updateData);
+        
+        if ($result) {
+            echo json_encode([
+                'status' => 'success', 
+                'message' => 'Comment saved successfully',
+                'comment' => trim($comment)
+            ]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to save comment']);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+    }
+}
     
     public function verifyFace()
     {

@@ -555,12 +555,19 @@
                                         // Calculate break duration with automatic break logic
                                         $break_duration = isset($timesheet['total_break_duration']) ? (int)$timesheet['total_break_duration'] : 0;
                                         
-                                        // Auto-add break if not already recorded
-                                        if ($break_duration == 0 && $total_hours_for_each_day > 0) {
+                                        // Check if manual break override is set
+                                        $manual_override = isset($timesheet['manual_break_override']) && $timesheet['manual_break_override'] == 1;
+                                        $manual_break_minutes = isset($timesheet['manual_break_minutes']) ? (int)$timesheet['manual_break_minutes'] : null;
+                                        
+                                        // Use manual break if override is set, otherwise apply automatic logic
+                                        if ($manual_override && $manual_break_minutes !== null) {
+                                            $break_duration = $manual_break_minutes;
+                                        } elseif ($break_duration == 0 && $total_hours_for_each_day > 0) {
+                                            // Auto-add break if not already recorded and not manually overridden
                                             $hours_worked = $total_hours_for_each_day / 3600;
-                                            if ($hours_worked >= 10) {
+                                            if ($hours_worked > 10) {
                                                 $break_duration = 60; // 60 mins for 10+ hours
-                                            } elseif ($hours_worked >= 5) {
+                                            } elseif ($hours_worked > 5) {
                                                 $break_duration = 30; // 30 mins for 5-10 hours
                                             }
                                         }
@@ -575,6 +582,19 @@
                                                     : '00 min'; 
                                                 ?>
                                             </span>
+                                            <?php if ($can_approve_timesheet): ?>
+                                            <select class="ml-2 text-xs border border-gray-300 rounded px-2 py-1 break-override-dropdown"
+                                                    data-timesheet-id="<?php echo isset($timesheet['timesheet_id']) ? htmlspecialchars($timesheet['timesheet_id']) : ''; ?>"
+                                                    data-employee-id="<?php echo htmlspecialchars($employee_id); ?>"
+                                                    data-current-override="<?php echo $manual_override ? '1' : '0'; ?>">
+                                                <option value="" <?php echo !$manual_override ? 'selected' : ''; ?>>Auto</option>
+                                                <option value="0" <?php echo ($manual_override && $manual_break_minutes == 0) ? 'selected' : ''; ?>>0 min</option>
+                                                <option value="15" <?php echo ($manual_override && $manual_break_minutes == 15) ? 'selected' : ''; ?>>15 mins</option>
+                                                <option value="30" <?php echo ($manual_override && $manual_break_minutes == 30) ? 'selected' : ''; ?>>30 mins</option>
+                                                <option value="45" <?php echo ($manual_override && $manual_break_minutes == 45) ? 'selected' : ''; ?>>45 mins</option>
+                                                <option value="60" <?php echo ($manual_override && $manual_break_minutes == 60) ? 'selected' : ''; ?>>60 mins</option>
+                                            </select>
+                                            <?php endif; ?>
                                         </div>
                                         
                                         <?php 
@@ -625,6 +645,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex items-center space-x-2"> 
+                                                    <!-- Comment Button (only for managers) -->
+                                                    <?php if ($can_approve_timesheet): ?>
+                                                    <button onclick="openCommentModal(<?php echo isset($timesheet['timesheet_id']) ? htmlspecialchars($timesheet['timesheet_id']) : 0; ?>, '<?php echo isset($timesheet['manager_comment']) ? htmlspecialchars(addslashes($timesheet['manager_comment'])) : ''; ?>')" 
+                                                            class="text-blue-600 hover:text-blue-800 px-2 py-1 text-xs border border-blue-300 rounded hover:bg-blue-50 relative" 
+                                                            title="Add/View comment">
+                                                       <i class="fa-solid fa-comment mr-1"></i>
+                                                       <span class="hidden sm:inline">Comment</span>
+                                                       <?php if (isset($timesheet['manager_comment']) && !empty($timesheet['manager_comment'])): ?>
+                                                       <span class="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
+                                                           <i class="fa-solid fa-check" style="font-size: 8px;"></i>
+                                                       </span>
+                                                       <?php endif; ?>
+                                                    </button>
+                                                    <?php endif; ?>
+                                                    
                                                     <!-- Approve Button (only show if not approved) -->
                                                     <?php if (isset($timesheet['approval_status']) && $timesheet['approval_status'] !== 'approved'): ?>
                                                     <?php if ($can_approve_timesheet): ?>
@@ -653,6 +688,36 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manager Comment Modal -->
+    <div id="commentModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-96 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium text-gray-900">Manager Comment</h3>
+                <button onclick="closeCommentModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="mt-2">
+                <textarea id="commentText" 
+                          rows="5" 
+                          class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500" 
+                          placeholder="Enter your comment or notes here..."></textarea>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+                <button onclick="closeCommentModal()" 
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
+                    Cancel
+                </button>
+                <button onclick="saveComment()" 
+                        id="saveCommentBtn"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <i class="fa-solid fa-save mr-1"></i>
+                    Save Comment
+                </button>
             </div>
         </div>
     </div>
@@ -697,6 +762,77 @@
 }
 
         let currentEditingElement = null;
+        let currentCommentTimesheetId = null;
+
+        // Comment Modal Functions
+        function openCommentModal(timesheetId, existingComment) {
+            currentCommentTimesheetId = timesheetId;
+            document.getElementById('commentText').value = existingComment || '';
+            document.getElementById('commentModal').classList.remove('hidden');
+        }
+
+        function closeCommentModal() {
+            document.getElementById('commentModal').classList.add('hidden');
+            document.getElementById('commentText').value = '';
+            currentCommentTimesheetId = null;
+        }
+
+        function saveComment() {
+            if (!currentCommentTimesheetId) {
+                alert('Error: No timesheet selected');
+                return;
+            }
+
+            const comment = document.getElementById('commentText').value.trim();
+            const $saveBtn = $('#saveCommentBtn');
+            const originalHtml = $saveBtn.html();
+
+            // Disable button and show loading
+            $saveBtn.html('<svg class="animate-spin h-4 w-4 text-white inline mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Saving...').prop('disabled', true);
+
+            $.ajax({
+                url: '<?php echo base_url("HR/timesheet/save_manager_comment"); ?>',
+                type: 'POST',
+                data: {
+                    timesheet_id: currentCommentTimesheetId,
+                    comment: comment
+                },
+                dataType: 'json',
+                success: function(result) {
+                    if (result.status === 'success') {
+                        showToast('Comment saved successfully', 'success');
+                        closeCommentModal();
+                        
+                        // Reload page to update comment indicator
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        alert(result.message || 'Error saving comment');
+                        $saveBtn.html(originalHtml).prop('disabled', false);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Error saving comment. Please try again.');
+                    $saveBtn.html(originalHtml).prop('disabled', false);
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('commentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCommentModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('commentModal').classList.contains('hidden')) {
+                closeCommentModal();
+            }
+        });
 
         function toggleSection(id) {
             const section = document.getElementById(id);
@@ -895,6 +1031,55 @@
             });
         }
 
+        // Handle manual break override dropdown
+        function handleBreakOverride(selectElement) {
+            const timesheetId = $(selectElement).data('timesheet-id');
+            const breakMinutes = $(selectElement).val();
+            const $select = $(selectElement);
+            const originalValue = $select.val();
+            
+            // Disable dropdown while processing
+            $select.prop('disabled', true).addClass('opacity-50');
+            
+            $.ajax({
+                url: '<?php echo base_url("HR/timesheet/set_manual_break_override"); ?>',
+                type: 'POST',
+                data: {
+                    timesheet_id: timesheetId,
+                    break_minutes: breakMinutes
+                },
+                dataType: 'json',
+                success: function(result) {
+                    if (result.status === 'success') {
+                        showToast('Break override updated successfully', 'success');
+                        
+                        // Update the current override attribute
+                        if (breakMinutes === '') {
+                            $select.data('current-override', '0');
+                        } else {
+                            $select.data('current-override', '1');
+                        }
+                        
+                        // Reload page to update break display
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        alert(result.message || 'Error updating break override');
+                        $select.val(originalValue);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Error updating break override. Please try again.');
+                    $select.val(originalValue);
+                },
+                complete: function() {
+                    $select.prop('disabled', false).removeClass('opacity-50');
+                }
+            });
+        }
+
         function approveEmployee(employeeId, startDate, endDate) {
             if (confirm('Are you sure you want to approve all timesheets for this employee?')) {
                 let $btn = $('[data-emp-id="' + employeeId + '"].approve-btn');
@@ -1019,6 +1204,11 @@ function updateSummaryCounts() {
 }
 
         $(document).ready(function() {
+            // Break override dropdown change handler
+            $(document).on('change', '.break-override-dropdown', function() {
+                handleBreakOverride(this);
+            });
+            
             // Mobile Sidebar Toggle
             $('#toggle-sidebar-timesheet').on('click', function() {
                 $('#employee-sidebar-timesheet').addClass('show');
