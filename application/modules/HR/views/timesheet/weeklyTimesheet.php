@@ -1090,7 +1090,6 @@
                 }
                 // Note: No complete callback - we want the loader to stay visible during reload
             });
-            });
         }
 
         function approveEmployee(employeeId, startDate, endDate) {
