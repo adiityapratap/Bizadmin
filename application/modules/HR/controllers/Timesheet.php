@@ -683,7 +683,7 @@ public function exportTimesheetTX($start_date, $end_date)
     }
     
     $rolesToAccess = ['Manager', 'Admin'];
-    if (!in_array($this->roleName, $rolesToAccess)) {
+    if (!in_array($this->roleName, $rolesToAccess) || $this->roleId == 1) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
         return;
     }
@@ -722,7 +722,7 @@ public function approve_single_timesheet() {
     
     $rolesToAccess = ['Manager', 'Admin'];
     
-    if (!in_array($this->roleName, $rolesToAccess)) {
+    if (!in_array($this->roleName, $rolesToAccess) || $this->roleId == 1) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
         return;
     }
@@ -751,10 +751,10 @@ public function set_manual_break_override() {
     if (!$this->input->is_ajax_request()) {
         show_404();
     }
-    
+
     $rolesToAccess = ['Manager', 'Admin'];
     
-    if (!in_array($this->roleName, $rolesToAccess)) {
+    if (!in_array($this->roleName, $rolesToAccess) || $this->roleId == 1) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
         return;
     }
@@ -809,7 +809,7 @@ public function save_manager_comment() {
     
     $rolesToAccess = ['Manager', 'Admin'];
     
-    if (!in_array($this->roleName, $rolesToAccess)) {
+    if (!in_array($this->roleName, $rolesToAccess) || $this->roleId == 1) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
         return;
     }
@@ -1264,7 +1264,7 @@ if ($clockInTime) {
     
     $rolesToAccess = ['Manager', 'Admin'];
     
-    if (!in_array($this->roleName, $rolesToAccess)) {
+    if (!in_array($this->roleName, $rolesToAccess) || $this->roleId == 1) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized Access']);
         return;
     }

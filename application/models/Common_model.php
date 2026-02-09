@@ -50,14 +50,18 @@ class Common_model extends CI_Model {
     return $query->result_array();
 }
 
-    public function commonRecordUpdate($table, $fieldname = '', $id = null, $data = []) {
-        if ($fieldname && $id !== null && !empty($data)) {
-            $this->tenantDb->where($fieldname, $id);
-            $this->tenantDb->update($table, $data);
-        }
-     
-       
+   public function commonRecordUpdate($table, $fieldname = '', $id = null, $data = []) {
+    if ($fieldname && $id !== null && !empty($data)) {
+        $this->tenantDb->where($fieldname, $id);
+        $this->tenantDb->update($table, $data);
+        
+        // Return true if at least one row was affected, false otherwise
+        return $this->tenantDb->affected_rows() > 0;
     }
+    
+    // Return false if validation failed
+    return false;
+}
 
     public function commonRecordUpdateMultipleConditions($tableName, $fields = [], $data = []) {
         if (!empty($fields) && !empty($data)) {
